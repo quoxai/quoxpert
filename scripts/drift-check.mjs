@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * scripts/drift-check.mjs — CI enforcement for QuoxPert content currency
+ * scripts/drift-check.mjs — CI enforcement for Quoxpert content currency
  * (plan STREAM_QUOXPERT_PLAN.md §5.2), modeled directly on the anti-drift
  * lint precedent at quox-dashboard/cli/test/api/endpoints-lint.test.js:
  * fail loudly and specifically rather than let staleness accumulate

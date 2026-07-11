@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# QuoxPert curl installer — fallback distribution channel (plan
+# Quoxpert curl installer — fallback distribution channel (plan
 # STREAM_QUOXPERT_PLAN.md §6.2 channel B). Copies plugin/skills/* into
 # ~/.claude/skills/<skill-id>/ so any Claude Code install picks them up as
 # ordinary Agent Skills, without needing the plugin-marketplace flow.
@@ -54,10 +54,10 @@ main() {
   script_dir="$(cd "$(dirname "${BASH_SOURCE[0]:-.}")" && pwd 2>/dev/null || echo '')"
 
   if [[ -n "$script_dir" && -d "$script_dir/plugin/skills" ]]; then
-    log "QuoxPert installer: local checkout detected at $script_dir"
+    log "Quoxpert installer: local checkout detected at $script_dir"
     install_from_local "$script_dir/plugin/skills"
   else
-    log "QuoxPert installer: fetching skills from $REPO_URL"
+    log "Quoxpert installer: fetching skills from $REPO_URL"
     install_from_remote
   fi
 
@@ -112,10 +112,10 @@ install_from_remote() {
 print_next_steps() {
   cat <<'EOF'
 
-QuoxPert installed. Restart Claude Code (or reload skills) to pick it up.
+Quoxpert installed. Restart Claude Code (or reload skills) to pick it up.
 
 Next steps:
-  1. Ask Claude: "what is QuoxPert?" — it should route via the root
+  1. Ask Claude: "what is Quoxpert?" — it should route via the root
      quoxpert skill and explain the ecosystem + the four things it is NOT.
   2. If you're operating an existing Quox instance, connect QuoxMCP so
      Claude can wield the 130 fleet-ops tools directly:

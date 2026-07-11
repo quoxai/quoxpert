@@ -24,7 +24,7 @@ metadata:
     quox_version: "0.1.x (pre-1.0, dev checkout 2026-07-11)"
 ---
 
-# QuoxPert — Install, Upgrade, Backup & Deploy
+# Quoxpert — Install, Upgrade, Backup & Deploy
 
 ## What this is
 

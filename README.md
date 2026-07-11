@@ -1,32 +1,32 @@
-# QuoxPert
+# Quoxpert
 
 **Quox as a Claude-extension, wielded like a samurai.**
 
 Every other integration in the Quox ecosystem points one direction: Claude extends Quox
 (QuoxMCP feeds tools into Quox's collector; the dashboard drives Claude via OAuth CLI; the
-plugin SDK extends QuoxCORE). **QuoxPert flips the arrow.** It's a distributable
+plugin SDK extends QuoxCORE). **Quoxpert flips the arrow.** It's a distributable
 [Claude Agent Skill](https://www.anthropic.com/news/agent-skills) — packaged as a Claude Code
 plugin — that any Claude (Claude Code, Claude Desktop, claude.ai, or an Agent SDK app) can
 install to become an instant expert in operating, deploying, extending, and debugging the
 entire Quox ecosystem.
 
-QuoxPert doesn't describe Quox — it teaches Claude to *drive* it: QuoxMCP's 130+ dynamic RBAC-gated tools, the
+Quoxpert doesn't describe Quox — it teaches Claude to *drive* it: QuoxMCP's 130+ dynamic RBAC-gated tools, the
 `quox` CLI/TUI, install and deploy flows, and the governance model (DEFCON levels, HITL
 approvals) that every operation respects.
 
 The audience is **external**: a Quox customer's Claude, a prospect's Claude evaluating Quox, a
 plugin developer's Claude. Not our own dev sessions — those already have `.claude/skills/`.
 
-## What QuoxPert is NOT
+## What Quoxpert is NOT
 
 Four confusions recur enough that they're worth stating explicitly, up front.
 
-| System | What it is | Why QuoxPert is different |
+| System | What it is | Why Quoxpert is different |
 |---|---|---|
-| **QSKL** (Crystals/Skills) | Quox's *internal* skill system — crystallised scripts formed from executions, stored server-side, run by Quox's own agents (SENTINEL, NOVA, …) under governance. `quox skills list` manages these. | QuoxPert is a skill for **Claude**, not for Quox's agents. It lives in `~/.claude/skills` / a plugin, not in Quox's database. QuoxPert *teaches* Claude to manage QSKL crystals via the CLI — it is not one of them. |
-| **QuoxNucleus / repobrain** | Codebase intelligence — indexes Quox's own repos and answers "where is X?" with file:line snippets. Runs as a service inside the Quox stack. | Repobrain is a **data source** for QuoxPert's regen pipeline and a tool the skill can teach about — not the skill itself. Nucleus knows Quox's code; QuoxPert knows how to operate the Quox product. |
-| **QUOX-DEEP** (internal `/quox-user*` skills) | Internal Playwright recipes for driving the Quox dashboard UI to produce screen recordings. Audience: an internal recording harness. | Different audience, different verbs (CSS selectors + browser automation helpers). QuoxPert may cite the same UI flows but teaches them via CLI/MCP/API — never via UI selectors. |
-| **Internal `.claude/skills/*` dev slash-skills** | Skills for working *on* Quox's own source code (`/preflight`, `/nucleus`, `/deploy`, …). Assume a dev box with every Quox repo checked out locally. | QuoxPert assumes a **user's machine**: no source checkout, no internal build tooling, no access to Quox's own infra. It teaches the shipped product surface only. |
+| **QSKL** (Crystals/Skills) | Quox's *internal* skill system — crystallised scripts formed from executions, stored server-side, run by Quox's own agents (SENTINEL, NOVA, …) under governance. `quox skills list` manages these. | Quoxpert is a skill for **Claude**, not for Quox's agents. It lives in `~/.claude/skills` / a plugin, not in Quox's database. Quoxpert *teaches* Claude to manage QSKL crystals via the CLI — it is not one of them. |
+| **QuoxNucleus / repobrain** | Codebase intelligence — indexes Quox's own repos and answers "where is X?" with file:line snippets. Runs as a service inside the Quox stack. | Repobrain is a **data source** for Quoxpert's regen pipeline and a tool the skill can teach about — not the skill itself. Nucleus knows Quox's code; Quoxpert knows how to operate the Quox product. |
+| **QUOX-DEEP** (internal `/quox-user*` skills) | Internal Playwright recipes for driving the Quox dashboard UI to produce screen recordings. Audience: an internal recording harness. | Different audience, different verbs (CSS selectors + browser automation helpers). Quoxpert may cite the same UI flows but teaches them via CLI/MCP/API — never via UI selectors. |
+| **Internal `.claude/skills/*` dev slash-skills** | Skills for working *on* Quox's own source code (`/preflight`, `/nucleus`, `/deploy`, …). Assume a dev box with every Quox repo checked out locally. | Quoxpert assumes a **user's machine**: no source checkout, no internal build tooling, no access to Quox's own infra. It teaches the shipped product surface only. |
 
 The rule of thumb for every sentence in this repo: *does this work on a laptop that has only
 installed Quox from quox.ai?* If a sentence needs an internal dev-box path or internal
@@ -80,7 +80,7 @@ One root index skill routes to nine focused sub-skills (plus a stub), mirroring 
 
 Every recipe in every sub-skill is meant to be a *verified transcript* — actually run against a
 live Quox instance during authoring — not synthesised from docs alone. A skill that only
-describes Quox is a brochure; QuoxPert's sub-skills are written to be driven.
+describes Quox is a brochure; Quoxpert's sub-skills are written to be driven.
 
 ## Repo layout
 
@@ -122,12 +122,12 @@ no-op. Everything outside the markers is never touched by regen.
 (exit 1) if a source changed since the sub-skill's last regen, or if `regen.mjs --check` finds
 the generated blocks are stale. It runs on every PR and nightly
 (`.github/workflows/drift-check.yml`) — a red nightly means an upstream Quox repo changed a
-public surface (a CLI command, a route, a concept) without QuoxPert catching up, and is the
+public surface (a CLI command, a route, a concept) without Quoxpert catching up, and is the
 signal to run `regen.mjs` and re-verify the affected recipes live.
 
 **The discipline, in one sentence:** when any Quox repo's externally-visible surface changes —
 CLI commands/flags, API routes, concepts, install/deploy flow, protocol specs, or a new/renamed
-repo/agent/plugin — the corresponding QuoxPert sub-skill update happens in the *same unit of
+repo/agent/plugin — the corresponding Quoxpert sub-skill update happens in the *same unit of
 work* as the change, not as separate cleanup. Until the full regen pipeline covers every
 generated block (v0.1 ships the marker-replace engine plus two real generators — the CLI
 command map and the QuoxCORE counts table — with the rest scaffolded as TODOs), that means a

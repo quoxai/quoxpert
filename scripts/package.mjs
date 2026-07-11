@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * scripts/package.mjs — emits QuoxPert release artifacts into dist/
+ * scripts/package.mjs — emits Quoxpert release artifacts into dist/
  * (plan STREAM_QUOXPERT_PLAN.md §6.2 channels B + D, shipped from day one):
  *
  *   dist/plugin/                     — the plugin dir, copied verbatim (channel A source)

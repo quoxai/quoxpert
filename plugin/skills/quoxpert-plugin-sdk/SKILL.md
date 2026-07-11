@@ -24,7 +24,7 @@ metadata:
     quox_version: "quox-plugin-sdk 0.1.x (pre-1.0, dev checkout 2026-07-11)"
 ---
 
-# QuoxPert — Building `.quoxplugin` Extensions
+# Quoxpert — Building `.quoxplugin` Extensions
 
 ## What this is
 
@@ -61,9 +61,9 @@ already-built plugin on a running instance (`quox plugin ...`).
   a distinct path from `.quoxplugin` (see Gotchas): POWERS turns an MCP
   endpoint or a public repo into an agent; the plugin SDK turns your own
   React+backend code into a sidebar extension.
-- **This is not QuoxPert itself.** The relationship is a direction, not an
+- **This is not Quoxpert itself.** The relationship is a direction, not an
   overlap: `quox-plugin-sdk` packages a *developer's* code INTO QuoxCORE
-  (`.quoxplugin`); QuoxPert packages *Quox expertise* INTO Claude (this
+  (`.quoxplugin`); Quoxpert packages *Quox expertise* INTO Claude (this
   skill format). Using this sub-skill makes your Claude a competent Quox
   plugin author — it doesn't make Quox smarter about itself.
 

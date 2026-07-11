@@ -1,6 +1,6 @@
 ---
 name: quoxpert-core
-description: "Orient on the QuoxCORE / Quox platform — what it is, the five pillars, the five governed concepts (crystals/agents/workflows/tools/governance), service topology, and which QuoxPert sub-skill to load next. Load when the user asks 'what is Quox', needs platform orientation, is debugging which service owns a symptom, or is deciding between the CLI/MCP/dashboard surfaces before doing anything else."
+description: "Orient on the QuoxCORE / Quox platform — what it is, the five pillars, the five governed concepts (crystals/agents/workflows/tools/governance), service topology, and which Quoxpert sub-skill to load next. Load when the user asks 'what is Quox', needs platform orientation, is debugging which service owns a symptom, or is deciding between the CLI/MCP/dashboard surfaces before doing anything else."
 argument-hint: "<question, e.g. 'what is Quox' or 'which service handles chat'>"
 metadata:
   quoxpert:
@@ -18,7 +18,7 @@ metadata:
     quox_version: v2.x.y
 ---
 
-# QuoxPert — QuoxCORE Platform Orientation
+# Quoxpert — QuoxCORE Platform Orientation
 
 ## What this is
 
@@ -26,7 +26,7 @@ Quox (product name for the QuoxCORE platform) is a **governed multi-agent operat
 A fleet of specialist agents, orchestrated by CommanderQ (QUOX), runs auditable workflows,
 executes tools, remembers across sessions, pauses for human approval (HITL), and emits
 tamper-evident evidence of everything it does. This sub-skill is the orientation layer: what the
-platform *is*, how its pieces fit together, and which of the other QuoxPert sub-skills to load
+platform *is*, how its pieces fit together, and which of the other Quoxpert sub-skills to load
 once you know what you're doing.
 
 **The five pillars:**
@@ -58,7 +58,7 @@ once you know what you're doing.
 
 ## Install & connect
 
-QuoxPert itself needs no connection to reason about Quox in the abstract, but most orientation
+Quoxpert itself needs no connection to reason about Quox in the abstract, but most orientation
 tasks are more useful against a live instance:
 
     quox status              # platform-wide status (see Gotchas — collector aggregate can 401)
@@ -106,7 +106,7 @@ summary only, the website wins on disagreement):
 
 | Concept | URL | One-line |
 |---|---|---|
-| Crystals | https://quox.ai/docs/concepts/crystals | Reusable, governed skills formed from executions — Quox's *internal* skill system (see Gotchas: not QuoxPert). |
+| Crystals | https://quox.ai/docs/concepts/crystals | Reusable, governed skills formed from executions — Quox's *internal* skill system (see Gotchas: not Quoxpert). |
 | Agents | https://quox.ai/docs/concepts/agents | Single agent vs agentic loop; persona-pinned / tool-using / browser modes; `team:invoke` composition. |
 | Workflows | https://quox.ai/docs/concepts/workflows | Node-based execution graphs (22 node types / 5 groups), live execution overlay, versioning. |
 | Tools | https://quox.ai/docs/concepts/tools | Four install paths — OpenAPI / MCP / Repo / Script — agent-tool assignment matrix. |
@@ -164,7 +164,7 @@ Real output (fresh org, one custom agent created for this verification):
 [
   {
     "agent_id": "quoxpert_demo",
-    "name": "QuoxPert Demo Agent",
+    "name": "Quoxpert Demo Agent",
     "level": 2,
     "status": "active",
     "domains": [],
@@ -194,12 +194,12 @@ Quox agents don't execute destructive actions silently. Two mechanisms to expect
   these. Teach Claude to *expect* this, not fight it — a `pending_approval` response means "wait
   for a human," not "the command failed."
 
-### 8. Distinguish QuoxPert from things it sounds like
+### 8. Distinguish Quoxpert from things it sounds like
 | System | What it is | Why it's different |
 |---|---|---|
-| QSKL (Crystals) | Quox's *internal* skill system for its OWN agents (SENTINEL, NOVA…), managed via `quox skills` | QuoxPert is a skill for *Claude*, not a Quox agent; it teaches Claude to manage QSKL crystals via the CLI, it isn't one. |
-| QuoxNucleus / repobrain | Codebase-intelligence engine indexing Quox's own source | A source QuoxPert's maintainers use to stay current — not a product surface end users touch. |
-| `.claude/skills/*` internal dev skills | Skills for engineers working ON the Quox source tree | QuoxPert assumes no source checkout — it teaches the *shipped* product surface only. |
+| QSKL (Crystals) | Quox's *internal* skill system for its OWN agents (SENTINEL, NOVA…), managed via `quox skills` | Quoxpert is a skill for *Claude*, not a Quox agent; it teaches Claude to manage QSKL crystals via the CLI, it isn't one. |
+| QuoxNucleus / repobrain | Codebase-intelligence engine indexing Quox's own source | A source Quoxpert's maintainers use to stay current — not a product surface end users touch. |
+| `.claude/skills/*` internal dev skills | Skills for engineers working ON the Quox source tree | Quoxpert assumes no source checkout — it teaches the *shipped* product surface only. |
 
 ### 9. Trace a request end-to-end for debugging
 Dashboard (browser) → collector (9848, API gateway) → downstream service (auth / quoxflow /
@@ -212,9 +212,9 @@ the two clients hit — check the CLI's `--debug` flag (see `quoxpert-cli`) to s
     quox whoami
 Real output:
 ```
-  User      QuoxPert Demo
+  User      Quoxpert Demo
   Email     demo@example.com
-  Org       QuoxPert Demo Org (quoxpert-demo-org)
+  Org       Quoxpert Demo Org (quoxpert-demo-org)
   Role      owner
   MFA       disabled
   Session   expires in 60m
@@ -257,4 +257,4 @@ access, the platform's actual contracts live one level down:
 - **"Quox" is mixed-case brand styling** (not "QUOX") in all user-facing prose.
 - **Post-`COLLECTOR-AUTH` note:** some previously-open collector routes may move to default-deny
   over time; if a recipe here starts 401ing where it didn't before, that's the platform tightening
-  auth, not a QuoxPert bug — re-verify against `quox doctor` and the instance's release notes.
+  auth, not a Quoxpert bug — re-verify against `quox doctor` and the instance's release notes.

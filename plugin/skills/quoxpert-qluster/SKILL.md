@@ -16,11 +16,11 @@ metadata:
     status: coming_soon
 ---
 
-# QuoxPert — Qluster (coming soon)
+# Quoxpert — Qluster (coming soon)
 
 ## What this is
 
-**Nothing is shipped yet.** This is a placeholder so the QuoxPert root skill
+**Nothing is shipped yet.** This is a placeholder so the Quoxpert root skill
 can route a "manage multiple Quox instances" question somewhere honest
 instead of guessing or inventing commands.
 

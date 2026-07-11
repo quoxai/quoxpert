@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * scripts/regen.mjs — QuoxPert regen pipeline (plan STREAM_QUOXPERT_PLAN.md §4).
+ * scripts/regen.mjs — Quoxpert regen pipeline (plan STREAM_QUOXPERT_PLAN.md §4).
  *
  * Reads sources/manifest.json (which inputs feed which sub-skill), fetches each
  * declared input (local file on disk under a sibling repo checkout, a section of

@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "quoxpert",
-  "description": "QuoxPert — makes any Claude an instant expert in operating, deploying, extending, and debugging the Quox ecosystem (QuoxCORE, QuoxMCP, the quox CLI/TUI, fleet ops, plugin development, and the AEE/AOCL/VOLT/WARD protocols).",
+  "description": "Quoxpert — makes any Claude an instant expert in operating, deploying, extending, and debugging the Quox ecosystem (QuoxCORE, QuoxMCP, the quox CLI/TUI, fleet ops, plugin development, and the AEE/AOCL/VOLT/WARD protocols).",
   "owner": {
     "name": "Quox",
     "email": "hello@quox.ai"

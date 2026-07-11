@@ -31,7 +31,7 @@ metadata:
     quox_version: v4.2.0
 ---
 
-# QuoxPert — Governance Protocols (AEE + AOCL + VOLT + WARD)
+# Quoxpert — Governance Protocols (AEE + AOCL + VOLT + WARD)
 
 ## What this is
 

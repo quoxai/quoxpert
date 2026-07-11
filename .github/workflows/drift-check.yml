@@ -1,6 +1,6 @@
 name: drift-check
 
-# CI enforcement layer for QuoxPert content currency (plan
+# CI enforcement layer for Quoxpert content currency (plan
 # STREAM_QUOXPERT_PLAN.md §5.2a). Runs on every PR against main and nightly,
 # so staleness is caught even when no quoxpert PR exists (upstream repos
 # changing on their own). A red nightly is the pager — wire follow-up

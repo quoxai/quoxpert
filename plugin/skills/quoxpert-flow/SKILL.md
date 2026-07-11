@@ -29,7 +29,7 @@ metadata:
     quox_version: "0.1.x (pre-1.0, dev checkout 2026-07-11)"
 ---
 
-# QuoxPert — QuoxFlow Workflow Engine
+# Quoxpert — QuoxFlow Workflow Engine
 
 ## What this is
 
@@ -65,7 +65,7 @@ what happened inside a run (envelopes, layer-by-layer), work with autonomous
 - Building a *new* `.quoxplugin` extension → the plugin-SDK skill.
 - QSKL is **Quox's own internal agent-skill system** — this sub-skill teaches
   you to operate it via the CLI as an *operator*. It is not the same thing as
-  QuoxPert itself: QuoxPert is a skill for Claude; QSKL crystals are skills
+  Quoxpert itself: Quoxpert is a skill for Claude; QSKL crystals are skills
   for Quox's agents (SENTINEL, NOVA, …), stored server-side.
 
 ## Install & connect
@@ -188,7 +188,7 @@ HITL inbox item is created. Approve/deny from the inbox, then resume the run:
 - **Approval-gated runs pause, they don't fail** — a paused run shows up in
   `quox run get <runId>` with a paused status and a matching HITL inbox item;
   check `quox inbox list --pending` before assuming a run is stuck.
-- **QSKL vs QuoxPert**: `quox skills` manages Quox's own internal skill
+- **QSKL vs Quoxpert**: `quox skills` manages Quox's own internal skill
   library (Crystals run by Quox's agents). This sub-skill teaches *you* (an
   external Claude) to operate that library via the CLI — it is not itself a
   Crystal, and doesn't live in Quox's database.

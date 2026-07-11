@@ -19,7 +19,7 @@ metadata:
     quox_version: v2.x.y
 ---
 
-# QuoxPert — CLI & TUI
+# Quoxpert — CLI & TUI
 
 ## What this is
 
@@ -121,9 +121,9 @@ Real transcript (verified live):
 Account created for demo@example.com. Check your email for verification.
 - Authenticating...
 Logged in as demo@example.com
-Created organization: QuoxPert Demo Org (quoxpert-demo-org)
+Created organization: Quoxpert Demo Org (quoxpert-demo-org)
 - Authenticating...
-Logged in as demo@example.com | Org: QuoxPert Demo Org (quoxpert-demo-org)
+Logged in as demo@example.com | Org: Quoxpert Demo Org (quoxpert-demo-org)
 ```
 Gotcha: `org switch` alone returned `403 not_org_member` on the token issued *before* org
 creation — re-running `quox login` after `org create` is what actually rescopes the session.
@@ -187,14 +187,14 @@ Inbox Stats
     quox agent list --json
 Real output (verified live):
 ```
-Agent "QuoxPert Demo Agent" created.
+Agent "Quoxpert Demo Agent" created.
 ```
 ```json
 [
   {
     "id": "01JT7Q6SGH1YBM8VSXRAR4FHSG",
     "agent_id": "quoxpert_demo",
-    "name": "QuoxPert Demo Agent",
+    "name": "Quoxpert Demo Agent",
     "level": 2,
     "status": "active",
     "domains": [],
@@ -207,7 +207,7 @@ Agent "QuoxPert Demo Agent" created.
     quox skills list
     quox skills run <sourceWorkflowId> --data '{"key":"value"}'
 Real output (truncated, live library — these are Quox's own agent-facing Crystals, not
-QuoxPert):
+Quoxpert):
 ```
  ID                            Name                              Category               Edition
  01KRH1RY0FQQAFK30XGNGV3A1T    voice-transcribe-audio            voice/operations       stable
@@ -228,7 +228,7 @@ Memory saved.
 ```
 ```
  ID                            Type    Content                                 Tags              Created
- 01KX7T2V8BF3G3FDXMER698N54    -       QuoxPert CLI recipe verification run    quoxpert, demo    2026-07-11 05:23:27
+ 01KX7T2V8BF3G3FDXMER698N54    -       Quoxpert CLI recipe verification run    quoxpert, demo    2026-07-11 05:23:27
 ```
 
 ### 8. Browse the tool catalog and check the credential vault
@@ -302,7 +302,7 @@ Composing with `jq`:
     quox agent list --json | jq -r '.[] | "\(.agent_id)\t\(.name)\t\(.status)"'
 Real output:
 ```
-quoxpert_demo	QuoxPert Demo Agent	active
+quoxpert_demo	Quoxpert Demo Agent	active
 ```
 
 ## Gotchas

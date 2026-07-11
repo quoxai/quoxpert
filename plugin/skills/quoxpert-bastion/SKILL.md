@@ -26,7 +26,7 @@ metadata:
     quox_version: "0.1.x (pre-1.0, dev checkout 2026-07-11); quoxagent heartbeat auth is Beta"
 ---
 
-# QuoxPert — QuoxBastion & Fleet (quoxagent)
+# Quoxpert — QuoxBastion & Fleet (quoxagent)
 
 ## What this is
 

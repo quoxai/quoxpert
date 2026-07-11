@@ -24,7 +24,7 @@ metadata:
     quox_version: v4.2.0
 ---
 
-# QuoxPert — QuoxMCP (Tool Surface)
+# Quoxpert — QuoxMCP (Tool Surface)
 
 ## What this is
 
