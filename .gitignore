@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Release / packaging output
+dist/
+*.zip
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+npm-debug.log*
+
+# Env / local overrides used by regen.mjs when pointed at a dev instance
+.env
+.env.local
+
+# Regen-generated vendored caches under sources/ — the manifest itself
+# (sources/manifest.json) is the source-of-truth index and MUST stay
+# tracked; everything regen.mjs fetches/snapshots underneath sources/<repo>/
+# is reproducible from the manifest + upstream repos and does not need to
+# be committed (keeps the repo small; drift-check re-fetches at CI time).
+sources/*/
+!sources/manifest.json

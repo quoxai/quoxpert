@@ -1,0 +1,239 @@
+{
+  "schema_version": 1,
+  "_readme": "Regen input map (plan STREAM_QUOXPERT_PLAN.md §4). For each sub-skill: declared inputs (repo + path/cmd), which generated block(s) each source feeds, and a 'stamp' (sha256 of the source's current content + when it was last checked/regenerated). scripts/regen.mjs writes stamps after a successful regen; scripts/drift-check.mjs re-hashes at CI time and fails if a stamp is stale. Repos are resolved on disk at $QUOXPERT_REPOS_ROOT/<repo> (defaults to the parent of this checkout, i.e. sibling repos under /home/control) — see scripts/regen.mjs resolveRepoRoot(). 'stamp.sha256: null' means never regenerated yet (expected for a v0.1 scaffold with empty SKILL.md files).",
+  "repos_root_env": "QUOXPERT_REPOS_ROOT",
+  "skills": {
+    "quoxpert": {
+      "skill_md": "plugin/skills/quoxpert/SKILL.md",
+      "sources": [
+        {
+          "id": "repo-map",
+          "repo": "quox-dashboard",
+          "type": "file",
+          "path": "CLAUDE.md",
+          "note": "Repository Map table — public-repo version feeds the root skill's ecosystem map (internal paths stripped).",
+          "feeds": ["ecosystem-map"],
+          "stamp": { "sha256": null, "checked_at": null, "repo_commit": null }
+        },
+        {
+          "id": "concepts-index",
+          "repo": "quox-dashboard",
+          "type": "url",
+          "path": "https://quox.ai/docs/concepts",
+          "note": "Canonical concept index per docs/CONCEPTS.md:3 — website wins on disagreement.",
+          "feeds": ["concepts-table"],
+          "stamp": { "sha256": null, "checked_at": null, "repo_commit": null }
+        }
+      ]
+    },
+    "quoxpert-core": {
+      "skill_md": "plugin/skills/quoxpert-core/SKILL.md",
+      "sources": [
+        {
+          "id": "codebase-map",
+          "repo": "quox-dashboard",
+          "type": "file",
+          "path": "CODEBASE_MAP.md",
+          "note": "Metrics table (plugin/agent/service/route counts), registration chains.",
+          "feeds": ["counts", "registration-chains"],
+          "stamp": { "sha256": null, "checked_at": null, "repo_commit": null }
+        },
+        {
+          "id": "concepts-engineering",
+          "repo": "quox-dashboard",
+          "type": "file",
+          "path": "docs/CONCEPTS.md",
+          "note": "Engineering detail behind the canonical website concepts (crystals, agents, workflows, tools, governance).",
+          "feeds": ["concepts-detail"],
+          "stamp": { "sha256": null, "checked_at": null, "repo_commit": null }
+        }
+      ]
+    },
+    "quoxpert-cli": {
+      "skill_md": "plugin/skills/quoxpert-cli/SKILL.md",
+      "sources": [
+        {
+          "id": "cli-command-map",
+          "repo": "quox-dashboard",
+          "type": "file-section",
+          "path": "CODEBASE_MAP.md",
+          "section": "CLI Commands (QuoxCLI)",
+          "note": "20 command-group table — the primary generator target for quoxpert-cli's command-map block.",
+          "feeds": ["command-map"],
+          "stamp": { "sha256": null, "checked_at": null, "repo_commit": null }
+        },
+        {
+          "id": "cli-endpoints",
+          "repo": "quox-dashboard",
+          "type": "file",
+          "path": "cli/lib/api/endpoints.js",
+          "note": "Centralized endpoint map — same anti-drift source used by cli/test/api/endpoints-lint.test.js.",
+          "feeds": ["command-map"],
+          "stamp": { "sha256": null, "checked_at": null, "repo_commit": null }
+        },
+        {
+          "id": "cli-help-json",
+          "repo": "quox-dashboard",
+          "type": "cmd",
+          "cmd": "node cli/bin/quox.js --help-json",
+          "note": "Structured help dump — P3 adds this flag to the CLI (plan §4.2 row 3). Until it exists, regen falls back to `quox --help` text (best-effort, flagged non-deterministic).",
+          "feeds": ["command-map", "flag-table"],
+          "stamp": { "sha256": null, "checked_at": null, "repo_commit": null }
+        }
+      ]
+    },
+    "quoxpert-mcp": {
+      "skill_md": "plugin/skills/quoxpert-mcp/SKILL.md",
+      "sources": [
+        {
+          "id": "quoxmcp-readme",
+          "repo": "quoxmcp",
+          "type": "file",
+          "path": "README.md",
+          "note": "Install flow (.mcpb bundle, manual install), env vars, resource/prompt inventory.",
+          "feeds": ["install-steps", "env-var-table"],
+          "stamp": { "sha256": null, "checked_at": null, "repo_commit": null }
+        },
+        {
+          "id": "quoxmcp-manifest",
+          "repo": "quoxmcp",
+          "type": "file",
+          "path": "manifest.json",
+          "note": ".mcpb bundle manifest — user_config fields (collector_url, service_key).",
+          "feeds": ["install-steps"],
+          "stamp": { "sha256": null, "checked_at": null, "repo_commit": null }
+        },
+        {
+          "id": "tools-list",
+          "repo": "quox-dashboard",
+          "type": "cmd",
+          "cmd": "curl -s ${QUOX_DEV_URL:-http://127.0.0.1:9848}/api/v1/tools/list",
+          "note": "Live tool table (130 tools) — executed against a dev instance at regen time per plan §4.2 row 3.",
+          "feeds": ["tool-table"],
+          "stamp": { "sha256": null, "checked_at": null, "repo_commit": null }
+        }
+      ]
+    },
+    "quoxpert-flow": {
+      "skill_md": "plugin/skills/quoxpert-flow/SKILL.md",
+      "sources": [
+        {
+          "id": "quoxflow-codebase-map",
+          "repo": "quoxflow",
+          "type": "file",
+          "path": "CODEBASE_MAP.md",
+          "feeds": ["workflow-engine-overview"],
+          "stamp": { "sha256": null, "checked_at": null, "repo_commit": null }
+        },
+        {
+          "id": "quoxflow-readme",
+          "repo": "quoxflow",
+          "type": "file",
+          "path": "README.md",
+          "feeds": ["workflow-engine-overview"],
+          "stamp": { "sha256": null, "checked_at": null, "repo_commit": null }
+        }
+      ]
+    },
+    "quoxpert-bastion": {
+      "skill_md": "plugin/skills/quoxpert-bastion/SKILL.md",
+      "sources": [
+        {
+          "id": "bastion-codebase-map",
+          "repo": "QuoxBastion",
+          "type": "file",
+          "path": "CODEBASE_MAP.md",
+          "feeds": ["bastion-overview"],
+          "stamp": { "sha256": null, "checked_at": null, "repo_commit": null }
+        },
+        {
+          "id": "quoxagent-codebase-map",
+          "repo": "quoxagent",
+          "type": "file",
+          "path": "CODEBASE_MAP.md",
+          "feeds": ["fleet-agent-overview"],
+          "stamp": { "sha256": null, "checked_at": null, "repo_commit": null }
+        }
+      ]
+    },
+    "quoxpert-plugin-sdk": {
+      "skill_md": "plugin/skills/quoxpert-plugin-sdk/SKILL.md",
+      "sources": [
+        {
+          "id": "plugin-sdk-readme",
+          "repo": "quox-plugin-sdk",
+          "type": "file",
+          "path": "README.md",
+          "note": "8 scaffold templates, pluginApi surface, .quoxplugin build/install loop.",
+          "feeds": ["template-table", "scaffold-recipe"],
+          "stamp": { "sha256": null, "checked_at": null, "repo_commit": null }
+        }
+      ]
+    },
+    "quoxpert-protocols": {
+      "skill_md": "plugin/skills/quoxpert-protocols/SKILL.md",
+      "sources": [
+        {
+          "id": "aee-spec",
+          "repo": "aee",
+          "type": "file",
+          "path": "README.md",
+          "feeds": ["aee-section"],
+          "stamp": { "sha256": null, "checked_at": null, "repo_commit": null }
+        },
+        {
+          "id": "aocl-spec",
+          "repo": "aocl",
+          "type": "file",
+          "path": "README.md",
+          "feeds": ["aocl-section"],
+          "stamp": { "sha256": null, "checked_at": null, "repo_commit": null }
+        },
+        {
+          "id": "volt-spec",
+          "repo": "volt",
+          "type": "file",
+          "path": "README.md",
+          "feeds": ["volt-section"],
+          "stamp": { "sha256": null, "checked_at": null, "repo_commit": null }
+        },
+        {
+          "id": "ward-spec",
+          "repo": "ward",
+          "type": "file",
+          "path": "README.md",
+          "feeds": ["ward-section"],
+          "stamp": { "sha256": null, "checked_at": null, "repo_commit": null }
+        }
+      ]
+    },
+    "quoxpert-deploy": {
+      "skill_md": "plugin/skills/quoxpert-deploy/SKILL.md",
+      "sources": [
+        {
+          "id": "downloads-page",
+          "repo": "quox-website",
+          "type": "file",
+          "path": "src/pages/DownloadsPage.jsx",
+          "note": "Install/quickstart flow the website teaches humans — the sub-skill teaches the same flow to Claude.",
+          "feeds": ["quickstart-steps"],
+          "stamp": { "sha256": null, "checked_at": null, "repo_commit": null }
+        },
+        {
+          "id": "collector-map",
+          "repo": "quox-dashboard",
+          "type": "file",
+          "path": "CODEBASE_MAP.md",
+          "note": "Service registry / docker-compose service list for the full-stack install recipe.",
+          "feeds": ["service-table"],
+          "stamp": { "sha256": null, "checked_at": null, "repo_commit": null }
+        }
+      ]
+    },
+    "quoxpert-qluster": {
+      "skill_md": "plugin/skills/quoxpert-qluster/SKILL.md",
+      "sources": [],
+      "note": "STUB per plan §2.7 — QLUSTER (#69) has no repo yet. No regen inputs until a repo exists; sub-skill body is a hand-authored one-paragraph placeholder only."
+    }
+  }
+}

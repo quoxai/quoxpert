@@ -1,0 +1,22 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "quoxpert",
+  "description": "QuoxPert — makes any Claude an instant expert in operating, deploying, extending, and debugging the Quox ecosystem (QuoxCORE, QuoxMCP, the quox CLI/TUI, fleet ops, plugin development, and the AEE/AOCL/VOLT/WARD protocols).",
+  "owner": {
+    "name": "Quox",
+    "email": "hello@quox.ai"
+  },
+  "plugins": [
+    {
+      "name": "quoxpert",
+      "description": "Quox as a Claude-extension — 10 sub-skills covering QuoxCORE, the quox CLI, QuoxMCP's 130+ dynamic RBAC-gated tools, QuoxBastion/QuoxAgent fleet ops, the plugin SDK, and the AEE/AOCL/VOLT/WARD protocols.",
+      "category": "productivity",
+      "author": {
+        "name": "Quox",
+        "email": "hello@quox.ai"
+      },
+      "source": "./plugin",
+      "homepage": "https://quox.ai/downloads"
+    }
+  ]
+}
