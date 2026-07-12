@@ -28,7 +28,7 @@ Quox (product name for the QuoxCORE platform) is a **governed multi-agent operat
 | Build a `.quoxplugin` extension (the plugin SDK, plugin backends, publishing) | `quoxpert-plugin-sdk` |
 | Read/verify governance evidence (AEE envelopes, AOCL layers, VOLT bundles, WARD chains) | `quoxpert-protocols` |
 | Install / upgrade / back up / configure a Quox instance | `quoxpert-deploy` |
-| Multi-instance fleet control across quox-boxes | `quoxpert-qluster` *(stub — Qluster #69 not yet shipped)* |
+| Multi-instance fleet control across quox-boxes (monitor, enroll, checks, backups, governed delegation, QLOGS) | `quoxpert-qluster` |
 
 When in doubt, start with `quoxpert-core` for orientation, then narrow.
 
