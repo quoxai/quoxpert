@@ -59,20 +59,38 @@ function sha256(content) {
   return crypto.createHash('sha256').update(content).digest('hex');
 }
 
+function defaultOnSkip(source, reason) {
+  console.warn(`  [warn] could not fetch source ${source.id} (${source.repo}): ${reason}`);
+}
+
 /**
  * Resolve a declared source to its current raw content string.
- * Returns null (with a warning printed) if the source can't be reached —
- * regen must not crash the whole run because one repo isn't checked out
- * locally (e.g. running in a CI runner that only has quoxpert cloned).
+ * Returns null if the source can't be reached; regen must not crash the
+ * whole run because one repo isn't checked out locally (e.g. running in a
+ * CI runner that only has quoxpert cloned). Every non-null-by-design skip
+ * (missing file, missing heading, failed command) calls `onSkip(source,
+ * reason)` so the caller can report it and (in regen.mjs's case) fail the
+ * run — see the QSDK-SKILLS audit fix note on regenSkill() below. `url`
+ * sources are the one deliberate exception: v0.1 does not fetch network
+ * URLs at all (no external deps, CI runners may lack egress), so returning
+ * null there is expected behavior, not a failure, and does NOT call onSkip.
  */
-function fetchSource(source) {
+function fetchSource(source, onSkip = defaultOnSkip) {
   try {
     if (source.type === 'file' || source.type === 'file-section') {
       const filePath = path.join(resolveRepoRoot(source.repo), source.path);
-      if (!existsSync(filePath)) return null;
+      if (!existsSync(filePath)) {
+        onSkip(source, `file not found: ${filePath}`);
+        return null;
+      }
       const raw = readFileSync(filePath, 'utf8');
       if (source.type === 'file-section') {
-        return extractMarkdownSection(raw, source.section);
+        const section = extractMarkdownSection(raw, source.section);
+        if (section == null) {
+          onSkip(source, `heading "${source.section}" not found in ${filePath}`);
+          return null;
+        }
+        return section;
       }
       return raw;
     }
@@ -84,11 +102,11 @@ function fetchSource(source) {
     if (source.type === 'url') {
       // Best-effort only — v0.1 does not fetch network URLs (no external deps,
       // and CI runners may not have network egress). Recorded as a TODO input;
-      // hash stays null until a fetch step is added.
+      // hash stays null until a fetch step is added. Not a skip: expected.
       return null;
     }
   } catch (err) {
-    console.warn(`  [warn] could not fetch source ${source.id} (${source.repo}): ${err.message}`);
+    onSkip(source, err.message);
     return null;
   }
   return null;
@@ -226,7 +244,20 @@ function spliceGeneratedBlock(content, blockId, newBody) {
 
 function regenSkill(skillId, skillDef, { check }) {
   const skillMdPath = path.join(REPO_ROOT, skillDef.skill_md);
-  const report = { skillId, updatedBlocks: [], missingBlocks: [], staleSources: [], skippedNoFile: false };
+  const report = {
+    skillId,
+    updatedBlocks: [],
+    missingBlocks: [],
+    staleSources: [],
+    skippedSources: [], // QSDK-SKILLS audit fix: sources whose fetch genuinely
+    // failed this run (not the deliberately-unimplemented 'url' type). A
+    // failed source never gets its stamp touched (checked_at stays whatever
+    // it was, possibly null), and any entry here fails the whole run: see
+    // main()'s exit-code handling. This is what would have caught the
+    // 'quox --help-json' / dead CODEBASE_MAP.md section breakage instead of
+    // it silently degrading to a permanent "never regenerated" no-op.
+    skippedNoFile: false,
+  };
 
   if (!existsSync(skillMdPath)) {
     // v0.1: sub-skill SKILL.md files are authored by other coders and may not
@@ -237,7 +268,15 @@ function regenSkill(skillId, skillDef, { check }) {
 
   const sourcesById = {};
   for (const source of skillDef.sources || []) {
-    const raw = fetchSource(source);
+    if (source.type === 'url') {
+      // Deliberately unimplemented in v0.1 (see fetchSource's url branch);
+      // not a skip, not stamped, not counted as a failure.
+      continue;
+    }
+    let skipReason = null;
+    const raw = fetchSource(source, (_src, reason) => {
+      skipReason = reason;
+    });
     if (raw != null) {
       sourcesById[source.id] = raw;
       const newHash = sha256(raw);
@@ -248,6 +287,11 @@ function regenSkill(skillId, skillDef, { check }) {
         source.stamp.sha256 = newHash;
         source.stamp.checked_at = new Date().toISOString();
       }
+    } else {
+      // Never touch stamp.checked_at on a failed fetch: an untouched stamp
+      // is the honest record that this source has not been confirmed since
+      // its last successful regen (or never, if stamp.sha256 is still null).
+      report.skippedSources.push({ id: source.id, reason: skipReason || 'no content returned' });
     }
   }
 
@@ -320,30 +364,47 @@ function main() {
   for (const r of reports) {
     if (r.skippedNoFile) {
       console.log(`  ${r.skillId}: SKIP (SKILL.md not yet authored — sources stamped, nothing to splice)`);
-      continue;
+    } else {
+      const bits = [];
+      if (r.updatedBlocks.length) bits.push(`updated: ${r.updatedBlocks.join(', ')}`);
+      if (r.missingBlocks.length) bits.push(`TODO (no generator/source yet): ${r.missingBlocks.join(', ')}`);
+      console.log(`  ${r.skillId}: ${bits.join(' | ') || 'no generated-block markers found'}`);
+      if (r.staleSources.length) {
+        for (const s of r.staleSources) {
+          console.log(`      [human review] source '${s.id}' changed since last stamp (${s.oldHash.slice(0, 8)} -> ${s.newHash.slice(0, 8)})`);
+        }
+      }
     }
-    const bits = [];
-    if (r.updatedBlocks.length) bits.push(`updated: ${r.updatedBlocks.join(', ')}`);
-    if (r.missingBlocks.length) bits.push(`TODO (no generator/source yet): ${r.missingBlocks.join(', ')}`);
-    console.log(`  ${r.skillId}: ${bits.join(' | ') || 'no generated-block markers found'}`);
-    if (r.staleSources.length) {
-      for (const s of r.staleSources) {
-        console.log(`      [human review] source '${s.id}' changed since last stamp (${s.oldHash.slice(0, 8)} -> ${s.newHash.slice(0, 8)})`);
+    if (r.skippedSources.length) {
+      for (const s of r.skippedSources) {
+        console.log(`      [SKIPPED] source '${s.id}': ${s.reason}`);
       }
     }
   }
 
   const anyChanged = reports.some((r) => r.wouldChange);
+  const anySkipped = reports.some((r) => r.skippedSources.length > 0);
+
+  if (anySkipped) {
+    console.error(
+      '\nregen: one or more declared sources could not be fetched this run (see [SKIPPED] lines above).'
+    );
+    console.error(
+      'Fix the source (repo/path/cmd in sources/manifest.json) before this can pass in CI; checked_at was NOT bumped for these.'
+    );
+  }
+
   if (check) {
     if (anyChanged) {
       console.error('\nregen --check: generated blocks are STALE. Run `node scripts/regen.mjs` to fix.');
-      process.exit(1);
     }
+    if (anyChanged || anySkipped) process.exit(1);
     console.log('\nregen --check: clean, no drift.');
     process.exit(0);
   }
 
   console.log(`\nregen: done${anyChanged ? ' (files updated)' : ' (no changes)'}.`);
+  if (anySkipped) process.exit(1);
 }
 
 // Only run as a CLI when executed directly (`node scripts/regen.mjs`), not

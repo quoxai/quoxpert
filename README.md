@@ -62,7 +62,7 @@ install dialog or config file — see `quoxpert-mcp`'s recipes once installed.
 
 ## The sub-skills
 
-One root index skill routes to twelve focused sub-skills (plus a stub), mirroring the proven
+One root index skill routes to thirteen focused sub-skills, mirroring the proven
 `quox-user` master-index pattern already used internally:
 
 | Skill | Covers |
@@ -76,7 +76,7 @@ One root index skill routes to twelve focused sub-skills (plus a stub), mirrorin
 | `quoxpert-plugin-sdk` | Building `.quoxplugin` extensions with `create-quox-plugin` — makes any Claude a competent Quox plugin author. |
 | `quoxpert-protocols` | AEE, AOCL, VOLT, and WARD — the envelope, audit-layer, governance, and policy specs, one combined skill. |
 | `quoxpert-deploy` | Install, upgrade, backup, and the quox.ai product surface — the full-stack quickstart. |
-| `quoxpert-qluster` | Stub — QLUSTER (multi-instance orchestration) has no shipped repo yet. |
+| `quoxpert-qluster` | Qluster (multi-instance fleet control plane, phase 5c/QLOGS complete): monitor, enroll, checks, backups, governed delegation, QLOGS evidence. |
 | `quoxpert-convert` | Convert an existing tool (MCP server, dashboard, bot, agent, scripts, micro-SaaS) into a Quox plugin. |
 | `quoxpert-publish` | Honest stub on distributing/monetising a plugin: what's real (signing, licensing) vs not live yet (marketplace, payments). |
 | `quoxpert-repobrain` | RepoBrain / Nucleus code-intelligence: structure-first retrieval, connecting/indexing repos, the "reach for it before grep" discipline. |
