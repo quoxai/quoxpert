@@ -1,6 +1,6 @@
 ---
 name: quoxpert-cli
-description: "Operate QuoxCORE from the terminal with the quox CLI and TUI —
+description: "Operate QuoxCORE from the terminal with the quox CLI and TUI:
   auth, agents, workflows, skills/crystals, triggers, memory, HITL inbox,
   traces, budgets. Load when the user wants scripted/terminal control of a
   Quox instance or is automating Quox in CI."
@@ -19,12 +19,12 @@ metadata:
     quox_version: ">=0.1 pre-1.0"
 ---
 
-# Quoxpert — CLI & TUI
+# Quoxpert: CLI & TUI
 
 ## What this is
 
 `quox` is the terminal client for a QuoxCORE instance (Node ≥20; bins `quox` and `quoxcli`,
-package `quoxcli`). Everything the dashboard does with clicks, the CLI does with commands — same
+package `quoxcli`). Everything the dashboard does with clicks, the CLI does with commands, same
 auth, same RBAC, same governance (destructive ops still route to the HITL inbox for approval).
 Running with no arguments launches an interactive Ink TUI (`quox tui`); every command also works
 non-interactively for scripting.
@@ -51,7 +51,7 @@ non-interactively for scripting.
     quox doctor                     # verifies collector + services are reachable
 
 Session tokens are written to `~/.config/quox/config.json` (0600 permissions) under a named
-**profile** — never ask the user to paste a token; tell them to run `quox login` themselves.
+**profile**: never ask the user to paste a token; tell them to run `quox login` themselves.
 Multiple instances (local/staging/production) are separate profiles:
 
     quox config profile add staging --url https://staging.quox.ai
@@ -66,21 +66,21 @@ Multiple instances (local/staging/production) are separate profiles:
 | `quox login` / `logout` / `whoami` / `signup` / `mfa` | authenticate, session, MFA |
 | `quox status` / `health` / `doctor` | platform-wide status / per-service health |
 | `quox config` | CLI config + connection profiles |
-| `quox org` | orgs — list, create, switch, members, divisions, audit |
+| `quox org` | orgs: list, create, switch, members, divisions, audit |
 | `quox team` / `department` | team + department management |
-| `quox agent` | agents — list, get, create, update, delete, activate/deactivate, tool assignments |
-| `quox tool` | tool catalog — list, create, publish, install |
-| `quox workflow` | workflows — list, create, run, publish, steps, `apply`/`validate` (declarative) |
-| `quox objective` | autonomous multi-step goals — create, start, approve, get (DAG) |
-| `quox assistant` | assistants — list, create, deploy, fork |
-| `quox fleet` | fleet monitoring — status, summary, agents, tools, exec, watch |
+| `quox agent` | agents: list, get, create, update, delete, activate/deactivate, tool assignments |
+| `quox tool` | tool catalog: list, create, publish, install |
+| `quox workflow` | workflows: list, create, run, publish, steps, `apply`/`validate` (declarative) |
+| `quox objective` | autonomous multi-step goals: create, start, approve, get (DAG) |
+| `quox assistant` | assistants: list, create, deploy, fork |
+| `quox fleet` | fleet monitoring: status, summary, agents, tools, exec, watch |
 | `quox chat [message]` | chat with CommanderQ or any agent, streaming by default |
-| `quox memory` | memories — list, create, search, export, stats |
+| `quox memory` | memories: list, create, search, export, stats |
 | `quox entity` | knowledge-graph entities |
-| `quox backup` | backups — list, create, verify, restore, schedule |
-| `quox inbox` | HITL inbox — list, get, respond (approve/reject/defer/resolve), stats |
-| `quox run` | workflow runs — list, create, cancel, resume |
-| `quox file` | file storage — upload, download, list, delete |
+| `quox backup` | backups: list, create, verify, restore, schedule |
+| `quox inbox` | HITL inbox: list, get, respond (approve/reject/defer/resolve), stats |
+| `quox run` | workflow runs: list, create, cancel, resume |
+| `quox file` | file storage: upload, download, list, delete |
 | `quox admin` | platform administration |
 | `quox aee` | Agent Envelope Exchange protocol tooling |
 | `quox integration` | integrations |
@@ -90,19 +90,19 @@ Multiple instances (local/staging/production) are separate profiles:
 | `quox tag` | tags |
 | `quox scope` | read-only scope view (manage via org/division/team) |
 | `quox notification` / `prompt` | notification settings / user prompt library |
-| `quox plugin` | org-installed plugins — list, install, uninstall, data, secrets, assign |
-| `quox powers` | POWERS MCP endpoints — detect, deploy, deploy-repo, status, finalize, update, archive |
+| `quox plugin` | org-installed plugins: list, install, uninstall, data, secrets, assign |
+| `quox powers` | POWERS MCP endpoints: detect, deploy, deploy-repo, status, finalize, update, archive |
 | `quox conversation` | conversations |
-| `quox vault` | QuoxVault credentials — list, create, rotate, test, types, scan |
+| `quox vault` | QuoxVault credentials: list, create, rotate, test, types, scan |
 | `quox volt` | VOLT evidence bundle verify/inspect/export/summary |
 | `quox governance` | policies, WARD chain, VOLT evidence + certification |
-| `quox skills` | QSKL Crystal library — list, show, run, review, promote, library |
+| `quox skills` | QSKL Crystal library: list, show, run, review, promote, library |
 | `quox monitoring` / `mon` | platform health, Docker fleet, Wazuh, AGH-chain leaderboard |
-| `quox trigger` | webhook/schedule/event trigger subscriptions — view + activate/deactivate |
+| `quox trigger` | webhook/schedule/event trigger subscriptions: view + activate/deactivate |
 | `quox webhook` / `sso` / `role` / `domain` / `security` / `scim` | enterprise admin surfaces |
-| `quox llm-policy` | org LLM routing policy — get/set/test |
+| `quox llm-policy` | org LLM routing policy: get/set/test |
 | `quox budget` | quoxflow spend/usage budgets |
-| `quox trace` | Trace Replay & Visualization — list, get, simulate, compare, replay |
+| `quox trace` | Trace Replay & Visualization: list, get, simulate, compare, replay |
 | `quox tui` | launch the interactive TUI |
 | `quox completion <shell>` | shell completions (bash/zsh/fish) |
 <!-- /GENERATED:command-map -->
@@ -126,9 +126,9 @@ Created organization: Quoxpert Demo Org (quoxpert-demo-org)
 Logged in as demo@example.com | Org: Quoxpert Demo Org (quoxpert-demo-org)
 ```
 Gotcha: `org switch` alone returned `403 not_org_member` on the token issued *before* org
-creation — re-running `quox login` after `org create` is what actually rescopes the session.
+creation: re-running `quox login` after `org create` is what actually rescopes the session.
 
-### 2. `status` vs `doctor` — health checks
+### 2. `status` vs `doctor`: health checks
     quox doctor
 Real output:
 ```
@@ -157,7 +157,7 @@ Drop `--no-stream` for token-by-token streaming (the default; better for interac
 to a specialist with `--agent sentinel` (etc.); continue a session with `--conversation <id>`.
 
 ### 4. List and approve a pending HITL inbox item
-    quox inbox list --pending
+    quox inbox list --status pending
     quox inbox get <itemId>
     quox inbox respond <itemId> --action approve --comment "verified with owner"
 Real output on a fresh org (no pending items yet):
@@ -206,7 +206,7 @@ Agent "Quoxpert Demo Agent" created.
 ### 6. Query the QSKL skill/crystal library and run one
     quox skills list
     quox skills run <sourceWorkflowId> --data '{"key":"value"}'
-Real output (truncated, live library — these are Quox's own agent-facing Crystals, not
+Real output (truncated, live library; these are Quox's own agent-facing Crystals, not
 Quoxpert):
 ```
  ID                            Name                              Category               Edition
@@ -215,7 +215,7 @@ Quoxpert):
  01KRH1RXWVT2ENYWC5W0KHYAZD    vault-secret-rotate               security               stable
  01KRH1RXTXHYCKS6T5HB5XNW7W    prom-range-query                  ops/health             stable
 ```
-`skills run <id>` takes the skill's `sourceWorkflowId`, not the display ID column — read it from
+`skills run <id>` takes the skill's `sourceWorkflowId`, not the display ID column: read it from
 `skills show <id>` first. Add `--async` to fire-and-forget and poll via `quox run get <id>`.
 
 ### 7. Save and search memory
@@ -242,7 +242,7 @@ Real output (`vault types`, truncated):
  anthropic     Anthropic        Claude models and API
  elevenlabs    ElevenLabs       Text-to-speech and voice cloning
 ```
-`vault list` on a fresh org returns `No credentials found.` — create one with
+`vault list` on a fresh org returns `No credentials found.` Create one with
 `vault create` (interactive) before wiring an integration.
 
 ### 9. Deploy a live MCP endpoint as a governed POWERS agent
@@ -257,11 +257,11 @@ reference only.
 
 ### 10. Export → edit → re-apply a workflow declaratively
     quox workflow get <id> -o json > wf.json     # or: quox workflow export, if your version has it
-    # edit wf.json — top-level {name, definition:{name, nodes:[...], edges:[...]}}
+    # edit wf.json, top-level {name, definition:{name, nodes:[...], edges:[...]}}
     quox workflow apply -f wf.json               # POST if no id, PUT+diff-preview if it has one
     quox workflow validate <id>                   # validates the STORED workflow, not the local file
 Gotcha (found live): `apply` 400s on a syntactically-valid-looking JSON if `definition.nodes[].type`
-isn't a node type quoxflow recognizes (e.g. a bare `util:log` was rejected on this dev instance) —
+isn't a node type quoxflow recognizes (e.g. a bare `util:log` was rejected on this dev instance):
 check `--debug` to see the exact POST body/response, and prefer round-tripping an existing
 workflow's `get` output as your edit base rather than hand-writing a definition from scratch.
 
@@ -269,8 +269,8 @@ workflow's `get` output as your edit base rather than hand-writing a definition 
     quox fleet status
     quox fleet summary
     quox watch fleet --interval 5
-`fleet status`/`summary` are one-shot reads; `watch fleet` is a live-refreshing TUI dashboard —
-don't script against its output, use `fleet status --json` (or `mon`) for automation instead.
+`fleet status`/`summary` are one-shot reads; `watch fleet` is a live-refreshing TUI dashboard.
+Don't script against its output, use `fleet status --json` (or `mon`) for automation instead.
 
 ### 12. Inspect governance evidence and traces
     quox governance evidence
@@ -289,13 +289,13 @@ Use `quox trace get <runId>` for the full narrative + per-layer waterfall on any
 ## Output contracts & scripting
 
 - `-o/--output <table|json|csv|quiet>` on read commands; `--json` is shorthand for `-o json`;
-  `-q/--quiet` prints IDs only (one per line — pipe-friendly).
+  `-q/--quiet` prints IDs only (one per line, pipe-friendly).
 - `--org <slug>` overrides the active org for a single invocation without switching context.
-- `--debug` prints the exact HTTP method/URL/body and the raw response — the fastest way to
+- `--debug` prints the exact HTTP method/URL/body and the raw response: the fastest way to
   diagnose a 400/401/403 without guessing.
 - `--dry-run` shows what a mutating command would do without executing it; `-y/--yes` skips
   confirmation prompts (needed for CI).
-- Exit codes: 0 on success, non-zero on any error (including `pending_approval` outcomes — check
+- Exit codes: 0 on success, non-zero on any error (including `pending_approval` outcomes: check
   the message, not just the exit code, to distinguish "needs a human" from "actually failed").
 
 Composing with `jq`:
@@ -309,14 +309,14 @@ quoxpert_demo	Quoxpert Demo Agent	active
 ## Gotchas
 
 - Auth tokens are per-profile/per-instance; run `quox whoami` before blaming RBAC on a 403.
-- Approval-gated commands return `pending_approval`, not a hard failure — poll `quox inbox list`.
+- Approval-gated commands return `pending_approval`, not a hard failure: poll `quox inbox list`.
 - `quox status` can 401 on the collector's aggregate health endpoint even with a valid session;
-  `quox doctor` (per-service) is the more reliable check — see Recipe 2.
-- TUI (`quox` / `quox tui`, no subcommand) vs scripting mode are different code paths — never
+  `quox doctor` (per-service) is the more reliable check, see Recipe 2.
+- TUI (`quox` / `quox tui`, no subcommand) vs scripting mode are different code paths. Never
   screen-scrape the TUI; every capability it shows also has a scriptable subcommand.
 - A brand-new org starts with zero agents/workflows/inbox items but one auto-installed
-  first-party plugin (`star-alignment`) — `No results.` is expected, not broken.
-- `org switch` on a token issued before the org existed 403s with `not_org_member` — re-run
+  first-party plugin (`star-alignment`); `No results.` is expected, not broken.
+- `org switch` on a token issued before the org existed 403s with `not_org_member`. Re-run
   `quox login` after `org create`/`org switch` to get an org-scoped session (Recipe 1).
 
 ## When NOT to use this sub-skill

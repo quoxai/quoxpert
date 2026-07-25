@@ -1,7 +1,7 @@
 ---
 name: quoxpert-bastion
 description: "Operate QuoxBastion (the SSH-governed fleet command layer) and
-  the quoxagent per-host sidecar via the quox CLI's `fleet` command group —
+  the quoxagent per-host sidecar via the quox CLI's `fleet` command group:
   host inventory, governed SSH execution, tools registry, agent deploy, fleet
   health, and HITL approval for risky commands. Load when the user wants to
   inspect, deploy to, or run commands against Quox-managed hosts."
@@ -27,7 +27,7 @@ metadata:
     maturity_note: "quoxagent heartbeat auth is Beta"
 ---
 
-# Quoxpert — QuoxBastion & Fleet (quoxagent)
+# Quoxpert: QuoxBastion & Fleet (quoxagent)
 
 ## What this is
 
@@ -43,10 +43,10 @@ hosts:
 - **quoxagent** is a lightweight per-host sidecar (~32 MB RAM) that runs on
   each managed host: agent session monitoring, sandboxed job execution
   (Ed25519-signed), heartbeat/metrics push, a playbook engine, and a plugin
-  system (core/noc/soc/mikrotik/codebase — NOC is free, SOC is Tier A+).
+  system (core/noc/soc/mikrotik/codebase; NOC is free, SOC is Tier A+).
 
 Governance matters here: SSH execution and destructive tools route through
-the same HITL approval path as everything else in Quox — the bastion doesn't
+the same HITL approval path as everything else in Quox. The bastion doesn't
 give Claude (or a human) a side-channel around approvals.
 
 ## When (not) to use this sub-skill
@@ -62,15 +62,15 @@ for a risky fleet operation.
 - Building/extending a Quox plugin (including a fleet-management-template
   plugin) → the plugin-SDK skill.
 - Anything that requires SSH'ing directly into hosts yourself, bypassing
-  QuoxBastion's audit trail — that defeats the point. Route through
+  QuoxBastion's audit trail: that defeats the point. Route through
   `quox fleet exec`, not raw `ssh`.
 
 ## Install & connect
 
-QuoxBastion and quoxagent are separate downloads from QuoxCORE — install them
+QuoxBastion and quoxagent are separate downloads from QuoxCORE. Install them
 on the hosts you want to manage, then point them at your collector. Neither
 step requires pasting a secret into chat: quoxagent's public bootstrap script
-deliberately does NOT embed a service key (it's unauthenticated by design —
+deliberately does NOT embed a service key (it's unauthenticated by design;
 credential provisioning happens over the authenticated deploy path
 afterward, not through the install script).
 
@@ -84,7 +84,7 @@ afterward, not through the install script).
 
 This installs the quoxagent binary and registers it with your collector.
 Credential/scoped-key provisioning for the heartbeat happens over the
-authenticated deploy path — never ask a user to paste `AGENT_SERVICE_KEY` (or
+authenticated deploy path. Never ask a user to paste `AGENT_SERVICE_KEY` (or
 any other secret) into chat; point them at their instance's fleet deploy
 tooling instead.
 
@@ -100,7 +100,7 @@ tooling instead.
 | `quox fleet watch` | Watch fleet status in real time |
 <!-- quoxpert:generated:end command-map -->
 
-## Recipes (hand-authored — the actual expertise)
+## Recipes (hand-authored: the actual expertise)
 
 ### 1. See what's in the fleet
     quox fleet status
@@ -138,28 +138,28 @@ depending on your instance's policy) create a pending inbox item instead of
 executing immediately:
 
     quox fleet exec --tool sudo-setup --host newhost01
-    quox inbox list --pending
+    quox inbox list --status pending
     quox inbox respond <itemId> --action approve --comment "verified with owner"
 
 ## Gotchas
 
-- **There is no top-level `quox bastion` command** — everything routes
+- **There is no top-level `quox bastion` command**: everything routes
   through `quox fleet`. Bastion's own native CLI/TUI (`bastion host list`,
   `bastion exec`, `bastion tui`) is a separate binary meant for direct
   operators on the bastion box itself, not the day-to-day Quox-user path.
 - **`/install` never carries a service key, and never should.** If a fleet
   enrollment flow ever asks you to paste a secret into chat to finish
-  enrolling a host, that's wrong — stop and point the user at their
+  enrolling a host, that's wrong: stop and point the user at their
   instance's authenticated deploy tooling instead.
 - **Heartbeat auth is Beta ("belt open") on many instances as of this
-  writing** — a scoped `AGENT_SERVICE_KEY` is accepted on the heartbeat
+  writing.** A scoped `AGENT_SERVICE_KEY` is accepted on the heartbeat
   route, but some instances haven't flipped enforcement on yet. Don't be
   surprised if `quox fleet agents` shows hosts heartbeating without a key on
-  an instance that hasn't completed its fleet-auth rollout — that's an
+  an instance that hasn't completed its fleet-auth rollout: that's an
   in-progress hardening step, not a bug you need to fix from chat.
-- **`quox fleet exec` is the audited path — raw SSH is not.** Any recipe
+- **`quox fleet exec` is the audited path: raw SSH is not.** Any recipe
   that has Claude run `ssh host "command"` directly, bypassing the fleet
   tool registry, loses the audit trail this whole system exists to provide.
-- **quoxagent plugins are tiered** — NOC is free, SOC needs Tier A+
+- **quoxagent plugins are tiered**: NOC is free, SOC needs Tier A+
   licensing. `quox fleet tools` will show what's actually available on a
   given instance; don't assume every plugin's tools exist everywhere.
