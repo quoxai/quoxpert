@@ -1,20 +1,20 @@
 ---
 name: quoxpert
 description: "Makes any Claude an instant expert at operating Quox — the governed multi-agent platform. Routing index: load this first to discover which Quoxpert sub-skill matches your task (CLI, MCP tools, workflows, fleet, plugins, protocols, deploy), then load that sub-skill for the actual recipes. Quox as a Claude-extension."
-argument-hint: "<area: core | cli | mcp | flow | bastion | plugin-sdk | protocols | deploy | qluster>"
+argument-hint: "<area: core | cli | mcp | flow | bastion | plugin-sdk | protocols | deploy | qluster | convert | publish>"
 quox_version: ">=0.1 pre-1.0"
 user_invocable: true
 ---
 
 # Quoxpert — the Quox expert, as a Claude skill
 
-**Quoxpert flips the arrow.** Quox is normally the thing that gives *agents* capabilities. Quoxpert makes *Claude itself* an instant expert at driving Quox — its CLI, its 83+ MCP tools, its workflow engine, its agent fleet, its plugin SDK, and its governance protocols. Install it once and any Claude wields Quox like a samurai.
+**Quoxpert flips the arrow.** Quox is normally the thing that gives *agents* capabilities. Quoxpert makes *Claude itself* an instant expert at driving Quox — its CLI, its 130+ MCP tools (regenerated 2026-07-25), its workflow engine, its agent fleet, its plugin SDK, and its governance protocols. Install it once and any Claude wields Quox like a samurai.
 
 This root skill is a **routing index**. It tells you which sub-skill to load for a task. The sub-skills hold the focused, verified recipes — load only what you need so context stays lean.
 
 ## What Quox is (60-second orientation)
 
-Quox (product name for the QuoxCORE platform) is a **governed multi-agent operations platform**: a fleet of specialist AI agents (37 in the core registry, orchestrated by CommanderQ) that run auditable workflows, execute tools, remember across sessions, pause for human approval (HITL), and emit tamper-evident evidence of everything they do. It ships as a Docker stack of services (auth, collector, quoxflow, memory, tasks, files, orchestrator) with a React dashboard, a first-class `quox` CLI/TUI, a QuoxMCP adapter, 39 installable plugins, and four open governance protocols (AEE / AOCL / VOLT / WARD). The differentiator: **every agent action is cryptographically provable**.
+Quox (product name for the QuoxCORE platform) is a **governed multi-agent operations platform**: a fleet of specialist AI agents (37 in the core registry, orchestrated by CommanderQ) that run auditable workflows, execute tools, remember across sessions, pause for human approval (HITL), and emit tamper-evident evidence of everything they do. It ships as a Docker stack of services (auth, collector, quoxflow, memory, tasks, files, orchestrator) with a React dashboard, a first-class `quox` CLI/TUI, a QuoxMCP adapter, 40 installable plugins, and four open governance protocols (AEE / AOCL / VOLT / WARD). The differentiator: **every agent action is cryptographically provable**. (Plugin and tool counts regenerated 2026-07-25.)
 
 ## Which sub-skill do I load?
 
@@ -22,13 +22,15 @@ Quox (product name for the QuoxCORE platform) is a **governed multi-agent operat
 |---|---|
 | Understand the platform, concepts, service topology, "where does X live" | `quoxpert-core` |
 | Drive Quox from the terminal (`quox` CLI + TUI): agents, workflows, chat, HITL, fleet, vault, governance | `quoxpert-cli` |
-| Wield Quox's tools from inside Claude via QuoxMCP (install + the 83+ RBAC-gated tools) | `quoxpert-mcp` |
+| Wield Quox's tools from inside Claude via QuoxMCP (install + the 130+ RBAC-gated tools) | `quoxpert-mcp` |
 | Build, run, or inspect workflows (quoxflow: nodes, AOCL pipeline, triggers, objectives, skills) | `quoxpert-flow` |
 | Operate the agent fleet + governed SSH execution (QuoxBastion + quoxagent) | `quoxpert-bastion` |
 | Build a `.quoxplugin` extension (the plugin SDK, plugin backends, publishing) | `quoxpert-plugin-sdk` |
 | Read/verify governance evidence (AEE envelopes, AOCL layers, VOLT bundles, WARD chains) | `quoxpert-protocols` |
 | Install / upgrade / back up / configure a Quox instance | `quoxpert-deploy` |
 | Multi-instance fleet control across quox-boxes (monitor, enroll, checks, backups, governed delegation, QLOGS) | `quoxpert-qluster` |
+| Turn an existing tool (MCP server, dashboard, chat-ops bot, script, agent) into a Quox plugin | `quoxpert-convert` |
+| Understand what's shippable today for distributing/monetising a plugin (signing, licensing, what's not live yet) | `quoxpert-publish` |
 
 When in doubt, start with `quoxpert-core` for orientation, then narrow.
 

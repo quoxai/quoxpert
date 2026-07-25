@@ -1,10 +1,11 @@
 ---
 name: quoxpert-mcp
 description: "Install and wield QuoxMCP — the Model Context Protocol server that
-  bridges any Claude (Desktop, Code, Agent SDK) to a QuoxCORE collector's live
-  RBAC-gated tool surface (139 tools as of last regen, 8 resources, 4 operational
-  prompts). Load when the user wants Claude to directly drive Quox infrastructure
-  from chat, or needs to connect/troubleshoot QuoxMCP itself."
+  bridges any Claude (Desktop, Code, Agent SDK) to a QuoxCORE collector's
+  RBAC-gated tool surface (130+ tools, 5 resources, 4 operational prompts,
+  regenerated 2026-07-25). Load when the user wants Claude to directly drive
+  Quox infrastructure from chat, or needs to connect/troubleshoot QuoxMCP
+  itself."
 argument-hint: "<task, e.g. 'connect QuoxMCP' or 'run a fleet health check' or 'tools: none'>"
 metadata:
   quoxpert:
@@ -114,48 +115,44 @@ operational prompt.
 live in the QuoxCORE `.env` on the collector host or the dashboard profile page
 — point the user there, don't collect the values in chat.
 
-Verify with a standalone run (live-verified transcript, 2026-07-11, against a
-dev collector — your banner numbers will match your instance's live tool count,
-not necessarily this skill's cached snapshot below):
+Verify with a standalone run:
 
 ```bash
 QUOX_AGENT_ID=quox QUOX_COLLECTOR_URL=http://127.0.0.1:9848 timeout 5 node server.js
 ```
 ```
 [QuoxMCP] Starting — agent=quox, collector=http://127.0.0.1:9848
-[QuoxMCP] Fetched 139 tools for agent quox
-[QuoxMCP] Registered 139 tools, 8 resources, 4 prompts for agent quox
-[QuoxMCP] Connected — serving 139 tools, 8 resources, 4 prompts via STDIO
+[QuoxMCP] Fetched 130 tools for agent quox
+[QuoxMCP] Registered 130 tools, 5 resources, 4 prompts for agent quox
+[QuoxMCP] Connected — serving 130 tools, 5 resources, 4 prompts via STDIO
 ```
+Your instance's own banner numbers are the ones that matter — plugins add
+tools, and RBAC (`agent_id`) narrows the set a specialist agent sees. Trust a
+live `tools/list` over any doc, including this one, if the two disagree.
 
-## Live tool surface
-<!-- quoxpert:generated:start tool-surface -->
-Queried live 2026-07-11 against a dev QuoxCORE collector (`quox_version: 4.2.0`)
-via `GET /api/v1/tools/list`, `/api/v1/resources/list`, `/api/v1/prompts/list`.
-Counts vary by deployment (plugins add tools) and by `agent_id` (RBAC) — treat
-these as a representative snapshot, not a hard number.
+## Tool surface
+<!-- quoxpert:generated:start tool-surface-counts -->
+**130+ tools, 5 resources, 4 prompts** — from quoxmcp's `manifest.json` (the `.mcpb` bundle definition, the canonical count for the shipped adapter as of `quoxmcp` v1.2.0).
+<!-- quoxpert:generated:end tool-surface-counts -->
+(regenerated 2026-07-25)
 
-| Surface | Count for `agent_id=quox` | Notes |
+| Surface | Baseline count | Notes |
 |---|---|---|
-| Tools | **139** | Full orchestrator set. quoxmcp's shipped README/manifest advertise "130+"/"83+" as a point-in-time baseline — the collector's live catalog has grown past that; always trust a live `tools/list` over a doc. |
-| Resources | **8** | `system-identity`, `agent-registry`, `tool-permissions`, `defcon-levels`, `fleet-topology`, `active-alerts`, `plugin-status`, `audit-history`. (quoxmcp's README documents only 5 of these — System Identity, Fleet Topology, Agent Capabilities, Service Status, Configuration — under different names; the live resource list above is ground truth as of this snapshot.) |
+| Tools | **130+** | Full orchestrator (`agent_id=quox`) set. Grows as plugins register tools — treat as a floor, not a ceiling. |
+| Resources | **5** | System Identity, Fleet Topology, Agent Capabilities, Service Status, Configuration. |
 | Prompts | **4** | `fleet-health`, `security-sweep`, `deploy-check`, `defcon-assess` |
 
-RBAC tool-count samples (live, same collector, different `agent_id`):
+RBAC narrows the tool set per `agent_id`: the orchestrator (`quox`) sees the
+full set; specialist agents (`sentinel`, `metrics`, `nova`, …) see a smaller
+subset scoped to their role. Query your own instance to see the real numbers
+(recipe 2 below) rather than trusting any doc's snapshot.
 
-| `agent_id` | Tool count |
-|---|---|
-| `quox` (orchestrator) | 139 |
-| `sentinel` (security) | 28 |
-| `metrics` (monitoring) | 25 |
-
-Representative tool families (from the live `quox` list — not exhaustive):
+Representative tool families (not exhaustive):
 `delegate_to_agent`, `orchestrate_objective`, `create_workflow`/`execute_workflow`,
 `list_approvals`/`approve_request`/`deny_request`, `query_envelopes`,
 `get_envelope_chain`, `list_evidence`, `ssh_exec`, `fleet_status`, `docker_status`,
 `proxmox_vms`, `security_audit`, `metrics_query`, `memory_save`/`memory_search`,
 `skills_list`, `alerts_manage`, `network_check`, `email_read`/`email_send`.
-<!-- quoxpert:generated:end tool-surface -->
 
 ## Recipes (hand-authored, the actual expertise)
 
@@ -173,7 +170,8 @@ for debugging what the collector will serve *before* wiring the client):
 curl -s -H "x-service-key: $INTERNAL_SERVICE_KEY" \
   "http://<collector-host>:9848/api/v1/tools/list?agent_id=quox" | jq '.tools | length'
 ```
-Live-verified: returns `139` against the dev collector at time of authoring.
+Returns the count for your own instance — expect 130+ for the orchestrator
+(`agent_id=quox`), fewer for a specialist `agent_id`.
 
 ### 3. Execute a representative tool
 From Claude, just ask — e.g. "check fleet status." Under the hood this becomes:
@@ -221,12 +219,12 @@ Root causes, in order of likelihood:
    against `agent_id=quox` to confirm the collector itself is healthy.
 
 ### 8. Understand RBAC tool subsets
-The orchestrator (`agent_id=quox`) sees the full set; specialists see fewer —
-e.g. `sentinel` (security) sees 28 tools, `metrics` (monitoring) sees 25, both
-live-verified against the same collector that serves 139 to `quox`. If a tool
-call 403s, that's the RBAC gate working as intended — explain the boundary
-("that tool isn't granted to this agent identity") rather than treating it as
-a bug to route around.
+The orchestrator (`agent_id=quox`) sees the full 130+ tool set; specialists
+(`sentinel`, `metrics`, `nova`, …) see fewer, scoped to their role — compare
+`tools/list?agent_id=quox` against a specialist ID on your own instance to see
+the real gap. If a tool call 403s, that's the RBAC gate working as intended —
+explain the boundary ("that tool isn't granted to this agent identity")
+rather than treating it as a bug to route around.
 
 ### 9. Bridge into the audit trail (→ quoxpert-protocols)
 `query_envelopes`, `get_envelope_chain`, and `list_evidence` are QuoxMCP tools
@@ -253,7 +251,42 @@ cd /path/to/quoxagent/deploy
 Remote config lands at `/etc/quoxmcp/mcp-config.json` (chmod 600); Claude CLI
 on that host connects with `claude --mcp-config /etc/quoxmcp/mcp-config.json`.
 
-### 12. Choose MCP vs CLI vs dashboard
+### 12. Deploy a live MCP endpoint as a governed POWERS agent (`quox powers`)
+This sub-skill is the owner of `quox powers` — the path for turning *someone
+else's* MCP server (or a public GitHub repo) into a governed Quox agent,
+distinct from QuoxMCP itself (which bridges Claude *to* a Quox collector) and
+distinct from `.quoxplugin` (which packages your own React/backend code —
+see `quoxpert-plugin-sdk`).
+
+```bash
+quox login
+quox powers detect --url https://example.com/mcp
+quox powers deploy --url https://example.com/mcp --agent-id my_mcp_agent \
+  --name "My MCP Agent" --auth-kind bearer --auth-value "$MCP_TOKEN"
+```
+`detect` probes the endpoint and lists its tools before you commit — always
+run it first so the user can see what they're about to grant. `deploy` is
+one-shot (no container build) for a live MCP server you already trust.
+
+For a GitHub repo that needs a build instead of a live endpoint:
+```bash
+quox powers deploy-repo --url https://github.com/org/repo --agent-id my_repo_agent \
+  --name "My Repo Agent"
+quox powers status <toolDefId>          # poll while the build runs
+quox powers finalize <toolDefId>        # register the tools once the build succeeds
+```
+
+Other lifecycle commands: `quox powers update <toolDefId>` (re-detect/redeploy
+after the upstream endpoint changes), `quox powers archive <toolDefId>`
+(retire an agent without deleting its audit history).
+
+**When to reach for POWERS instead of the plugin SDK:** the user already has
+a working MCP server or repo and wants Quox to wrap it as a governed agent
+with RBAC/AEE/DEFCON applied to its tool calls — no code to write. If instead
+the user wants to build new UI, a sidebar view, or custom backend logic for
+Quox, that's `.quoxplugin` via `quoxpert-plugin-sdk`, not POWERS.
+
+### 13. Choose MCP vs CLI vs dashboard
 One-shot reads and interactive fleet ops from a chat turn → MCP tools (this
 skill). Scripted, bulk, or CI-driven operation → `quoxpert-cli`. Anything
 visual or requiring an approval click-through → hand the user the dashboard
@@ -271,10 +304,11 @@ not a failure — poll rather than retry blindly.
   `{"success":false,"error":"org_id and user_id are required for service-key authenticated MCP calls"}`.
   This is why the `.mcpb` manifest requires those two fields even though
   quoxmcp's README's quickstart table only mentions two.
-- **Docs vs live counts drift.** quoxmcp's README says "130+ tools, 5
-  resources"; the manifest description says "130+ tools, 5 resources, 4
-  prompts." Live query at authoring time returned 139 tools and 8 resources.
-  Always trust a live `tools/list`/`resources/list` over a static doc — the
+- **Trust `manifest.json` over README prose for the baseline count.**
+  quoxmcp's `manifest.json` (the `.mcpb` bundle definition) is the canonical
+  "130+ tools, 5 resources, 4 prompts" figure; an older architecture-diagram
+  caption in quoxmcp's own README says "83+" — that's the stale one. Either
+  way, always trust a live `tools/list`/`resources/list` over any doc — the
   collector's catalog grows as plugins/tools are added.
 - **A 403 is RBAC working, not a bug.** Explain the agent-identity boundary
   instead of suggesting the user switch to a more privileged `agent_id` as a

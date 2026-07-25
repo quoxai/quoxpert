@@ -60,7 +60,8 @@ already-built plugin on a running instance (`quox plugin ...`).
 - Deploying a hosted MCP server as a governed agent — that's `quox powers`,
   a distinct path from `.quoxplugin` (see Gotchas): POWERS turns an MCP
   endpoint or a public repo into an agent; the plugin SDK turns your own
-  React+backend code into a sidebar extension.
+  React+backend code into a sidebar extension. Full `quox powers` recipes
+  live in `quoxpert-mcp` (the owning skill).
 - **This is not Quoxpert itself.** The relationship is a direction, not an
   overlap: `quox-plugin-sdk` packages a *developer's* code INTO QuoxCORE
   (`.quoxplugin`); Quoxpert packages *Quox expertise* INTO Claude (this

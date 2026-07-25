@@ -250,9 +250,10 @@ Real output (`vault types`, truncated):
     quox powers deploy --url https://example.com/mcp --agent-id my_mcp_agent \
       --name "My MCP Agent" --auth-kind bearer --auth-value "$MCP_TOKEN"
 `detect` probes the endpoint and lists its tools before you commit to deploying; `deploy` is
-one-shot (no container build) for a live MCP server you already trust. For a GitHub repo that
-needs a build, use `powers deploy-repo` instead, then poll `powers status <toolDefId>` and
-`powers finalize <toolDefId>` when the build completes.
+one-shot (no container build) for a live MCP server you already trust. Full recipes, the
+`deploy-repo`/`status`/`finalize`/`update`/`archive` lifecycle, and when to pick POWERS over
+the plugin SDK live in `quoxpert-mcp` (the owning skill) — this is the terminal-scripting quick
+reference only.
 
 ### 10. Export → edit → re-apply a workflow declaratively
     quox workflow get <id> -o json > wf.json     # or: quox workflow export, if your version has it
