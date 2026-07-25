@@ -20,8 +20,8 @@ metadata:
         cmd: "curl -s -H 'x-service-key: $INTERNAL_SERVICE_KEY' http://localhost:9848/api/v1/resources/list"
       - repo: quox-dashboard
         cmd: "curl -s -H 'x-service-key: $INTERNAL_SERVICE_KEY' http://localhost:9848/api/v1/prompts/list"
-    generated_at: 2026-07-11
-    quox_version: v4.2.0
+    generated_at: 2026-07-25
+    quox_version: ">=0.1 pre-1.0"
 ---
 
 # Quoxpert — QuoxMCP (Tool Surface)

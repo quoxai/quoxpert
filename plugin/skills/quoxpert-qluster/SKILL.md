@@ -10,8 +10,9 @@ metadata:
         path: docs/STATUS_AND_LIMITS.md
       - repo: quox-qluster
         path: docs/STATUS_AND_LIMITS_QLOGS.md
-    generated_at: 2026-07-12
-    quox_version: "Qluster Phase 5c + QLOGS complete"
+    generated_at: 2026-07-25
+    quox_version: ">=0.1 pre-1.0"
+    qluster_phase: "5c (QLOGS complete)"
     status: stable
 ---
 

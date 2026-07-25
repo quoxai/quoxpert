@@ -15,8 +15,8 @@ metadata:
         path: cli/lib/api/endpoints.js
       - repo: quox-dashboard
         cmd: "node cli/bin/quox.js --help"
-    generated_at: 2026-07-11
-    quox_version: v2.x.y
+    generated_at: 2026-07-25
+    quox_version: ">=0.1 pre-1.0"
 ---
 
 # Quoxpert — CLI & TUI

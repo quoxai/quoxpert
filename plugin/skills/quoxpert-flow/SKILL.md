@@ -25,8 +25,8 @@ metadata:
         path: CODEBASE_MAP.md#cli-commands-quoxcli
       - repo: quox-dashboard
         cmd: "node cli/bin/quox.js workflow|run|trigger|objective|skills --help"
-    generated_at: 2026-07-11
-    quox_version: "0.1.x (pre-1.0, dev checkout 2026-07-11)"
+    generated_at: 2026-07-25
+    quox_version: ">=0.1 pre-1.0"
 ---
 
 # Quoxpert — QuoxFlow Workflow Engine
@@ -170,7 +170,7 @@ When a workflow node hits the approval-gate executor, the run pauses and a
 HITL inbox item is created. Approve/deny from the inbox, then resume the run:
 
     quox inbox list --pending
-    quox inbox respond <itemId> --decision approve --note "reviewed"
+    quox inbox respond <itemId> --action approve --comment "reviewed"
     quox run resume <runId>
 
 ## Gotchas

@@ -27,8 +27,8 @@ metadata:
         path: docs/AOCL.md
       - repo: quox-dashboard
         cmd: "node cli/bin/quox.js governance --help / aee --help / volt --help / trace --help"
-    generated_at: 2026-07-11
-    quox_version: v4.2.0
+    generated_at: 2026-07-25
+    quox_version: ">=0.1 pre-1.0"
 ---
 
 # Quoxpert — Governance Protocols (AEE + AOCL + VOLT + WARD)

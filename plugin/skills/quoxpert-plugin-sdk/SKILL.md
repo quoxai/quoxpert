@@ -20,8 +20,8 @@ metadata:
         path: docs/backend-plugins.md
       - repo: quox-dashboard
         cmd: "node cli/bin/quox.js plugin --help / plugin data --help / plugin secrets --help / powers --help"
-    generated_at: 2026-07-11
-    quox_version: "quox-plugin-sdk 0.1.x (pre-1.0, dev checkout 2026-07-11)"
+    generated_at: 2026-07-25
+    quox_version: ">=0.1 pre-1.0"
 ---
 
 # Quoxpert — Building `.quoxplugin` Extensions

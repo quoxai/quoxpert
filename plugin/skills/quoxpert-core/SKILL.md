@@ -14,8 +14,8 @@ metadata:
         path: src/config/serviceRegistry.js
       - repo: quox-dashboard
         cmd: "curl -s <collector_url>/health"
-    generated_at: 2026-07-11
-    quox_version: v2.x.y
+    generated_at: 2026-07-25
+    quox_version: ">=0.1 pre-1.0"
 ---
 
 # Quoxpert — QuoxCORE Platform Orientation

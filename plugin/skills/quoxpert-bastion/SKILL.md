@@ -22,8 +22,9 @@ metadata:
         cmd: "node cli/bin/quox.js fleet --help"
       - repo: quox-dashboard
         path: "services/collector/server.js (GET /install, GET /download/quoxagent-:os-:arch)"
-    generated_at: 2026-07-11
-    quox_version: "0.1.x (pre-1.0, dev checkout 2026-07-11); quoxagent heartbeat auth is Beta"
+    generated_at: 2026-07-25
+    quox_version: ">=0.1 pre-1.0"
+    maturity_note: "quoxagent heartbeat auth is Beta"
 ---
 
 # Quoxpert — QuoxBastion & Fleet (quoxagent)
@@ -138,7 +139,7 @@ executing immediately:
 
     quox fleet exec --tool sudo-setup --host newhost01
     quox inbox list --pending
-    quox inbox respond <itemId> --decision approve --note "verified with owner"
+    quox inbox respond <itemId> --action approve --comment "verified with owner"
 
 ## Gotchas
 

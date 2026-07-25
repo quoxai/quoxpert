@@ -2,7 +2,7 @@
 name: quoxpert
 description: "Makes any Claude an instant expert at operating Quox — the governed multi-agent platform. Routing index: load this first to discover which Quoxpert sub-skill matches your task (CLI, MCP tools, workflows, fleet, plugins, protocols, deploy), then load that sub-skill for the actual recipes. Quox as a Claude-extension."
 argument-hint: "<area: core | cli | mcp | flow | bastion | plugin-sdk | protocols | deploy | qluster>"
-quox_version: ">=0.1"
+quox_version: ">=0.1 pre-1.0"
 user_invocable: true
 ---
 
