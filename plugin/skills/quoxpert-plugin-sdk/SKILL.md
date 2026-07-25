@@ -157,9 +157,42 @@ gates), `service-bridge` (third-party OAuth integration + specialist agent),
     import { createMockPluginApi, setupPluginTestEnv, teardownPluginTestEnv } from 'quox-plugin-sdk/testing'
     npm test    # (representative — runs vitest across all packages)
 
-### 10. Use the SDK's own Claude skill for hands-on authoring
-    cp -r .claude/skills/quox-plugin ~/.claude/skills/
-    # then in that project: /quox-plugin scaffold | manifest | debug | extend | review
+### 10. Manifest field reference (fill in `manifest.json` correctly the first time)
+Beyond `id`/`name`/`version`/`author`/`description`/`category`/`license`/`permissions`/`sidebar`/`routes`/`minQuoxVersion`:
+- **`configSchema`** — one entry per config field: `{ type, label, description, default, premium?, enterprise? }`. Types: `string`, `number`, `boolean`, `password`, `select`, `url`. Every field needs a `type`, `label`, and `description` — a field missing any of these fails review, not just build.
+- **`safety`** — `{ destructiveActions[], requiresApproval[], aeeRequired, killSwitchEnabled }`. Required for any plugin that touches infrastructure or runs destructive actions — this is what wires a `fleet-management`-style plugin into HITL.
+- **`specialist`** — `{ name, description, capabilities[] }`. Registers a specialist agent for the plugin.
+- **`comparison`** / **`limits`** — tier name → feature/limit name → value, for tiered (freemium/enterprise) plugins.
+- **`capabilities`** — `{ aeeIntents[], toolAccess? }`. Declares which AEE intents the plugin emits.
+- **`backend`** — `{ image, healthPath, port }`. Only present if the plugin ships a Docker backend.
+
+Permissions map directly to `pluginApi` surface area — request exactly what's used, nothing more:
+
+| Permission | Grants |
+|---|---|
+| `sidebar` | Sidebar entry + route registration |
+| `storage` | Server-side plugin-scoped key-value store (`quox plugin data`) |
+| `notifications` | Toast notifications via `pluginApi.notify()` |
+| `network` | HTTP requests via `pluginApi.fetch()` (proxied through the collector) |
+| `memory` | `pluginApi.memory.save`/`.search()` |
+| `aee` | `pluginApi.aee.emit()` |
+| `tools` | Register agent tools for the plugin's specialist agent |
+
+### 11. Debug the common plugin issues
+- **Elements invisible on the dark theme** — never use `stroke="currentColor"`/`fill="currentColor"` in an SVG; inherited colour disappears on a dark background. Use an explicit colour (`style={{ stroke: 'rgba(255,255,255,0.8)' }}`), and keep opacity ≥0.6 (prefer 0.7-0.85 default, 0.9-1.0 on hover). If an SVG is still invisible after one fix attempt, swap it for a Unicode glyph (`✕`, `⚡`, `▶`) rather than debugging further.
+- **A `pluginApi` call silently does nothing** — almost always a missing permission: `storage` for `pluginApi.storage`, `network` for `pluginApi.fetch`, `memory` for `pluginApi.memory.save`, `aee` for `pluginApi.aee.emit`. Add the permission to the manifest before looking anywhere else.
+- **Build failures** — "adm-zip not found" → `npm install -D adm-zip`; "Cannot find module 'quox-plugin-vite'" → check `devDependencies`; ZIP not produced → confirm `manifest.json` exists at the project root; plugin doesn't load after install → confirm the runtime `pluginId` matches `manifest.id` exactly.
+- **Plugin storage "not persisting"** — it's namespaced by `pluginId`; if the ID changed between runs, the old data is orphaned, not lost. Always null-check `pluginApi?.storage` — it can be `null` during plugin init.
+
+### 12. Audit a plugin for completeness before shipping
+Before calling a plugin done, check each of these and fix anything that fails — this is the same bar a reviewer applies:
+1. **Manifest completeness** — every required field present, `permissions` matches what the code actually calls.
+2. **`configSchema` validity** — every field has `type`/`label`/`description`; secrets use `type: "password"`.
+3. **`safety` block present** if the plugin has any destructive action, with `requiresApproval` covering the dangerous ones.
+4. **Permissions audit** — no over-requesting (e.g. `memory` declared but never called) and no under-requesting (a `pluginApi` call with no matching permission).
+5. **Dark-theme compliance** — no `currentColor` SVGs, no `rgba(255,255,255,...)` opacity below 0.6.
+6. **Build output** — `manifest.json` + `plugin.esm.js` present in the ZIP, under the 100KB/5MB limits (recipe 3's Gotcha).
+7. **Plugin ID hygiene** — kebab-case, 3-64 chars, identical across `manifest.id`, the `index.jsx` registration call, and any sidebar route paths.
 
 ## Gotchas
 
