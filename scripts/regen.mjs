@@ -173,10 +173,10 @@ const GENERATORS = {
 
   /**
    * quoxpert-mcp's "tool-surface-counts" block, parsed from quoxmcp's own
-   * manifest.json (`.mcpb` bundle definition) description field — the
+   * manifest.json (`.mcpb` bundle definition) description field: the
    * canonical baseline count for the shipped adapter (QSDK-SKILLS audit
    * 2026-07-25: quoxmcp/README.md's architecture-diagram caption said "83+",
-   * quoxpert-mcp said "139 tools, 8 resources" — both wrong; manifest.json
+   * quoxpert-mcp said "139 tools, 8 resources", both wrong; manifest.json
    * is ground truth and its own bundled server.js startup transcript matches
    * it exactly).
    */
@@ -193,7 +193,7 @@ const GENERATORS = {
     const m = desc.match(/([\d]+\+?)\s+infrastructure tools,\s+(\d+)\s+resources,\s+and\s+(\d+)\s+operational prompts/i);
     if (!m) return null;
     const [, tools, resources, prompts] = m;
-    return `**${tools} tools, ${resources} resources, ${prompts} prompts** — from quoxmcp's \`manifest.json\` (the ` +
+    return `**${tools} tools, ${resources} resources, ${prompts} prompts**, from quoxmcp's \`manifest.json\` (the ` +
       `\`.mcpb\` bundle definition, the canonical count for the shipped adapter as of ` +
       `\`quoxmcp\` v${manifest.version || '?'}).`;
   },

@@ -17,7 +17,7 @@
           ],
           "stamp": {
             "sha256": "2e80ab975092b723734e4b75609f9d160de858bf09ec3d05b788b8c463a28326",
-            "checked_at": "2026-07-25T00:29:12.213Z",
+            "checked_at": "2026-07-25T00:40:00.516Z",
             "repo_commit": null
           }
         },
@@ -53,7 +53,7 @@
           ],
           "stamp": {
             "sha256": "89e98187d1c15bde6dab3aeebc552678c6a9b7e6e4ddd62dfc217a1af2234da9",
-            "checked_at": "2026-07-25T00:29:12.217Z",
+            "checked_at": "2026-07-25T00:40:00.519Z",
             "repo_commit": null
           }
         },
@@ -68,7 +68,7 @@
           ],
           "stamp": {
             "sha256": "273c206cc8fdb09232a325f4862ac075cb045a27f90a92956ac1e3e60b1a5039",
-            "checked_at": "2026-07-25T00:29:12.217Z",
+            "checked_at": "2026-07-25T00:40:00.519Z",
             "repo_commit": null
           }
         }
@@ -104,7 +104,7 @@
           ],
           "stamp": {
             "sha256": "daf30cb110e62c709277daea0620023d7a2b0ed660adf581a9391ff3b6f88a3a",
-            "checked_at": "2026-07-25T00:29:12.226Z",
+            "checked_at": "2026-07-25T00:40:00.527Z",
             "repo_commit": null
           }
         },
@@ -141,7 +141,7 @@
           ],
           "stamp": {
             "sha256": "1fe8812b4451d96ca6b21e978f12129b6767197be3310a96235194c01dc9687e",
-            "checked_at": "2026-07-25T00:29:13.439Z",
+            "checked_at": "2026-07-25T00:40:01.588Z",
             "repo_commit": null
           }
         },
@@ -150,14 +150,14 @@
           "repo": "quoxmcp",
           "type": "file",
           "path": "manifest.json",
-          "note": ".mcpb bundle manifest — user_config fields (collector_url, service_key); description field is also the canonical tool/resource/prompt count baseline (QSDK-SKILLS 2026-07-25).",
+          "note": ".mcpb bundle manifest: user_config fields (collector_url, service_key); description field is also the canonical tool/resource/prompt count baseline (QSDK-SKILLS 2026-07-25).",
           "feeds": [
             "install-steps",
             "tool-surface-counts"
           ],
           "stamp": {
             "sha256": "5e3f2088275b262ae4d225739ff8b6864e75c07cec24827e45d15ed9df323169",
-            "checked_at": "2026-07-25T00:29:13.440Z",
+            "checked_at": "2026-07-25T00:40:01.588Z",
             "repo_commit": null
           }
         },
@@ -172,7 +172,7 @@
           ],
           "stamp": {
             "sha256": "62f80bc41274d4005473a231e32fd8f56c110844acacf1b73ebb0e1c8dd1e53d",
-            "checked_at": "2026-07-25T00:29:17.658Z",
+            "checked_at": "2026-07-25T00:40:01.619Z",
             "repo_commit": null
           }
         }
@@ -191,7 +191,7 @@
           ],
           "stamp": {
             "sha256": "2375f9e761abddbfd9442d4ae76b53fcbdc51dae2323813f6c15fc51cd77ed16",
-            "checked_at": "2026-07-25T00:29:17.666Z",
+            "checked_at": "2026-07-25T00:40:01.623Z",
             "repo_commit": null
           }
         },
@@ -205,7 +205,7 @@
           ],
           "stamp": {
             "sha256": "885d71d8e968a3a016ef5c970b8b65e5ae890f937a9458edcb70ceefed748664",
-            "checked_at": "2026-07-25T00:29:17.667Z",
+            "checked_at": "2026-07-25T00:40:01.623Z",
             "repo_commit": null
           }
         }
@@ -224,7 +224,7 @@
           ],
           "stamp": {
             "sha256": "ed039d4227dae9ca7a31ed8e34f1cf99a44a8c1e9408b110a444ae76f13fb143",
-            "checked_at": "2026-07-25T00:29:17.670Z",
+            "checked_at": "2026-07-25T00:40:01.624Z",
             "repo_commit": null
           }
         },
@@ -238,7 +238,7 @@
           ],
           "stamp": {
             "sha256": "4ab3753f63f6fe5897bda897a6de3e218d7853aacfbd901aa0257a9577f837c2",
-            "checked_at": "2026-07-25T00:29:17.672Z",
+            "checked_at": "2026-07-25T00:40:01.625Z",
             "repo_commit": null
           }
         }
@@ -259,7 +259,7 @@
           ],
           "stamp": {
             "sha256": "838576b31b414a569f72b0dfc5ea2f48ef61614d6a19c484c80db44df1952b01",
-            "checked_at": "2026-07-25T00:29:17.674Z",
+            "checked_at": "2026-07-25T00:40:01.626Z",
             "repo_commit": null
           }
         }
@@ -278,7 +278,7 @@
           ],
           "stamp": {
             "sha256": "5b2ec3493b29224eb956ef09c1452deb6f1df0fd2b3349860d9faafe48a3b5bd",
-            "checked_at": "2026-07-25T00:29:17.681Z",
+            "checked_at": "2026-07-25T00:40:01.629Z",
             "repo_commit": null
           }
         },
@@ -292,7 +292,7 @@
           ],
           "stamp": {
             "sha256": "53fcfb36ea0ccf99980c2f2c1ecc1c3650ada64d2450056aba0391df0ae5aedf",
-            "checked_at": "2026-07-25T00:29:17.682Z",
+            "checked_at": "2026-07-25T00:40:01.630Z",
             "repo_commit": null
           }
         },
@@ -306,7 +306,7 @@
           ],
           "stamp": {
             "sha256": "a9e17746532a3f0da9507ec15e7cf9a410a18455731a95604cce7dce8d874739",
-            "checked_at": "2026-07-25T00:29:17.683Z",
+            "checked_at": "2026-07-25T00:40:01.630Z",
             "repo_commit": null
           }
         },
@@ -320,7 +320,7 @@
           ],
           "stamp": {
             "sha256": "314e7bb8c90cb6f85996fbbe3c74a512643be406f378700e1b6afd3c20e212cd",
-            "checked_at": "2026-07-25T00:29:17.684Z",
+            "checked_at": "2026-07-25T00:40:01.631Z",
             "repo_commit": null
           }
         }
@@ -340,7 +340,7 @@
           ],
           "stamp": {
             "sha256": "6eb37270d0dee1cfd7ef6b1a08b2122ec29ac74e8ad62e09e711c0d97a3f382d",
-            "checked_at": "2026-07-25T00:29:17.687Z",
+            "checked_at": "2026-07-25T00:40:01.632Z",
             "repo_commit": null
           }
         },
@@ -355,7 +355,7 @@
           ],
           "stamp": {
             "sha256": "89e98187d1c15bde6dab3aeebc552678c6a9b7e6e4ddd62dfc217a1af2234da9",
-            "checked_at": "2026-07-25T00:29:17.689Z",
+            "checked_at": "2026-07-25T00:40:01.632Z",
             "repo_commit": null
           }
         }
@@ -374,11 +374,11 @@
           "repo": "quox-plugin-sdk",
           "type": "file",
           "path": "packages/create-quox-plugin/bin/create.js",
-          "note": "Added QSDK-SKILLS 2026-07-25. Template list + --from-mcp/--from-mcp-json migration mode — hand-authored, no generated block yet.",
+          "note": "Added QSDK-SKILLS 2026-07-25. Template list + --from-mcp/--from-mcp-json migration mode, hand-authored, no generated block yet.",
           "feeds": [],
           "stamp": {
             "sha256": "991e7eeffe2aadc4d2af09e7692e35fac65e02d6d888aadf3ffabc928f2f3bee",
-            "checked_at": "2026-07-25T00:29:17.693Z",
+            "checked_at": "2026-07-25T00:40:01.634Z",
             "repo_commit": null
           }
         }
@@ -392,11 +392,11 @@
           "repo": "quox-plugin-sdk",
           "type": "file",
           "path": "scripts/sign-plugin.js",
-          "note": "Added QSDK-SKILLS 2026-07-25. Confirms signing exists as shipped — hand-authored, no generated block yet.",
+          "note": "Added QSDK-SKILLS 2026-07-25. Confirms signing exists as shipped, hand-authored, no generated block yet.",
           "feeds": [],
           "stamp": {
             "sha256": "e113b8fba12a123cf61e4443620ee65eadcd9d6d86a7a4d3b80289420a6e8618",
-            "checked_at": "2026-07-25T00:29:17.695Z",
+            "checked_at": "2026-07-25T00:40:01.635Z",
             "repo_commit": null
           }
         }

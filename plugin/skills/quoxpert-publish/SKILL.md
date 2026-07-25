@@ -21,7 +21,7 @@ metadata:
 # Quoxpert — Publishing a Plugin (honest stub)
 
 This is a short, deliberately honest skill. There is no marketplace launch to
-sell here — just what's real today for getting a plugin into a customer's
+sell here, just what's real today for getting a plugin into a customer's
 hands, and what isn't built yet.
 
 ## When (not) to use this sub-skill
@@ -47,7 +47,7 @@ a plugin they've built.
   to the same signing key.
 - **Manifest marketplace fields.** The manifest schema already has
   `heroGradient`, `accentColor`, `badge`, `testimonials[]`, and
-  `marketingPoints[]` — ready for a future storefront to render, even though
+  `marketingPoints[]`, ready for a future storefront to render, even though
   nothing reads them yet.
 - **Manual sideload install.** The only distribution path today: hand the
   customer the `.quoxplugin` file (plus its signature and licence, if
@@ -58,14 +58,14 @@ a plugin they've built.
 ## What does not exist yet
 
 - **No marketplace listing.** There is nowhere a customer browses and
-  installs a plugin themselves — distribution is a direct file handoff only.
+  installs a plugin themselves; distribution is a direct file handoff only.
 - **No payments.** No checkout, no billing tied to a licence file. A licence
   proves entitlement; it doesn't collect money.
 - **No review pipeline.** Nothing vets a plugin before a customer installs
   it, beyond that org's own trusted-signing-key policy.
 - **Coming: the residency program is the current path.** A developer who
   wants to distribute a plugin more broadly than one-to-one sideload needs a
-  direct conversation with Quox, not a self-serve flow — contact via quox.ai.
+  direct conversation with Quox, not a self-serve flow. Contact via quox.ai.
 
 ## Don't oversell this
 

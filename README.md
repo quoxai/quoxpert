@@ -70,7 +70,7 @@ One root index skill routes to twelve focused sub-skills (plus a stub), mirrorin
 | `quoxpert` | Root index — ecosystem map, mode detection (MCP present? shell present? neither?), decision table routing to the sub-skills below, governance posture. Load this first. |
 | `quoxpert-core` | QuoxCORE / the dashboard platform — concepts (crystals, agents, workflows, tools, governance), architecture, counts. |
 | `quoxpert-cli` | The `quox` CLI and TUI — all 20 command groups, `--json` scripting, HITL/approval flows from the terminal. |
-| `quoxpert-mcp` | Installing and wielding QuoxMCP — the 130+ dynamic RBAC-gated tools, 5 resources, 4 operational prompts, RBAC, and `quox powers`. |
+| `quoxpert-mcp` | Installing and wielding QuoxMCP: the 130+ dynamic RBAC-gated tools, 5 resources, 4 operational prompts, RBAC, and `quox powers`. |
 | `quoxpert-flow` | The QuoxFlow workflow engine. |
 | `quoxpert-bastion` | QuoxBastion + QuoxAgent fleet management. |
 | `quoxpert-plugin-sdk` | Building `.quoxplugin` extensions with `create-quox-plugin` — makes any Claude a competent Quox plugin author. |
@@ -78,8 +78,8 @@ One root index skill routes to twelve focused sub-skills (plus a stub), mirrorin
 | `quoxpert-deploy` | Install, upgrade, backup, and the quox.ai product surface — the full-stack quickstart. |
 | `quoxpert-qluster` | Stub — QLUSTER (multi-instance orchestration) has no shipped repo yet. |
 | `quoxpert-convert` | Convert an existing tool (MCP server, dashboard, bot, agent, scripts, micro-SaaS) into a Quox plugin. |
-| `quoxpert-publish` | Honest stub on distributing/monetising a plugin — what's real (signing, licensing) vs not live yet (marketplace, payments). |
-| `quoxpert-repobrain` | RepoBrain / Nucleus code-intelligence — structure-first retrieval, connecting/indexing repos, the "reach for it before grep" discipline. |
+| `quoxpert-publish` | Honest stub on distributing/monetising a plugin: what's real (signing, licensing) vs not live yet (marketplace, payments). |
+| `quoxpert-repobrain` | RepoBrain / Nucleus code-intelligence: structure-first retrieval, connecting/indexing repos, the "reach for it before grep" discipline. |
 
 Every recipe in every sub-skill is meant to be a *verified transcript* — actually run against a
 live Quox instance during authoring — not synthesised from docs alone. A skill that only

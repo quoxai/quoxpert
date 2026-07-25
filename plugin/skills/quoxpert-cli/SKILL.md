@@ -252,7 +252,7 @@ Real output (`vault types`, truncated):
 `detect` probes the endpoint and lists its tools before you commit to deploying; `deploy` is
 one-shot (no container build) for a live MCP server you already trust. Full recipes, the
 `deploy-repo`/`status`/`finalize`/`update`/`archive` lifecycle, and when to pick POWERS over
-the plugin SDK live in `quoxpert-mcp` (the owning skill) — this is the terminal-scripting quick
+the plugin SDK live in `quoxpert-mcp` (the owning skill); this is the terminal-scripting quick
 reference only.
 
 ### 10. Export → edit → re-apply a workflow declaratively

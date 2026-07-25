@@ -63,7 +63,7 @@ what happened inside a run (envelopes, layer-by-layer), work with autonomous
 - Chat-driven fleet ops through Claude's own MCP tool calls rather than the
   `quox` binary → the MCP-composition skill.
 - Building a *new* `.quoxplugin` extension → the plugin-SDK skill.
-- QSKL vs Quoxpert itself — see the root `quoxpert` skill's "What Quoxpert is
+- QSKL vs Quoxpert itself: see the root `quoxpert` skill's "What Quoxpert is
   NOT" section for the full disambiguation.
 
 ## Install & connect

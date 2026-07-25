@@ -196,7 +196,7 @@ Quox agents don't execute destructive actions silently. Two mechanisms to expect
 
 ### 8. Distinguish Quoxpert from things it sounds like
 See the root `quoxpert` skill's "What Quoxpert is NOT" section for the full QSKL /
-QuoxNucleus / dev-skill / QUOX-DEEP disambiguation — load that skill if this comes up.
+QuoxNucleus / dev-skill / QUOX-DEEP disambiguation. Load that skill if this comes up.
 
 ### 9. Trace a request end-to-end for debugging
 Dashboard (browser) → collector (9848, API gateway) → downstream service (auth / quoxflow /

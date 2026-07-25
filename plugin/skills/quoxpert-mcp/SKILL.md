@@ -126,19 +126,19 @@ QUOX_AGENT_ID=quox QUOX_COLLECTOR_URL=http://127.0.0.1:9848 timeout 5 node serve
 [QuoxMCP] Registered 130 tools, 5 resources, 4 prompts for agent quox
 [QuoxMCP] Connected — serving 130 tools, 5 resources, 4 prompts via STDIO
 ```
-Your instance's own banner numbers are the ones that matter — plugins add
+Your instance's own banner numbers are the ones that matter. Plugins add
 tools, and RBAC (`agent_id`) narrows the set a specialist agent sees. Trust a
 live `tools/list` over any doc, including this one, if the two disagree.
 
 ## Tool surface
 <!-- quoxpert:generated:start tool-surface-counts -->
-**130+ tools, 5 resources, 4 prompts** — from quoxmcp's `manifest.json` (the `.mcpb` bundle definition, the canonical count for the shipped adapter as of `quoxmcp` v1.2.0).
+**130+ tools, 5 resources, 4 prompts**, from quoxmcp's `manifest.json` (the `.mcpb` bundle definition, the canonical count for the shipped adapter as of `quoxmcp` v1.2.0).
 <!-- quoxpert:generated:end tool-surface-counts -->
 (regenerated 2026-07-25)
 
 | Surface | Baseline count | Notes |
 |---|---|---|
-| Tools | **130+** | Full orchestrator (`agent_id=quox`) set. Grows as plugins register tools — treat as a floor, not a ceiling. |
+| Tools | **130+** | Full orchestrator (`agent_id=quox`) set. Grows as plugins register tools; treat as a floor, not a ceiling. |
 | Resources | **5** | System Identity, Fleet Topology, Agent Capabilities, Service Status, Configuration. |
 | Prompts | **4** | `fleet-health`, `security-sweep`, `deploy-check`, `defcon-assess` |
 
@@ -170,7 +170,7 @@ for debugging what the collector will serve *before* wiring the client):
 curl -s -H "x-service-key: $INTERNAL_SERVICE_KEY" \
   "http://<collector-host>:9848/api/v1/tools/list?agent_id=quox" | jq '.tools | length'
 ```
-Returns the count for your own instance — expect 130+ for the orchestrator
+Returns the count for your own instance. Expect 130+ for the orchestrator
 (`agent_id=quox`), fewer for a specialist `agent_id`.
 
 ### 3. Execute a representative tool
@@ -220,9 +220,9 @@ Root causes, in order of likelihood:
 
 ### 8. Understand RBAC tool subsets
 The orchestrator (`agent_id=quox`) sees the full 130+ tool set; specialists
-(`sentinel`, `metrics`, `nova`, …) see fewer, scoped to their role — compare
+(`sentinel`, `metrics`, `nova`, …) see fewer, scoped to their role. Compare
 `tools/list?agent_id=quox` against a specialist ID on your own instance to see
-the real gap. If a tool call 403s, that's the RBAC gate working as intended —
+the real gap. If a tool call 403s, that's the RBAC gate working as intended:
 explain the boundary ("that tool isn't granted to this agent identity")
 rather than treating it as a bug to route around.
 
@@ -252,10 +252,10 @@ Remote config lands at `/etc/quoxmcp/mcp-config.json` (chmod 600); Claude CLI
 on that host connects with `claude --mcp-config /etc/quoxmcp/mcp-config.json`.
 
 ### 12. Deploy a live MCP endpoint as a governed POWERS agent (`quox powers`)
-This sub-skill is the owner of `quox powers` — the path for turning *someone
+This sub-skill is the owner of `quox powers`, the path for turning *someone
 else's* MCP server (or a public GitHub repo) into a governed Quox agent,
 distinct from QuoxMCP itself (which bridges Claude *to* a Quox collector) and
-distinct from `.quoxplugin` (which packages your own React/backend code —
+distinct from `.quoxplugin` (which packages your own React/backend code;
 see `quoxpert-plugin-sdk`).
 
 ```bash
@@ -264,7 +264,7 @@ quox powers detect --url https://example.com/mcp
 quox powers deploy --url https://example.com/mcp --agent-id my_mcp_agent \
   --name "My MCP Agent" --auth-kind bearer --auth-value "$MCP_TOKEN"
 ```
-`detect` probes the endpoint and lists its tools before you commit — always
+`detect` probes the endpoint and lists its tools before you commit. Always
 run it first so the user can see what they're about to grant. `deploy` is
 one-shot (no container build) for a live MCP server you already trust.
 
@@ -282,7 +282,7 @@ after the upstream endpoint changes), `quox powers archive <toolDefId>`
 
 **When to reach for POWERS instead of the plugin SDK:** the user already has
 a working MCP server or repo and wants Quox to wrap it as a governed agent
-with RBAC/AEE/DEFCON applied to its tool calls — no code to write. If instead
+with RBAC/AEE/DEFCON applied to its tool calls, no code to write. If instead
 the user wants to build new UI, a sidebar view, or custom backend logic for
 Quox, that's `.quoxplugin` via `quoxpert-plugin-sdk`, not POWERS.
 
@@ -307,8 +307,8 @@ not a failure — poll rather than retry blindly.
 - **Trust `manifest.json` over README prose for the baseline count.**
   quoxmcp's `manifest.json` (the `.mcpb` bundle definition) is the canonical
   "130+ tools, 5 resources, 4 prompts" figure; an older architecture-diagram
-  caption in quoxmcp's own README says "83+" — that's the stale one. Either
-  way, always trust a live `tools/list`/`resources/list` over any doc — the
+  caption in quoxmcp's own README says "83+", that's the stale one. Either
+  way, always trust a live `tools/list`/`resources/list` over any doc; the
   collector's catalog grows as plugins/tools are added.
 - **A 403 is RBAC working, not a bug.** Explain the agent-identity boundary
   instead of suggesting the user switch to a more privileged `agent_id` as a
