@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 /**
- * scripts/extract-cli-commands.mjs — ground-truth CLI command/flag extractor
+ * scripts/extract-cli-commands.mjs: ground-truth CLI command/flag extractor
  * (QSDK-SKILLS audit fix, 2026-07-25).
  *
  * Why this exists: sources/manifest.json used to point quoxpert-cli's
  * regen inputs at two things that don't actually exist:
- *   1. `node cli/bin/quox.js --help-json` — that flag was never added to the
+ *   1. `node cli/bin/quox.js --help-json`, a flag that was never added to the
  *      CLI (the P3 plan item it was waiting on never shipped).
- *   2. A "CLI Commands (QuoxCLI)" section in quox-dashboard/CODEBASE_MAP.md —
+ *   2. A "CLI Commands (QuoxCLI)" section in quox-dashboard/CODEBASE_MAP.md:
  *      that heading doesn't exist in CODEBASE_MAP.md (verified 2026-07-25;
  *      grepping the file for "CLI Commands" / "quoxcli" returns nothing).
- * Both "cli sources" were therefore silently unfetchable — regen.mjs
+ * Both "cli sources" were therefore silently unfetchable: regen.mjs
  * printed a `[warn] could not fetch source ...` and moved on, drift-check.mjs
  * downgraded that to a non-fatal "never regenerated" info line, and nobody
  * noticed the command-map generator was running on zero real input.
@@ -18,7 +18,7 @@
  * The fix: parse the actual Commander.js command definitions directly out of
  * cli/lib/commands/*.js. This is the real, currently-shipping source of
  * truth for command names and flags (it's what `quox --help` itself is
- * built from) — more robust than depending on a hand-maintained
+ * built from), more robust than depending on a hand-maintained
  * CODEBASE_MAP.md table staying in sync, and it doesn't require executing
  * the CLI (which needs auth/network to do anything beyond printing help).
  *
@@ -31,7 +31,7 @@
  * The first `.command()` in a file is treated as that file's top-level
  * group; every other `.command()` in the same file is listed as one of its
  * subcommands. This does not attempt to model deeper nesting (e.g.
- * `config profile add`, `workflow steps set`) — callers that need the exact
+ * `config profile add`, `workflow steps set`). Callers that need the exact
  * full path should read the source file directly; this script's job is a
  * deterministic, regeneratable command/flag inventory, not a full commander
  * AST.
@@ -46,7 +46,7 @@
  *   name, description, options: [{ flag, desc, required }] }] }[] structure,
  *   for future flag-table generator work.
  *
- * No external dependencies — Node built-ins only.
+ * No external dependencies: Node built-ins only.
  */
 
 import { readdirSync, readFileSync, statSync } from 'node:fs';
@@ -97,7 +97,7 @@ function toTable(groups) {
   const lines = ['| Command | Purpose |', '|---|---|'];
   for (const g of groups) {
     const subNames = g.subcommands.map((s) => s.name).join(', ') || '(no subcommands)';
-    const purpose = g.description ? `${g.description} — ${subNames}` : subNames;
+    const purpose = g.description ? `${g.description}: ${subNames}` : subNames;
     lines.push(`| \`quox ${g.group}\` | ${purpose} |`);
   }
   return lines.join('\n');

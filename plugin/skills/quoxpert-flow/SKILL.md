@@ -1,7 +1,7 @@
 ---
 name: quoxpert-flow
-description: "Operate the quoxflow workflow engine: AEE envelopes, the AOCL
-  7-layer control pipeline, 18 node executors, the expression engine (vm
+description: "Operate the quoxflow workflow engine: AEE envelopes, the
+  AOCL-aligned control pipeline, 18 node executors, the expression engine (vm
   sandbox), the policy DSL, the HITL approval gate, and evidence chains, via
   the quox CLI's workflow/run/trigger/objective/skills command groups. Load
   when the user wants to create, run, inspect, debug, or govern a Quox
@@ -34,9 +34,10 @@ metadata:
 ## What this is
 
 QuoxFlow is Quox's auditable, n8n-compatible workflow engine (TypeScript, ULID
-IDs, AEE envelope protocol). Every workflow run passes through the **AOCL
-7-layer control pipeline** (Ingress → Identity → Policy → Context → Execute
-→ Verify → Assemble), and each layer emits an AEE envelope, giving you a full
+IDs, AEE envelope protocol). Every workflow run passes through an
+**AOCL-aligned control pipeline** (Ingress → Identity → Policy → Context → Execute
+→ Verify → Assemble, mapped onto the 11-layer canonical AOCL taxonomy L0-L10),
+and each layer emits an AEE envelope, giving you a full
 audit trail for any run, not just its final output. Workflows are built from
 **18 node types** (`call`, `transform`, `condition`, `switch`, `loop`, `try`,
 `catch`, `throw`, `wait`, `log`, `subworkflow`, `parallel`, `merge`,

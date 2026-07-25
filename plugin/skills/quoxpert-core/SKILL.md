@@ -73,16 +73,13 @@ session (`quoxpert-mcp`) is already configured.
 
 ## Platform map
 
-<!-- GENERATED:platform-map -->
-| Metric | Count | Source |
-|---|---|---|
-| Plugins | 39 | `src/config/plugins/index.js` |
-| Agents (core registry) | 37 | `src/config/agentRegistry.js` |
-| Cognitive implants | 13 | `src/config/cognitiveImplants.js` |
-| Services (registry) | 12 | `src/config/serviceRegistry.js` |
-| Services (docker-compose) | 16 | `docker-compose.yml` (10 default + 6 profiled) |
-| Collector lib modules | 261 | `services/collector/lib/**/*.js` |
-| Routes (dashboard) | 97 | `src/config/routeRegistry.js` |
+<!-- quoxpert:generated:start counts -->
+| Metric | Count |
+|---|---|
+| Plugins | 40 |
+| Agents (registry) | 37 |
+| Services (registry) | 12 |
+<!-- quoxpert:generated:end counts -->
 
 **Service topology** (default docker-compose profile; ports as seen on a dev box, a production
 install may front these behind a single reverse-proxy origin):
@@ -111,7 +108,6 @@ summary only, the website wins on disagreement):
 | Workflows | https://quox.ai/docs/concepts/workflows | Node-based execution graphs (22 node types / 5 groups), live execution overlay, versioning. |
 | Tools | https://quox.ai/docs/concepts/tools | Four install paths (OpenAPI / MCP / Repo / Script), agent-tool assignment matrix. |
 | Governance | https://quox.ai/docs/concepts/governance | AOCL evidence chain, four-scope budgets, approval policies, multi-tenant enforcement (ET-ENFORCE), audit export. |
-<!-- /GENERATED:platform-map -->
 
 ## Recipes
 

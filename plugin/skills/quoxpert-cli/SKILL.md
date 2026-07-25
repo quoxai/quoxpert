@@ -60,52 +60,65 @@ Multiple instances (local/staging/production) are separate profiles:
 
 ## Command map
 
-<!-- GENERATED:command-map -->
+<!-- quoxpert:generated:start command-map -->
 | Command | Purpose |
 |---|---|
-| `quox login` / `logout` / `whoami` / `signup` / `mfa` | authenticate, session, MFA |
-| `quox status` / `health` / `doctor` | platform-wide status / per-service health |
-| `quox config` | CLI config + connection profiles |
-| `quox org` | orgs: list, create, switch, members, divisions, audit |
-| `quox team` / `department` | team + department management |
-| `quox agent` | agents: list, get, create, update, delete, activate/deactivate, tool assignments |
-| `quox tool` | tool catalog: list, create, publish, install |
-| `quox workflow` | workflows: list, create, run, publish, steps, `apply`/`validate` (declarative) |
-| `quox objective` | autonomous multi-step goals: create, start, approve, get (DAG) |
-| `quox assistant` | assistants: list, create, deploy, fork |
-| `quox fleet` | fleet monitoring: status, summary, agents, tools, exec, watch |
-| `quox chat [message]` | chat with CommanderQ or any agent, streaming by default |
-| `quox memory` | memories: list, create, search, export, stats |
-| `quox entity` | knowledge-graph entities |
-| `quox backup` | backups: list, create, verify, restore, schedule |
-| `quox inbox` | HITL inbox: list, get, respond (approve/reject/defer/resolve), stats |
-| `quox run` | workflow runs: list, create, cancel, resume |
-| `quox file` | file storage: upload, download, list, delete |
-| `quox admin` | platform administration |
-| `quox aee` | Agent Envelope Exchange protocol tooling |
-| `quox integration` | integrations |
-| `quox consent` | data-processing consent |
-| `quox setup` | first-time setup |
-| `quox watch` | live TUI dashboards (fleet, services) |
-| `quox tag` | tags |
-| `quox scope` | read-only scope view (manage via org/division/team) |
-| `quox notification` / `prompt` | notification settings / user prompt library |
-| `quox plugin` | org-installed plugins: list, install, uninstall, data, secrets, assign |
-| `quox powers` | POWERS MCP endpoints: detect, deploy, deploy-repo, status, finalize, update, archive |
-| `quox conversation` | conversations |
-| `quox vault` | QuoxVault credentials: list, create, rotate, test, types, scan |
-| `quox volt` | VOLT evidence bundle verify/inspect/export/summary |
-| `quox governance` | policies, WARD chain, VOLT evidence + certification |
-| `quox skills` | QSKL Crystal library: list, show, run, review, promote, library |
-| `quox monitoring` / `mon` | platform health, Docker fleet, Wazuh, AGH-chain leaderboard |
-| `quox trigger` | webhook/schedule/event trigger subscriptions: view + activate/deactivate |
-| `quox webhook` / `sso` / `role` / `domain` / `security` / `scim` | enterprise admin surfaces |
-| `quox llm-policy` | org LLM routing policy: get/set/test |
-| `quox budget` | quoxflow spend/usage budgets |
-| `quox trace` | Trace Replay & Visualization: list, get, simulate, compare, replay |
-| `quox tui` | launch the interactive TUI |
-| `quox completion <shell>` | shell completions (bash/zsh/fish) |
-<!-- /GENERATED:command-map -->
+| `quox admin` | Platform administration: config, get, set, key, list, create, delete, test, service, list, logs, stats, retention, config, cleanup, stats |
+| `quox aee` | Agent Envelope Exchange protocol: store, get, query, conversations, stats |
+| `quox agent` | Manage agents: list, get, create, update, delete, activate, deactivate, tool, list, assign, revoke |
+| `quox assistant` | Manage assistants: list, get, create, update, delete, deploy, fork |
+| `quox login` | Authenticate with QuoxCORE: logout, whoami, signup, mfa, setup, verify, disable, backup-codes |
+| `quox backup` | Manage backups: list, get, create, delete, verify, restore, schedule, list, create |
+| `quox brain` | Query Quox Brain2 (vaults, notes, semantic search): search, status, vaults, note |
+| `quox budget` | Manage quoxflow spend/usage budgets (org, objective, execution, iteration scope): list, get, create, update, delete, usage |
+| `quox chat` | Chat with CommanderQ or any agent, streaming by default: chat-status |
+| `quox config` | Manage CLI configuration and profiles: profile, list, add, use, remove, get, set |
+| `quox consent` | Manage data processing consent: list, grant, history |
+| `quox conversation` | Manage conversations: list, get, search, stats |
+| `quox department` | Manage departments within divisions: list, create, update, delete |
+| `quox doctor` | Run platform health diagnostics: (no subcommands) |
+| `quox domain` | Manage org domain verification (team+ — DNS ownership proof): list, add, verify, remove |
+| `quox entity` | Manage entities in the knowledge graph: list, get, create, search, relate |
+| `quox file` | Manage files: list, upload, download, delete, stats |
+| `quox fleet` | Fleet monitoring and management: status, summary, agents, gpu, tools, exec, watch |
+| `quox governance` | Governance: policies, WARD chain, VOLT evidence + certification: policy, list, get, pending-approvals, create, update, delete, validate, history, template, list, show, conflicts, enable, approval, resolve, ward, status, chains, entries, verify, evidence, traces, certify, cert, get, for-run, list, stats |
+| `quox inbox` | Manage inbox and approval requests: list, get, respond, stats |
+| `quox integration` | Manage integrations: list, get, create, update, delete, test |
+| `quox llm-policy` | View, set, and dry-run-validate the org LLM routing policy: get, set, test |
+| `quox llm` | LLM provider status and failover: status |
+| `quox memory` | Manage memories: list, get, create, update, delete, search, stats, export |
+| `quox mon` | Monitoring: Docker fleet, Wazuh security, AGH-chain leaderboard, metrics: docker, fleet, containers, container, logs, stats, stacks, df, action, wazuh, status, agents, alerts, vulns, deploy-history, deploy-agent, deploy-bulk, active-response, agh-chain, leaderboard, agent, events, metrics, config, get, cache, grafana |
+| `quox monitoring` | Platform health and governance incidents: health, incidents, list, get |
+| `quox notification` | Manage notification settings: channels, list, set |
+| `quox objective` | Manage objectives (autonomous multi-step goals): create, list, get, start, approve |
+| `quox open` | Open a quox:// URI in the dashboard or show CLI equivalent: (no subcommands) |
+| `quox org` | Manage organizations: list, get, create, update, delete, switch, members, list, add, update, remove, divisions, list, create, update, delete, audit |
+| `quox plugin` | Manage org-installed plugins: list, get, install, update, uninstall, mine, data, list, get, set, delete, secrets, list, set, reveal, delete, assign, list, add, remove, trusted-keys, list, add, remove |
+| `quox powers` | Deploy and manage POWERS (MCP endpoint / hosted-repo tools): detect, deploy, deploy-repo, status, finalize, update, archive, restore, config, delete |
+| `quox prompt` | Manage the user-owned prompts library: list, get, create, update, delete, versions, restore, export, import |
+| `quox quoxbox` | QuoxBox governed Mac-mini agent — status, workflows, tasks, HITL approvals: status, workflows, run, task, tasks, approve, deny, mode |
+| `quox quoxchat` | Manage QuoxChat website widgets: widgets, availability, conversations, transcript, reply |
+| `quox role` | Manage org custom roles (enterprise — RBAC): list, get, create, delete, capability, add, remove, agent, list, set, clear, tool, list, set, clear |
+| `quox run` | Manage workflow runs: list, get, create, cancel, resume |
+| `quox scim` | Manage org SCIM bearer tokens (enterprise — IdP directory sync): tokens, list, create, delete |
+| `quox scope` | View scopes (read-only — use `quox org`/`quox division`/`quox team` to manage): list |
+| `quox security` | Manage org security policy (enterprise — session, IP allowlist, MFA): session-policy, get, set, ip-allowlist, list, add, remove, mfa, get, set |
+| `quox service` | Check service health and status: health, health |
+| `quox setup` | First-time setup and configuration: status, admin, config |
+| `quox skills` | Manage the quoxflow skill library (QSKL Crystals): query, run, review, promote, and your saved library: list, show, run, review, list, show, approve, reject, library, list, add, remove, from-execution, promote-draft, rollback-to-version |
+| `quox sso` | Manage org SSO providers (enterprise — OIDC/SAML admin): providers, list, get, create, update, delete, saml-metadata |
+| `quox status` | Show platform health and status overview: (no subcommands) |
+| `quox tag` | Manage tags: list, create, update, delete |
+| `quox team` | Manage teams: list, get, create, update, delete, provision-room, members, add, remove |
+| `quox tool` | Manage tools and tool catalog: list, get, create, update, delete, publish, catalog, install |
+| `quox trace` | Trace Replay & Visualization: assembled traces, simulation, comparison, replay sessions: list, get, simulate, compare, replay, list, get, create, update, delete, delete-all, comparison, list, get, create, update, delete, delete-all, correlation, list, get, create, delete |
+| `quox trigger` | View quoxflow trigger subscriptions (webhooks, schedules, events) and activate/deactivate workflows: webhooks, schedules, events, workflow-activate, workflow-deactivate |
+| `quox vault` | Manage QuoxVault credentials: list, get, create, update, delete, set-default, test, test-all, stats, scan, activity, types, rotate, expiring, migrate |
+| `quox volt` | VOLT evidence bundle verification and inspection: verify, inspect, export, summary |
+| `quox watch` | Real-time monitoring dashboards: fleet, services |
+| `quox webhook` | Manage org webhook subscribers (enterprise — team_event fan-out): list, create, rotate, delete |
+| `quox workflow` | Manage workflows: list, get, create, update, delete, run, publish, steps, list, set, apply, validate, import-n8n, import-objective |
+<!-- quoxpert:generated:end command-map -->
 
 ## Recipes (hand-authored, the actual expertise)
 
