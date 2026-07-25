@@ -87,8 +87,8 @@
             "command-map"
           ],
           "stamp": {
-            "sha256": "0a6dbf5a3575f546da87f3e667c92f59ab589cd4a53fa8f9554c3d377a072425",
-            "checked_at": "2026-07-25T05:56:15.577Z",
+            "sha256": "d405e37be9a5ba3d56e2c61abe7a7e7f0aabfa9bbea1f794dea7f0474270bdc9",
+            "checked_at": "2026-07-25T19:39:01.258Z",
             "repo_commit": null
           }
         },
@@ -103,7 +103,7 @@
           ],
           "stamp": {
             "sha256": "daf30cb110e62c709277daea0620023d7a2b0ed660adf581a9391ff3b6f88a3a",
-            "checked_at": "2026-07-25T05:56:15.579Z",
+            "checked_at": "2026-07-25T19:39:01.260Z",
             "repo_commit": null
           }
         },
@@ -117,8 +117,8 @@
             "flag-table"
           ],
           "stamp": {
-            "sha256": "200b83bba3b8bc0d2682dc0f4a8f0afaeb9094f3fa1207f9882c7f4ecc2c2806",
-            "checked_at": "2026-07-25T05:56:15.874Z",
+            "sha256": "100c13260b0176e488e4bba60680cfad9c27a31200ea6347ff18cb14020e6d59",
+            "checked_at": "2026-07-25T19:39:01.540Z",
             "repo_commit": null
           }
         }

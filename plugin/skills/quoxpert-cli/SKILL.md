@@ -63,7 +63,7 @@ Multiple instances (local/staging/production) are separate profiles:
 <!-- quoxpert:generated:start command-map -->
 | Command | Purpose |
 |---|---|
-| `quox admin` | Platform administration: config, get, set, key, list, create, delete, test, service, list, logs, stats, retention, config, cleanup, stats |
+| `quox admin` | Platform administration: config, get, set, email, status, setup, test, key, list, create, delete, test, service, list, logs, stats, retention, config, cleanup, stats |
 | `quox aee` | Agent Envelope Exchange protocol: store, get, query, conversations, stats |
 | `quox agent` | Manage agents: list, get, create, update, delete, activate, deactivate, tool, list, assign, revoke |
 | `quox assistant` | Manage assistants: list, get, create, update, delete, deploy, fork |
@@ -93,7 +93,7 @@ Multiple instances (local/staging/production) are separate profiles:
 | `quox objective` | Manage objectives (autonomous multi-step goals): create, list, get, start, approve |
 | `quox open` | Open a quox:// URI in the dashboard or show CLI equivalent: (no subcommands) |
 | `quox org` | Manage organizations: list, get, create, update, delete, switch, members, list, add, update, remove, divisions, list, create, update, delete, audit |
-| `quox plan` | QuoxPlan: roadmaps, streams, phases, plans, timeline (governed proxy to the QuoxPlan server): roadmaps, list [roadmap], focus [roadmap], show <streamId>, timeline [roadmap], status <id> <status>, note <id> <text...>, phase <streamId> <verb> [rest...], plan <id>, move <roadmap> <id> <position> |
+| `quox plan` | QuoxPlan: roadmaps, streams, phases, plans, timeline (governed proxy to the QuoxPlan server): roadmaps, list [roadmap], focus [roadmap], show <streamId>, timeline [roadmap], status <id> <status>, note <id> <text...>, phase <streamId> <verb> [rest...], plan <id>, move <roadmap> <id> <position>, add <json>, update <id> <field> <value>, rename <oldId> <newId>, stats [roadmap], completed [roadmap] |
 | `quox plugin` | Manage org-installed plugins: list, get, install, update, uninstall, mine, data, list, get, set, delete, secrets, list, set, reveal, delete, assign, list, add, remove, trusted-keys, list, add, remove |
 | `quox powers` | Deploy and manage POWERS (MCP endpoint / hosted-repo tools): detect, deploy, deploy-repo, status, finalize, update, archive, restore, config, delete |
 | `quox prompt` | Manage the user-owned prompts library: list, get, create, update, delete, versions, restore, export, import |
@@ -111,6 +111,7 @@ Multiple instances (local/staging/production) are separate profiles:
 | `quox status` | Show platform health and status overview: (no subcommands) |
 | `quox tag` | Manage tags: list, create, update, delete |
 | `quox team` | Manage teams: list, get, create, update, delete, provision-room, members, add, remove |
+| `quox tg` | Manage Telegram Pro: onboarding status, owner binding, session leases, webhook admin: status, bind-owner, leases, webhook-info, setup |
 | `quox tool` | Manage tools and tool catalog: list, get, create, update, delete, publish, catalog, install |
 | `quox trace` | Trace Replay & Visualization: assembled traces, simulation, comparison, replay sessions: list, get, simulate, compare, replay, list, get, create, update, delete, delete-all, comparison, list, get, create, update, delete, delete-all, correlation, list, get, create, delete |
 | `quox trigger` | View quoxflow trigger subscriptions (webhooks, schedules, events) and activate/deactivate workflows: webhooks, schedules, events, workflow-activate, workflow-deactivate |
