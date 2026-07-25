@@ -41,6 +41,8 @@ SKILLS=(
   quoxpert-protocols
   quoxpert-deploy
   quoxpert-qluster
+  quoxpert-convert
+  quoxpert-publish
 )
 
 log() { printf '%s\n' "$*"; }

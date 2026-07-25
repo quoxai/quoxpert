@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "quoxpert",
-      "description": "Quox as a Claude-extension — 10 sub-skills covering QuoxCORE, the quox CLI, QuoxMCP's 130+ dynamic RBAC-gated tools, QuoxBastion/QuoxAgent fleet ops, the plugin SDK, and the AEE/AOCL/VOLT/WARD protocols.",
+      "description": "Quox as a Claude-extension — 12 sub-skills covering QuoxCORE, the quox CLI, QuoxMCP's 130+ dynamic RBAC-gated tools, QuoxBastion/QuoxAgent fleet ops, the plugin SDK, converting existing tools into plugins, publishing, and the AEE/AOCL/VOLT/WARD protocols.",
       "category": "productivity",
       "author": {
         "name": "Quox",

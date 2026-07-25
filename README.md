@@ -62,7 +62,7 @@ install dialog or config file — see `quoxpert-mcp`'s recipes once installed.
 
 ## The sub-skills
 
-One root index skill routes to nine focused sub-skills (plus a stub), mirroring the proven
+One root index skill routes to eleven focused sub-skills (plus a stub), mirroring the proven
 `quox-user` master-index pattern already used internally:
 
 | Skill | Covers |
@@ -70,13 +70,15 @@ One root index skill routes to nine focused sub-skills (plus a stub), mirroring 
 | `quoxpert` | Root index — ecosystem map, mode detection (MCP present? shell present? neither?), decision table routing to the sub-skills below, governance posture. Load this first. |
 | `quoxpert-core` | QuoxCORE / the dashboard platform — concepts (crystals, agents, workflows, tools, governance), architecture, counts. |
 | `quoxpert-cli` | The `quox` CLI and TUI — all 20 command groups, `--json` scripting, HITL/approval flows from the terminal. |
-| `quoxpert-mcp` | Installing and wielding QuoxMCP — the 130+ dynamic RBAC-gated tools, 5 resources, 4 operational prompts, RBAC. |
+| `quoxpert-mcp` | Installing and wielding QuoxMCP — the 130+ dynamic RBAC-gated tools, 5 resources, 4 operational prompts, RBAC, and `quox powers`. |
 | `quoxpert-flow` | The QuoxFlow workflow engine. |
 | `quoxpert-bastion` | QuoxBastion + QuoxAgent fleet management. |
 | `quoxpert-plugin-sdk` | Building `.quoxplugin` extensions with `create-quox-plugin` — makes any Claude a competent Quox plugin author. |
 | `quoxpert-protocols` | AEE, AOCL, VOLT, and WARD — the envelope, audit-layer, governance, and policy specs, one combined skill. |
 | `quoxpert-deploy` | Install, upgrade, backup, and the quox.ai product surface — the full-stack quickstart. |
 | `quoxpert-qluster` | Stub — QLUSTER (multi-instance orchestration) has no shipped repo yet. |
+| `quoxpert-convert` | Convert an existing tool (MCP server, dashboard, bot, agent, scripts, micro-SaaS) into a Quox plugin. |
+| `quoxpert-publish` | Honest stub on distributing/monetising a plugin — what's real (signing, licensing) vs not live yet (marketplace, payments). |
 
 Every recipe in every sub-skill is meant to be a *verified transcript* — actually run against a
 live Quox instance during authoring — not synthesised from docs alone. A skill that only
@@ -89,7 +91,7 @@ quoxpert/
 ├── .claude-plugin/marketplace.json  # makes this repo an installable plugin marketplace
 ├── plugin/
 │   ├── .claude-plugin/plugin.json   # the plugin manifest
-│   └── skills/quoxpert*/SKILL.md    # root skill + 9 sub-skills
+│   └── skills/quoxpert*/SKILL.md    # root skill + 11 sub-skills
 ├── sources/manifest.json            # regen input map: which sources feed which sub-skill
 ├── scripts/
 │   ├── regen.mjs                    # marker-replace engine (see below)
