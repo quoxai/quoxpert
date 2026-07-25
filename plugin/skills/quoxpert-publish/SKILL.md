@@ -18,7 +18,7 @@ metadata:
     quox_version: ">=0.1 pre-1.0"
 ---
 
-# Quoxpert — Publishing a Plugin (honest stub)
+# Quoxpert: Publishing a Plugin (honest stub)
 
 This is a short, deliberately honest skill. There is no marketplace launch to
 sell here, just what's real today for getting a plugin into a customer's

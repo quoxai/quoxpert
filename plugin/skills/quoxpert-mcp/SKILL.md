@@ -1,6 +1,6 @@
 ---
 name: quoxpert-mcp
-description: "Install and wield QuoxMCP — the Model Context Protocol server that
+description: "Install and wield QuoxMCP, the Model Context Protocol server that
   bridges any Claude (Desktop, Code, Agent SDK) to a QuoxCORE collector's
   RBAC-gated tool surface (130+ tools, 5 resources, 4 operational prompts,
   regenerated 2026-07-25). Load when the user wants Claude to directly drive
@@ -25,13 +25,13 @@ metadata:
     quox_version: ">=0.1 pre-1.0"
 ---
 
-# Quoxpert — QuoxMCP (Tool Surface)
+# Quoxpert: QuoxMCP (Tool Surface)
 
 ## What this is
 
 QuoxMCP is a thin STDIO protocol adapter. It bridges Claude (Desktop, Code, or
 any Agent SDK app) to the QuoxCORE **collector** API. QuoxMCP holds **no tool
-logic itself** — every `tools/call` becomes `POST /api/v1/tools/execute` against
+logic itself**: every `tools/call` becomes `POST /api/v1/tools/execute` against
 the collector, which enforces RBAC, routes to real infrastructure (SSH bastion,
 Docker, Proxmox, memory service, plugins…), and writes to the AEE audit trail.
 Resources (`GET /api/v1/resources/list`) and operational prompts
@@ -43,7 +43,7 @@ Claude ── STDIO ──▶ QuoxMCP ── HTTP (x-service-key) ──▶ Quox
                                                             │
                                                             ▼
                                           SSH bastion / Docker / Proxmox / memory /
-                                          plugins — RBAC-gated per QUOX_AGENT_ID,
+                                          plugins, RBAC-gated per QUOX_AGENT_ID,
                                           logged to AEE audit trail
 ```
 
@@ -51,7 +51,7 @@ Claude ── STDIO ──▶ QuoxMCP ── HTTP (x-service-key) ──▶ Quox
 
 **Use it when:** the user wants Claude itself to run fleet/infra operations,
 read live Quox context, or invoke an operational playbook from inside a chat
-turn — or wants to install/connect/troubleshoot QuoxMCP.
+turn, or wants to install/connect/troubleshoot QuoxMCP.
 
 **Don't use it for:**
 - Scripted, bulk, or CI-driven operation of a Quox instance from a shell →
@@ -66,31 +66,31 @@ turn — or wants to install/connect/troubleshoot QuoxMCP.
 ## Install & connect
 
 Two paths, pick by client. **Never ask the user to paste a service key, org ID,
-or user ID into the chat conversation** — these are secrets/identifiers that
+or user ID into the chat conversation**: these are secrets/identifiers that
 belong in a config file or a native OS install dialog. Tell the user *where*
 to find them; do not collect them yourself.
 
-### Claude Desktop — `.mcpb` bundle (recommended)
+### Claude Desktop: `.mcpb` bundle (recommended)
 
 Download `quoxmcp.mcpb` from `https://github.com/quoxai/quoxmcp/releases` and
 double-click it. Claude Desktop opens a native install dialog. The real field
 set, read from `quoxmcp/manifest.json`'s `user_config` (this is more complete
 than the two-field table in quoxmcp's own README, which only documents the two
-required-looking fields — the manifest is ground truth):
+required-looking fields; the manifest is ground truth):
 
 | Field | Required | What to enter |
 |---|---|---|
 | Collector URL | yes | Base URL of the QuoxCORE collector, e.g. `http://your-quox-host:9848` |
 | Service Key | yes (sensitive) | `INTERNAL_SERVICE_KEY` from the QuoxCORE `.env` or dashboard settings |
-| Organisation ID | yes | The user's org ID — find it in the dashboard profile |
-| User ID | yes | The user's user ID — find it in the dashboard profile |
+| Organisation ID | yes | The user's org ID, find it in the dashboard profile |
+| User ID | yes | The user's user ID, find it in the dashboard profile |
 | Agent ID | no (default `quox`) | RBAC identity; `quox` = full tool set, specialist IDs (`sentinel`, `cipher`, `nova`…) get subsets |
 
 Restart Claude Desktop; `quox` appears in the 🔌 tools menu. Verify by asking
-Claude "run a fleet health check" — it should invoke the `fleet-health`
+Claude "run a fleet health check": it should invoke the `fleet-health`
 operational prompt.
 
-### Claude Code / Agent SDK — manual `--mcp-config`
+### Claude Code / Agent SDK: manual `--mcp-config`
 
 ```json
 {
@@ -112,8 +112,8 @@ operational prompt.
 ```
 
 `QUOX_SERVICE_KEY` (or its fallback `INTERNAL_SERVICE_KEY`) and the org/user IDs
-live in the QuoxCORE `.env` on the collector host or the dashboard profile page
-— point the user there, don't collect the values in chat.
+live in the QuoxCORE `.env` on the collector host or the dashboard profile page.
+Point the user there, don't collect the values in chat.
 
 Verify with a standalone run:
 
@@ -121,10 +121,10 @@ Verify with a standalone run:
 QUOX_AGENT_ID=quox QUOX_COLLECTOR_URL=http://127.0.0.1:9848 timeout 5 node server.js
 ```
 ```
-[QuoxMCP] Starting — agent=quox, collector=http://127.0.0.1:9848
+[QuoxMCP] Starting, agent=quox, collector=http://127.0.0.1:9848
 [QuoxMCP] Fetched 130 tools for agent quox
 [QuoxMCP] Registered 130 tools, 5 resources, 4 prompts for agent quox
-[QuoxMCP] Connected — serving 130 tools, 5 resources, 4 prompts via STDIO
+[QuoxMCP] Connected, serving 130 tools, 5 resources, 4 prompts via STDIO
 ```
 Your instance's own banner numbers are the ones that matter. Plugins add
 tools, and RBAC (`agent_id`) narrows the set a specialist agent sees. Trust a
@@ -157,13 +157,13 @@ Representative tool families (not exhaustive):
 ## Recipes (hand-authored, the actual expertise)
 
 ### 1. Register QuoxMCP in a client
-See "Install & connect" above — `.mcpb` for Desktop, `--mcp-config` for Code/SDK.
+See "Install & connect" above: `.mcpb` for Desktop, `--mcp-config` for Code/SDK.
 After registering, confirm the connection: in Desktop click the 🔌 icon and
 check `quox` is listed; in Code, ask "what MCP tools do you have?" and look for
 `quox`-prefixed names.
 
 ### 2. List available tools
-QuoxMCP fetches the catalog once at startup — Claude's own tool list *is* the
+QuoxMCP fetches the catalog once at startup: Claude's own tool list *is* the
 result of `tools/list`. To see the same data outside a Claude session (useful
 for debugging what the collector will serve *before* wiring the client):
 ```bash
@@ -174,33 +174,33 @@ Returns the count for your own instance. Expect 130+ for the orchestrator
 (`agent_id=quox`), fewer for a specialist `agent_id`.
 
 ### 3. Execute a representative tool
-From Claude, just ask — e.g. "check fleet status." Under the hood this becomes:
+From Claude, just ask, e.g. "check fleet status." Under the hood this becomes:
 ```
 POST /api/v1/tools/execute
 {"tool_name":"fleet_status","input":{},"agent_id":"quox","session_id":"..."}
 ```
-Note the field is `tool_name`, not `name` — a raw `curl` reproducing this call
+Note the field is `tool_name`, not `name`: a raw `curl` reproducing this call
 with `"name"` instead fails with `{"success":false,"error":"tool_name is required"}`
 (live-verified). See Gotchas for the org/user scoping requirement that also
 applies to raw calls.
 
 ### 4. Read a resource
-Resources are cheap context — no tool execution, no audit-trail write. Ask
-Claude "what's the fleet topology?" or "what's your system identity?" — it
+Resources are cheap context: no tool execution, no audit-trail write. Ask
+Claude "what's the fleet topology?" or "what's your system identity?" and it
 reads `quox://fleet/topology` or `quox://system/identity` directly. Check
 `fleet-topology` **before** any host-touching op; it's the cheapest way to
 confirm a hostname/role before spending a tool call on it.
 
 ### 5. Use an operational prompt
 Ask "run a fleet health check," "do a security sweep," "check deploy health on
-docker01," or "what DEFCON level is [operation]?" — these map 1:1 to the four
+docker01," or "what DEFCON level is [operation]?": these map 1:1 to the four
 registered prompts (`fleet-health`, `security-sweep`, `deploy-check`,
 `defcon-assess`). Each is a mustache-templated instruction to Claude that names
-the exact tools to call and the report structure to produce — Claude doesn't
+the exact tools to call and the report structure to produce, so Claude doesn't
 need to improvise the playbook.
 
 ### 6. Per-user MCP token / identity issuance
-QuoxMCP doesn't issue its own tokens — it forwards `QUOX_SERVICE_KEY` (a
+QuoxMCP doesn't issue its own tokens: it forwards `QUOX_SERVICE_KEY` (a
 deployment-wide service key) plus `QUOX_ORG_ID`/`QUOX_USER_ID` (per-user
 identifiers) on every collector request. All three live in the user's
 QuoxCORE `.env` or dashboard profile. There is no separate "MCP token" to mint;
@@ -209,12 +209,12 @@ not from a per-session credential.
 
 ### 7. Troubleshoot "tools: none" / empty tool list
 Root causes, in order of likelihood:
-1. **Collector unreachable** — `QUOX_COLLECTOR_URL` wrong or collector down.
+1. **Collector unreachable**: `QUOX_COLLECTOR_URL` wrong or collector down.
    Check `~/Library/Logs/Claude/mcp-server-quoxmcp.log` (macOS) or
    `%APPDATA%\Claude\Logs\` (Windows) for a connection error at startup.
-2. **Service key rejected** — wrong or missing `QUOX_SERVICE_KEY`/`INTERNAL_SERVICE_KEY`.
+2. **Service key rejected**: wrong or missing `QUOX_SERVICE_KEY`/`INTERNAL_SERVICE_KEY`.
    The collector returns 401 before QuoxMCP ever sees a tool list.
-3. **`agent_id` has zero tool assignments** — a custom/specialist `agent_id`
+3. **`agent_id` has zero tool assignments**: a custom/specialist `agent_id`
    with no RBAC grants returns an empty array validly, not an error. Compare
    against `agent_id=quox` to confirm the collector itself is healthy.
 
@@ -228,7 +228,7 @@ rather than treating it as a bug to route around.
 
 ### 9. Bridge into the audit trail (→ quoxpert-protocols)
 `query_envelopes`, `get_envelope_chain`, and `list_evidence` are QuoxMCP tools
-that read the AEE/VOLT audit trail directly from chat — no CLI needed. Ask
+that read the AEE/VOLT audit trail directly from chat, no CLI needed. Ask
 "what did workflow X do?" or "trace envelope `<id>`'s causality chain" and
 Claude calls these tools. For the *shape* of what comes back (envelope fields,
 evidence bundle structure) load `quoxpert-protocols`.
@@ -237,7 +237,7 @@ evidence bundle structure) load `quoxpert-protocols`.
 `delegate_to_agent` lets the orchestrator hand a sub-task to a specialist
 (`sentinel`, `cipher`, `nova`, `atlas`, `metrics`, `beacon`, `scholar`, `forge`,
 `prism`, `insight`, `corey`, `tester`, or any custom agent ID) without the user
-needing to know which agent owns which domain — Claude picks based on the task
+needing to know which agent owns which domain; Claude picks based on the task
 description passed in the `task` argument.
 
 ### 11. Remote/fleet host install
@@ -292,12 +292,12 @@ skill). Scripted, bulk, or CI-driven operation → `quoxpert-cli`. Anything
 visual or requiring an approval click-through → hand the user the dashboard
 URL and describe what they'll see. Governance expectations carry across all
 three: destructive/ambiguous ops route to HITL and return `pending_approval`,
-not a failure — poll rather than retry blindly.
+not a failure: poll rather than retry blindly.
 
 ## Gotchas
 
 - **Never collect secrets in chat.** Service key, org ID, user ID go in the
-  `.mcpb` install dialog or a config file — never a conversation turn.
+  `.mcpb` install dialog or a config file, never a conversation turn.
 - **`tools/execute` needs org/user scoping even with a valid service key.**
   Live-verified: a raw `POST /api/v1/tools/execute` with a correct service key
   but no `org_id`/`user_id` returns
@@ -314,9 +314,9 @@ not a failure — poll rather than retry blindly.
   instead of suggesting the user switch to a more privileged `agent_id` as a
   workaround.
 - **Resources cache for 30s.** A resource read right after an infra change may
-  show stale data for up to 30 seconds — mention this if a user reports a
+  show stale data for up to 30 seconds; mention this if a user reports a
   resource "not updating."
 - **HITL approval returns `pending_approval`, not an error.** Poll for
   resolution rather than retrying the same tool call.
-- **The `.mcpb` bundle is unsigned** — macOS shows "unverified developer" on
+- **The `.mcpb` bundle is unsigned.** macOS shows "unverified developer" on
   first install; right-click → Open to bypass. This is expected, not a red flag.

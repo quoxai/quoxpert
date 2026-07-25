@@ -1,16 +1,16 @@
 ---
 name: quoxpert
-description: "Makes any Claude an instant expert at operating Quox — the governed multi-agent platform. Routing index: load this first to discover which Quoxpert sub-skill matches your task (CLI, MCP tools, workflows, fleet, plugins, protocols, deploy), then load that sub-skill for the actual recipes. Quox as a Claude-extension."
+description: "Makes any Claude an instant expert at operating Quox, the governed multi-agent platform. Routing index: load this first to discover which Quoxpert sub-skill matches your task (CLI, MCP tools, workflows, fleet, plugins, protocols, deploy), then load that sub-skill for the actual recipes. Quox as a Claude-extension."
 argument-hint: "<area: core | cli | mcp | flow | bastion | plugin-sdk | protocols | deploy | qluster | convert | publish | repobrain>"
 quox_version: ">=0.1 pre-1.0"
 user_invocable: true
 ---
 
-# Quoxpert — the Quox expert, as a Claude skill
+# Quoxpert: the Quox expert, as a Claude skill
 
-**Quoxpert flips the arrow.** Quox is normally the thing that gives *agents* capabilities. Quoxpert makes *Claude itself* an instant expert at driving Quox — its CLI, its 130+ MCP tools (regenerated 2026-07-25), its workflow engine, its agent fleet, its plugin SDK, and its governance protocols. Install it once and any Claude wields Quox like a samurai.
+**Quoxpert flips the arrow.** Quox is normally the thing that gives *agents* capabilities. Quoxpert makes *Claude itself* an instant expert at driving Quox: its CLI, its 130+ MCP tools (regenerated 2026-07-25), its workflow engine, its agent fleet, its plugin SDK, and its governance protocols. Install it once and any Claude wields Quox like a samurai.
 
-This root skill is a **routing index**. It tells you which sub-skill to load for a task. The sub-skills hold the focused, verified recipes — load only what you need so context stays lean.
+This root skill is a **routing index**. It tells you which sub-skill to load for a task. The sub-skills hold the focused, verified recipes. Load only what you need so context stays lean.
 
 ## What Quox is (60-second orientation)
 
@@ -41,15 +41,15 @@ When in doubt, start with `quoxpert-core` for orientation, then narrow.
 - **Claude Code marketplace:** `/plugin marketplace add quoxai/quoxpert` then enable the `quoxpert` plugin.
 - **Curl:** `curl -sSL https://quox.ai/quoxpert/install.sh | bash` (copies the sub-skills into `~/.claude/skills/`).
 
-**Connect to a Quox instance** — the sub-skills teach *where* your credentials live (the instance's `.env` `INTERNAL_SERVICE_KEY`, your `quox login` session, your MCP token) and how to point Claude at them. **Quoxpert never asks you to paste a secret into the conversation** — it tells you the file/env/command, you wire it yourself. See `quoxpert-cli` (login) and `quoxpert-mcp` (MCP connect).
+**Connect to a Quox instance**: the sub-skills teach *where* your credentials live (the instance's `.env` `INTERNAL_SERVICE_KEY`, your `quox login` session, your MCP token) and how to point Claude at them. **Quoxpert never asks you to paste a secret into the conversation.** It tells you the file/env/command, you wire it yourself. See `quoxpert-cli` (login) and `quoxpert-mcp` (MCP connect).
 
 ## What Quoxpert is NOT
 
-- **NOT QSKL** — QSKL / Crystals are Quox's *internal* procedural-knowledge system for its *own* agents. Quoxpert is for *your* Claude, about operating Quox.
-- **NOT QuoxNucleus / repobrain** — that's a codebase-intelligence engine. Quoxpert *uses* it as a source for staying current, but it is not the skill.
-- **NOT the `.claude/skills/*` dev slash-skills** — those are for engineers working *on* the Quox codebase. Quoxpert is for *operating* Quox.
-- **NOT QUOX-DEEP** — that's UI-recording recipes for making demo videos.
+- **NOT QSKL**: QSKL / Crystals are Quox's *internal* procedural-knowledge system for its *own* agents. Quoxpert is for *your* Claude, about operating Quox.
+- **NOT QuoxNucleus / repobrain**: that's a codebase-intelligence engine. Quoxpert *uses* it as a source for staying current, but it is not the skill.
+- **NOT the `.claude/skills/*` dev slash-skills**: those are for engineers working *on* the Quox codebase. Quoxpert is for *operating* Quox.
+- **NOT QUOX-DEEP**: that's UI-recording recipes for making demo videos.
 
 ## Staying current (the moat)
 
-Each sub-skill mixes **generated blocks** (auto-refreshed from the Quox codebase — `CODEBASE_MAP.md`, concept docs, `quox --help`, the live tool list) with **hand-authored recipes** (verified transcripts). A drift-check CI fails when a Quox surface changes but its sub-skill wasn't updated, so Quoxpert can't silently rot. If a recipe here disagrees with your live instance, trust the instance and report it — the skill is versioned against a `quox_version`, and a mismatch is a bug to file, not to guess around.
+Each sub-skill mixes **generated blocks** (auto-refreshed from the Quox codebase: `CODEBASE_MAP.md`, concept docs, `quox --help`, the live tool list) with **hand-authored recipes** (verified transcripts). A drift-check CI fails when a Quox surface changes but its sub-skill wasn't updated, so Quoxpert can't silently rot. If a recipe here disagrees with your live instance, trust the instance and report it: the skill is versioned against a `quox_version`, and a mismatch is a bug to file, not to guess around.

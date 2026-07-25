@@ -104,7 +104,7 @@ once in the connection registry and the proxy resolves it.
 ## The adoption rules (ship these, they are the deliverable)
 
 A tool only gets used if the tools + skills + **rules** arrive together. Package this
-discipline for a customer's agents from day one, not as an afterthought — the rule
+discipline for a customer's agents from day one, not as an afterthought: the rule
 belongs in the customer's own agent onboarding/rules file, not just in this skill's
 prose:
 

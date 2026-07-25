@@ -1,7 +1,7 @@
 ---
 name: quoxpert-deploy
 description: "Install, configure, upgrade, back up, and restore a QuoxCORE
-  instance — the Docker Compose stack (auth/collector/quoxflow/memory/tasks/
+  instance: the Docker Compose stack (auth/collector/quoxflow/memory/tasks/
   postgres/qdrant + optional profiles), the Setup Wizard, TLS/nginx, and the
   quox CLI's setup/backup/admin command groups. Load when the user wants to
   stand up a new instance, upgrade one, or manage its backups/health."
@@ -24,13 +24,13 @@ metadata:
     quox_version: ">=0.1 pre-1.0"
 ---
 
-# Quoxpert — Install, Upgrade, Backup & Deploy
+# Quoxpert: Install, Upgrade, Backup & Deploy
 
 ## What this is
 
 QuoxCORE self-hosts as a Docker Compose stack: dashboard (nginx + React,
 serves both HTTP and terminates TLS on 443 in production), auth, collector,
-quoxflow, memory, tasks, orchestrator, files, postgres, qdrant — plus
+quoxflow, memory, tasks, orchestrator, files, postgres, qdrant, plus
 optional profile-gated services (`repobrain`, `powers-host`, `n8n`,
 `screencap`) that only start with `--profile full` (or their own narrower
 opt-in profile). First boot creates the real first admin through the
@@ -46,13 +46,13 @@ understand which services/profiles they need.
 
 **Do NOT use this for:**
 - Enrolling a *fleet host* (a machine Quox will manage remotely via
-  QuoxBastion/quoxagent) — that's the bastion skill's `/install` recipe, a
+  QuoxBastion/quoxagent), that's the bastion skill's `/install` recipe, a
   different install target than the Quox stack itself.
 - Building or installing a `.quoxplugin` extension → the plugin-SDK skill.
 - Day-to-day CLI operations once the instance is up and healthy (agents,
   workflows, teams) → the CLI-wide skill.
 - Anything specific to `q01`/staging-only internal runbooks with pinned
-  internal IPs, developer-box paths, or Terminal-9 build queues — those
+  internal IPs, developer-box paths, or Terminal-9 build queues: those
   are Quox's own dev-team tooling, not something a customer's laptop has.
   If a step only makes sense with a source checkout, it doesn't belong here.
 
@@ -65,13 +65,13 @@ QuoxCORE stack):
     cd quox && docker compose up -d
     open http://localhost:3000
 
-That's the trimmed, default profile — no `--profile` flag needed for a
+That's the trimmed, default profile: no `--profile` flag needed for a
 single-tenant/personal instance. Enable the heavier optional surfaces
 explicitly when you need them:
 
     docker compose --profile full up -d      # adds repobrain, powers-host, n8n, screencap
 
-First boot: open the dashboard URL and complete the **Setup Wizard** — this
+First boot: open the dashboard URL and complete the **Setup Wizard**. This
 creates the real first admin account and org. Never type an admin password
 into chat with Claude; the wizard (or `quox setup admin`, run interactively
 in your own terminal) is the only place that credential should be entered.
@@ -91,7 +91,7 @@ in your own terminal) is the only place that credential should be entered.
 | `docker compose up -d` / `--profile full up -d` | Start the trimmed default stack / the full stack with dev-heavier services |
 <!-- quoxpert:generated:end command-map -->
 
-## Recipes (hand-authored — the actual expertise)
+## Recipes (hand-authored: the actual expertise)
 
 ### 1. First-time setup, start to finish
     git clone https://github.com/quoxai/quox.git
@@ -109,7 +109,7 @@ in your own terminal) is the only place that credential should be entered.
     quox doctor
 
 ### 4. Trigger a backup and verify it actually restores
-An untested backup is a hope, not a backup — always pair `create` with
+An untested backup is a hope, not a backup: always pair `create` with
 `verify`, and periodically rehearse a `restore`:
 
     quox backup create
@@ -120,7 +120,7 @@ An untested backup is a hope, not a backup — always pair `create` with
     quox backup list
     quox backup restore <backupId> --dry-run    # see what would be restored first
     quox backup restore <backupId>
-    # confirm the prompt carefully — this is a destructive-by-nature operation
+    # confirm the prompt carefully: this is a destructive-by-nature operation
 
 ### 6. Put backups on a schedule
     quox backup schedule create --name nightly --cron "0 3 * * *" --type full --retention 14
@@ -147,7 +147,7 @@ An untested backup is a hope, not a backup — always pair `create` with
     quox status                       # confirm all services report healthy post-upgrade
 
 ### 12. Enroll a fleet host from a freshly-set-up instance
-That's a different install target — see the bastion skill's `/install`
+That's a different install target: see the bastion skill's `/install`
 recipe (`curl .../install | sudo bash` run ON the target host, not on the
 Quox box itself).
 
@@ -159,11 +159,11 @@ Quox box itself).
   the instance is in production mode.
 - **Profiles matter.** Services without a `profiles:` key in Compose always
   start (the trimmed default set). `repobrain`, `powers-host`, `n8n`, and
-  `screencap` are gated behind `--profile full` (or their own narrower flag)
-  — don't assume they're running just because `docker compose up -d`
+  `screencap` are gated behind `--profile full` (or their own narrower flag).
+  Don't assume they're running just because `docker compose up -d`
   succeeded.
-- **A cold collector boot takes time** (background catch-up + schedulers) —
-  give the stack ~30-90 seconds after `up -d` before concluding a service is
+- **A cold collector boot takes time** (background catch-up + schedulers).
+  Give the stack ~30-90 seconds after `up -d` before concluding a service is
   unhealthy; check `docker compose ps` / `quox health` rather than judging
   from the first few seconds.
 - **Backups are only real once restore-tested.** `backup create` + `verify`
@@ -171,9 +171,9 @@ Quox box itself).
   acceptance test for anything you'd call production-ready.
 - **Never accept or relay an admin password/API key through chat.** Point
   the user at the Setup Wizard, their own terminal for `quox setup admin`,
-  or `quox admin key` for API keys — Claude's role here is to tell them
+  or `quox admin key` for API keys: Claude's role here is to tell them
   *which command to run themselves*, not to collect the secret.
 - **`docker compose` commands are for the user's own box, not an internal
   build queue.** If you're inside Quox's own dev repo (not a customer
-  install), that team uses a centralised build queue instead of raw compose
-  — that's an internal-dev-only detail, out of scope for this sub-skill.
+  install), that team uses a centralised build queue instead of raw compose,
+  that's an internal-dev-only detail, out of scope for this sub-skill.

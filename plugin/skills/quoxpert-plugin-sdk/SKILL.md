@@ -24,7 +24,7 @@ metadata:
     quox_version: ">=0.1 pre-1.0"
 ---
 
-# Quoxpert — Building `.quoxplugin` Extensions
+# Quoxpert: Building `.quoxplugin` Extensions
 
 ## What this is
 
@@ -32,7 +32,7 @@ metadata:
 `quox-plugin-sdk` runtime/testing helpers, `quox-plugin-vite` build plugin)
 for building third-party extensions to QuoxCORE. Plugins can add sidebar
 navigation, new views, agent tools, and even server-side backends. The build
-output is a `.quoxplugin` file — a ZIP containing `manifest.json`, a compiled
+output is a `.quoxplugin` file: a ZIP containing `manifest.json`, a compiled
 ESM bundle (React externalised via `window.__quoxSharedDeps`), optional CSS/
 assets, and an optional Ed25519 `signature.json`.
 
@@ -40,7 +40,7 @@ Eight scaffold templates cover most shapes: `basic`, `monitoring-dashboard`,
 `fleet-management`, `service-bridge`, `ui-feature`, `enterprise-extension`,
 `specialist-agent`, `agentic-team`. Plugins that need a real backend run as
 **host-managed containers behind a same-origin gateway** (the collector
-proxies `pluginApi.fetch()` calls — plugin code never makes direct external
+proxies `pluginApi.fetch()` calls; plugin code never makes direct external
 requests), so a plugin author never has to think about CORS or exposing a
 port.
 
@@ -54,10 +54,10 @@ already-built plugin on a running instance (`quox plugin ...`).
 
 **Do NOT use this for:**
 - Fleet/host operations (SSH, tool registry, agent deploy) → the bastion
-  skill, even if you're building a `fleet-management` template plugin — that
+  skill, even if you're building a `fleet-management` template plugin: that
   template's *runtime* target is this skill, but *operating* an existing
   fleet is the bastion skill.
-- Deploying a hosted MCP server as a governed agent — that's `quox powers`,
+- Deploying a hosted MCP server as a governed agent: that's `quox powers`,
   a distinct path from `.quoxplugin` (see Gotchas): POWERS turns an MCP
   endpoint or a public repo into an agent; the plugin SDK turns your own
   React+backend code into a sidebar extension. Full `quox powers` recipes
@@ -66,11 +66,11 @@ already-built plugin on a running instance (`quox plugin ...`).
   overlap: `quox-plugin-sdk` packages a *developer's* code INTO QuoxCORE
   (`.quoxplugin`); Quoxpert packages *Quox expertise* INTO Claude (this
   skill format). Using this sub-skill makes your Claude a competent Quox
-  plugin author — it doesn't make Quox smarter about itself.
+  plugin author; it doesn't make Quox smarter about itself.
 
 ## Install & connect
 
-The SDK is npm tooling — no server-side install, no secret needed to start
+The SDK is npm tooling: no server-side install, no secret needed to start
 building:
 
     npx create-quox-plugin my-plugin
@@ -84,7 +84,7 @@ via the CLI once authenticated:
     quox plugin install --manifest manifest.json --bundle plugin.esm.js --css plugin.css
 
 If the org has trusted signing keys configured, add `--signature`. Never ask
-a user to paste a plugin secret (API key, webhook token, etc.) into chat —
+a user to paste a plugin secret (API key, webhook token, etc.) into chat;
 those go through `quox plugin secrets set`, which stores them encrypted
 server-side; you only ever handle the secret's *name*, never its value.
 
@@ -103,7 +103,7 @@ server-side; you only ever handle the secret's *name*, never its value.
 | `quox powers detect/deploy/deploy-repo/...` | Separate path: deploy a live MCP endpoint or public repo as a governed agent |
 <!-- quoxpert:generated:end command-map -->
 
-## Recipes (hand-authored — the actual expertise)
+## Recipes (hand-authored: the actual expertise)
 
 ### 1. Scaffold and pick a template
     npx create-quox-plugin my-monitoring-plugin --template monitoring-dashboard
@@ -118,7 +118,7 @@ gates), `service-bridge` (third-party OAuth integration + specialist agent),
 
 ### 2. Dev loop
     npm run dev
-    # edit src/index.jsx — window.__quoxPluginRegister('my-plugin', { routes, sidebar, hooks })
+    # edit src/index.jsx: window.__quoxPluginRegister('my-plugin', { routes, sidebar, hooks })
 
 ### 3. Build the distributable
     npm run build
@@ -133,7 +133,7 @@ gates), `service-bridge` (third-party OAuth integration + specialist agent),
 ### 5. Wire up the plugin API surface (inside the plugin's own code)
     pluginApi.storage.set('lastScan', Date.now());
     pluginApi.notify('Scan complete', 'success');
-    const res = await pluginApi.fetch('/api/status');   // proxied through the collector — no direct external calls
+    const res = await pluginApi.fetch('/api/status');   // proxied through the collector, no direct external calls
     await pluginApi.memory.save({ type: 'fact', content: '...', tags: [] });
     await pluginApi.aee.emit('plugin.scan.complete', { hostsFound: 3 });
 
@@ -143,9 +143,9 @@ gates), `service-bridge` (third-party OAuth integration + specialist agent),
     quox plugin data list my-plugin
 
 ### 7. Store a secret the plugin needs, without ever pasting it in chat
-    quox plugin secrets set my-plugin api-token         # prompts securely, or reads from a flag/file — never echo the value back
+    quox plugin secrets set my-plugin api-token         # prompts securely, or reads from a flag/file; never echo the value back
     quox plugin secrets list my-plugin                  # metadata only, no plaintext
-    quox plugin secrets reveal my-plugin api-token       # admin-only, fully audited — use sparingly
+    quox plugin secrets reveal my-plugin api-token       # admin-only, fully audited; use sparingly
 
 ### 8. Sign a plugin for paid/trusted distribution
     node scripts/generate-signing-key.js
@@ -155,7 +155,7 @@ gates), `service-bridge` (third-party OAuth integration + specialist agent),
 ### 9. Test with the SDK's mock plugin API
     # in a test file:
     import { createMockPluginApi, setupPluginTestEnv, teardownPluginTestEnv } from 'quox-plugin-sdk/testing'
-    npm test    # (representative — runs vitest across all packages)
+    npm test    # (representative: runs vitest across all packages)
 
 ### 10. Manifest field reference (fill in `manifest.json` correctly the first time)
 Beyond `id`/`name`/`version`/`author`/`description`/`category`/`license`/`permissions`/`sidebar`/`routes`/`minQuoxVersion`:
@@ -196,23 +196,23 @@ Before calling a plugin done, check each of these and fix anything that fails. T
 
 ## Gotchas
 
-- **Plugin routes are namespaced** (`/plugins/{pluginId}/...`) — don't
+- **Plugin routes are namespaced** (`/plugins/{pluginId}/...`). Don't
   hardcode a top-level route in a scaffolded plugin, it'll collide or be
   rejected.
 - **Bundle size limits are real**: 100KB for `plugin.esm.js`, 5MB for the
   whole `.quoxplugin`. Vite's externalisation of React/ReactDOM/React Router
-  is what keeps you under 100KB — don't bundle them yourself.
-- **`plugin secrets reveal` is fully audited** — treat it as a break-glass
+  is what keeps you under 100KB; don't bundle them yourself.
+- **`plugin secrets reveal` is fully audited.** Treat it as a break-glass
   action, not a routine read. Prefer `secrets list` (metadata only) for
   day-to-day checks.
-- **Plugins cannot make direct external network requests** — `pluginApi.fetch`
+- **Plugins cannot make direct external network requests.** `pluginApi.fetch`
   is proxied through the collector by design (same-origin gateway, RES.5).
   If a plugin needs to call a third-party API, the backend container (not
   the browser bundle) is the place to do it.
 - **`.quoxplugin` install vs `quox powers deploy` are different products.**
   If the user wants "wrap this MCP server as an agent" or "deploy this GitHub
-  repo as a hosted tool," that's `quox powers`, not this SDK — don't scaffold
+  repo as a hosted tool," that's `quox powers`, not this SDK; don't scaffold
   a plugin for a job POWERS already does in one command.
 - **Install is admin-only.** `quox plugin install/update/uninstall/assign/
-  trusted-keys` all require an admin role on the active org — a 403 here
+  trusted-keys` all require an admin role on the active org; a 403 here
   means the role, not a broken build.

@@ -18,7 +18,7 @@ metadata:
     quox_version: ">=0.1 pre-1.0"
 ---
 
-# Quoxpert — Convert an existing tool into a Quox plugin
+# Quoxpert: Convert an existing tool into a Quox plugin
 
 ## What this is
 
