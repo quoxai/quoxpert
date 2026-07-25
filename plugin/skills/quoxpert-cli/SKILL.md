@@ -93,6 +93,7 @@ Multiple instances (local/staging/production) are separate profiles:
 | `quox objective` | Manage objectives (autonomous multi-step goals): create, list, get, start, approve |
 | `quox open` | Open a quox:// URI in the dashboard or show CLI equivalent: (no subcommands) |
 | `quox org` | Manage organizations: list, get, create, update, delete, switch, members, list, add, update, remove, divisions, list, create, update, delete, audit |
+| `quox plan` | QuoxPlan: roadmaps, streams, phases, plans, timeline (governed proxy to the QuoxPlan server): roadmaps, list [roadmap], focus [roadmap], show <streamId>, timeline [roadmap], status <id> <status>, note <id> <text...>, phase <streamId> <verb> [rest...], plan <id>, move <roadmap> <id> <position> |
 | `quox plugin` | Manage org-installed plugins: list, get, install, update, uninstall, mine, data, list, get, set, delete, secrets, list, set, reveal, delete, assign, list, add, remove, trusted-keys, list, add, remove |
 | `quox powers` | Deploy and manage POWERS (MCP endpoint / hosted-repo tools): detect, deploy, deploy-repo, status, finalize, update, archive, restore, config, delete |
 | `quox prompt` | Manage the user-owned prompts library: list, get, create, update, delete, versions, restore, export, import |
