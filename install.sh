@@ -43,6 +43,7 @@ SKILLS=(
   quoxpert-qluster
   quoxpert-convert
   quoxpert-publish
+  quoxpert-repobrain
 )
 
 log() { printf '%s\n' "$*"; }

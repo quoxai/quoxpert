@@ -1,7 +1,7 @@
 ---
 name: quoxpert
 description: "Makes any Claude an instant expert at operating Quox — the governed multi-agent platform. Routing index: load this first to discover which Quoxpert sub-skill matches your task (CLI, MCP tools, workflows, fleet, plugins, protocols, deploy), then load that sub-skill for the actual recipes. Quox as a Claude-extension."
-argument-hint: "<area: core | cli | mcp | flow | bastion | plugin-sdk | protocols | deploy | qluster | convert | publish>"
+argument-hint: "<area: core | cli | mcp | flow | bastion | plugin-sdk | protocols | deploy | qluster | convert | publish | repobrain>"
 quox_version: ">=0.1 pre-1.0"
 user_invocable: true
 ---
@@ -31,6 +31,7 @@ Quox (product name for the QuoxCORE platform) is a **governed multi-agent operat
 | Multi-instance fleet control across quox-boxes (monitor, enroll, checks, backups, governed delegation, QLOGS) | `quoxpert-qluster` |
 | Turn an existing tool (MCP server, dashboard, chat-ops bot, script, agent) into a Quox plugin | `quoxpert-convert` |
 | Understand what's shippable today for distributing/monetising a plugin (signing, licensing, what's not live yet) | `quoxpert-publish` |
+| Search/cite a codebase, map blast radius, connect and index a repo (RepoBrain / Nucleus) | `quoxpert-repobrain` |
 
 When in doubt, start with `quoxpert-core` for orientation, then narrow.
 
