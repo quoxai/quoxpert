@@ -78,9 +78,8 @@ governance/compliance pitch.
   (that skill teaches the *how to call*; this one teaches *what comes back*).
 - Scripted/CI use of the `quox aee`/`quox governance`/`quox volt`/`quox trace`
   CLI commands as part of a larger automation → `quoxpert-cli`.
-- **QSKL/Crystals** (Quox's *internal* skill/crystal system, run by Quox's own
-  agents under governance) — a different system entirely, not a protocol spec.
-  Don't confuse "Quox has skills" with this skill or with AEE/AOCL/VOLT/WARD.
+- QSKL/Crystals vs this skill — see the root `quoxpert` skill's "What
+  Quoxpert is NOT" section for the full disambiguation.
 
 ## Install & connect
 
@@ -346,11 +345,8 @@ AOCL-only format — is what to expect on the wire.
   production module under `services/collector/lib/` and a separate
   frontend-only reference implementation used purely for visualization — don't
   assume the frontend source is what actually gates a request.
-- **Don't conflate this skill with QSKL/Crystals.** QSKL is Quox's own
-  internal skill/crystal system for its agents (SENTINEL, NOVA, etc.),
-  managed via `quox skills list` — a completely different system from these
-  four governance specs. If a user says "Quox skill" meaning a Crystal, this
-  skill is the wrong one to reach for.
+- **Don't conflate this skill with QSKL/Crystals** — see the root `quoxpert`
+  skill's "What Quoxpert is NOT" section for the full disambiguation.
 - **RFC-3161-style external timestamping is not yet a shipped WARD mechanism**
   — WARD's v0.1 spec documents Ed25519 tip signing and publication to external
   sinks (Gitea signed tags, S3 Object Lock); broader "efficient anchoring to

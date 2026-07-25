@@ -63,10 +63,8 @@ what happened inside a run (envelopes, layer-by-layer), work with autonomous
 - Chat-driven fleet ops through Claude's own MCP tool calls rather than the
   `quox` binary → the MCP-composition skill.
 - Building a *new* `.quoxplugin` extension → the plugin-SDK skill.
-- QSKL is **Quox's own internal agent-skill system** — this sub-skill teaches
-  you to operate it via the CLI as an *operator*. It is not the same thing as
-  Quoxpert itself: Quoxpert is a skill for Claude; QSKL crystals are skills
-  for Quox's agents (SENTINEL, NOVA, …), stored server-side.
+- QSKL vs Quoxpert itself — see the root `quoxpert` skill's "What Quoxpert is
+  NOT" section for the full disambiguation.
 
 ## Install & connect
 
@@ -188,7 +186,5 @@ HITL inbox item is created. Approve/deny from the inbox, then resume the run:
 - **Approval-gated runs pause, they don't fail** — a paused run shows up in
   `quox run get <runId>` with a paused status and a matching HITL inbox item;
   check `quox inbox list --pending` before assuming a run is stuck.
-- **QSKL vs Quoxpert**: `quox skills` manages Quox's own internal skill
-  library (Crystals run by Quox's agents). This sub-skill teaches *you* (an
-  external Claude) to operate that library via the CLI — it is not itself a
-  Crystal, and doesn't live in Quox's database.
+- **QSKL vs Quoxpert**: see the root `quoxpert` skill's "What Quoxpert is NOT"
+  section for the full disambiguation.

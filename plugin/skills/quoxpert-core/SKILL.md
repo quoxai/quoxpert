@@ -195,11 +195,8 @@ Quox agents don't execute destructive actions silently. Two mechanisms to expect
   for a human," not "the command failed."
 
 ### 8. Distinguish Quoxpert from things it sounds like
-| System | What it is | Why it's different |
-|---|---|---|
-| QSKL (Crystals) | Quox's *internal* skill system for its OWN agents (SENTINEL, NOVA…), managed via `quox skills` | Quoxpert is a skill for *Claude*, not a Quox agent; it teaches Claude to manage QSKL crystals via the CLI, it isn't one. |
-| QuoxNucleus / repobrain | Codebase-intelligence engine indexing Quox's own source | A source Quoxpert's maintainers use to stay current — not a product surface end users touch. |
-| `.claude/skills/*` internal dev skills | Skills for engineers working ON the Quox source tree | Quoxpert assumes no source checkout — it teaches the *shipped* product surface only. |
+See the root `quoxpert` skill's "What Quoxpert is NOT" section for the full QSKL /
+QuoxNucleus / dev-skill / QUOX-DEEP disambiguation — load that skill if this comes up.
 
 ### 9. Trace a request end-to-end for debugging
 Dashboard (browser) → collector (9848, API gateway) → downstream service (auth / quoxflow /
