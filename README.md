@@ -62,7 +62,7 @@ install dialog or config file — see `quoxpert-mcp`'s recipes once installed.
 
 ## The sub-skills
 
-One root index skill routes to thirteen focused sub-skills, mirroring the proven
+One root index skill routes to fourteen focused sub-skills, mirroring the proven
 `quox-user` master-index pattern already used internally:
 
 | Skill | Covers |
@@ -80,6 +80,7 @@ One root index skill routes to thirteen focused sub-skills, mirroring the proven
 | `quoxpert-convert` | Convert an existing tool (MCP server, dashboard, bot, agent, scripts, micro-SaaS) into a Quox plugin. |
 | `quoxpert-publish` | Honest stub on distributing/monetising a plugin: what's real (signing, licensing) vs not live yet (marketplace, payments). |
 | `quoxpert-repobrain` | RepoBrain / Nucleus code-intelligence: structure-first retrieval, connecting/indexing repos, the "reach for it before grep" discipline. |
+| `quoxpert-quoxplan` | QuoxPlan roadmap suite: the canonical roadmap store since the 2026-07-25 cutover, the `quoxplan`/`quox plan` CLIs, the TUI, and the `quoxplan_*` agent tools. |
 
 Every recipe in every sub-skill is meant to be a *verified transcript* — actually run against a
 live Quox instance during authoring — not synthesised from docs alone. A skill that only
@@ -92,7 +93,7 @@ quoxpert/
 ├── .claude-plugin/marketplace.json  # makes this repo an installable plugin marketplace
 ├── plugin/
 │   ├── .claude-plugin/plugin.json   # the plugin manifest
-│   └── skills/quoxpert*/SKILL.md    # root skill + 12 sub-skills
+│   └── skills/quoxpert*/SKILL.md    # root skill + 13 sub-skills
 ├── sources/manifest.json            # regen input map: which sources feed which sub-skill
 ├── scripts/
 │   ├── regen.mjs                    # marker-replace engine (see below)

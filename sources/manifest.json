@@ -417,6 +417,50 @@
           }
         }
       ]
+    },
+    "quoxpert-quoxplan": {
+      "skill_md": "plugin/skills/quoxpert-quoxplan/SKILL.md",
+      "sources": [
+        {
+          "id": "quoxplan-readme",
+          "repo": "quoxplan",
+          "type": "file",
+          "path": "README.md",
+          "note": "Cutover status, CLI overview, suggested rules block.",
+          "feeds": [],
+          "stamp": {
+            "sha256": null,
+            "checked_at": null,
+            "repo_commit": null
+          }
+        },
+        {
+          "id": "quoxplan-cli-docs",
+          "repo": "quoxplan",
+          "type": "file",
+          "path": "docs/CLI.md",
+          "note": "Verb tables for quoxplan/quox plan parity, --confirm-owner, exit codes.",
+          "feeds": [],
+          "stamp": {
+            "sha256": null,
+            "checked_at": null,
+            "repo_commit": null
+          }
+        },
+        {
+          "id": "quoxplan-agent-tools",
+          "repo": "quox-dashboard",
+          "type": "file",
+          "path": "services/collector/lib/quoxplanTools.js",
+          "note": "Ground truth for the quoxplan_* tool family and the witnessing boundary (QUOXPLAN-CLOSE 2026-07-25 routed write tools through the governed proxy).",
+          "feeds": [],
+          "stamp": {
+            "sha256": null,
+            "checked_at": null,
+            "repo_commit": null
+          }
+        }
+      ]
     }
   }
 }

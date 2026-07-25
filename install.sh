@@ -44,6 +44,7 @@ SKILLS=(
   quoxpert-convert
   quoxpert-publish
   quoxpert-repobrain
+  quoxpert-quoxplan
 )
 
 log() { printf '%s\n' "$*"; }
