@@ -76,8 +76,7 @@ session (`quoxpert-mcp`) is already configured.
 <!-- quoxpert:generated:start counts -->
 | Metric | Count |
 |---|---|
-| Plugins | 40 |
-| Agents (registry) | 37 |
+| Plugins | 51 |
 | Services (registry) | 12 |
 <!-- quoxpert:generated:end counts -->
 

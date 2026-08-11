@@ -16,8 +16,8 @@
             "ecosystem-map"
           ],
           "stamp": {
-            "sha256": "2e80ab975092b723734e4b75609f9d160de858bf09ec3d05b788b8c463a28326",
-            "checked_at": "2026-07-25T01:41:44.368Z",
+            "sha256": "f4f79b5e3e084e4c3b7deda27b415fe39f9ff43102ac7da6304c63189b763e4b",
+            "checked_at": "2026-08-11T03:20:41.468Z",
             "repo_commit": null
           }
         },
@@ -52,8 +52,8 @@
             "registration-chains"
           ],
           "stamp": {
-            "sha256": "89e98187d1c15bde6dab3aeebc552678c6a9b7e6e4ddd62dfc217a1af2234da9",
-            "checked_at": "2026-07-25T01:41:44.371Z",
+            "sha256": "8c840935ee1d7275a18f0662d9308e4c03c28fb7e234cfc0bee8ae3041d38e95",
+            "checked_at": "2026-08-11T03:20:41.470Z",
             "repo_commit": null
           }
         },
@@ -68,7 +68,7 @@
           ],
           "stamp": {
             "sha256": "273c206cc8fdb09232a325f4862ac075cb045a27f90a92956ac1e3e60b1a5039",
-            "checked_at": "2026-07-25T01:41:44.372Z",
+            "checked_at": "2026-08-11T03:20:41.470Z",
             "repo_commit": null
           }
         }
@@ -87,8 +87,8 @@
             "command-map"
           ],
           "stamp": {
-            "sha256": "d405e37be9a5ba3d56e2c61abe7a7e7f0aabfa9bbea1f794dea7f0474270bdc9",
-            "checked_at": "2026-07-25T19:39:01.258Z",
+            "sha256": "d9ef5799621b1d39f6193ec475568cbe67472d5099d865a45264b8abfc079ff7",
+            "checked_at": "2026-08-11T03:20:41.664Z",
             "repo_commit": null
           }
         },
@@ -103,7 +103,7 @@
           ],
           "stamp": {
             "sha256": "daf30cb110e62c709277daea0620023d7a2b0ed660adf581a9391ff3b6f88a3a",
-            "checked_at": "2026-07-25T19:39:01.260Z",
+            "checked_at": "2026-08-11T03:20:41.664Z",
             "repo_commit": null
           }
         },
@@ -117,8 +117,8 @@
             "flag-table"
           ],
           "stamp": {
-            "sha256": "100c13260b0176e488e4bba60680cfad9c27a31200ea6347ff18cb14020e6d59",
-            "checked_at": "2026-07-25T19:39:01.540Z",
+            "sha256": "73300d840ed1dc083a79499e141eff5886a43fdf9696ede3bf936811c050af0c",
+            "checked_at": "2026-08-11T03:20:41.868Z",
             "repo_commit": null
           }
         }
@@ -139,7 +139,7 @@
           ],
           "stamp": {
             "sha256": "1fe8812b4451d96ca6b21e978f12129b6767197be3310a96235194c01dc9687e",
-            "checked_at": "2026-07-25T01:41:44.856Z",
+            "checked_at": "2026-08-11T03:20:41.873Z",
             "repo_commit": null
           }
         },
@@ -155,7 +155,7 @@
           ],
           "stamp": {
             "sha256": "5e3f2088275b262ae4d225739ff8b6864e75c07cec24827e45d15ed9df323169",
-            "checked_at": "2026-07-25T01:41:44.857Z",
+            "checked_at": "2026-08-11T03:20:41.873Z",
             "repo_commit": null
           }
         },
@@ -188,8 +188,8 @@
             "workflow-engine-overview"
           ],
           "stamp": {
-            "sha256": "2375f9e761abddbfd9442d4ae76b53fcbdc51dae2323813f6c15fc51cd77ed16",
-            "checked_at": "2026-07-25T01:41:45.259Z",
+            "sha256": "795e9dce44e59cab399919e38516fe48a09b110f20899fc2249c6f1d5ab1795f",
+            "checked_at": "2026-08-11T03:20:56.898Z",
             "repo_commit": null
           }
         },
@@ -203,7 +203,7 @@
           ],
           "stamp": {
             "sha256": "885d71d8e968a3a016ef5c970b8b65e5ae890f937a9458edcb70ceefed748664",
-            "checked_at": "2026-07-25T01:41:45.259Z",
+            "checked_at": "2026-08-11T03:20:56.898Z",
             "repo_commit": null
           }
         }
@@ -221,8 +221,8 @@
             "bastion-overview"
           ],
           "stamp": {
-            "sha256": "ed039d4227dae9ca7a31ed8e34f1cf99a44a8c1e9408b110a444ae76f13fb143",
-            "checked_at": "2026-07-25T01:41:45.260Z",
+            "sha256": "e68a910abd1e283cd2d5a3fe45b7f440028a808f52a97cfc3088f9fc02fa1b7e",
+            "checked_at": "2026-08-11T03:20:56.899Z",
             "repo_commit": null
           }
         },
@@ -235,8 +235,8 @@
             "fleet-agent-overview"
           ],
           "stamp": {
-            "sha256": "4ab3753f63f6fe5897bda897a6de3e218d7853aacfbd901aa0257a9577f837c2",
-            "checked_at": "2026-07-25T01:41:45.261Z",
+            "sha256": "0702d3182fccb9f86d8bc1596d939ce8b1284e060c9cd6b9c2a77d661022db44",
+            "checked_at": "2026-08-11T03:20:56.900Z",
             "repo_commit": null
           }
         }
@@ -256,8 +256,8 @@
             "scaffold-recipe"
           ],
           "stamp": {
-            "sha256": "838576b31b414a569f72b0dfc5ea2f48ef61614d6a19c484c80db44df1952b01",
-            "checked_at": "2026-07-25T01:41:45.262Z",
+            "sha256": "e4a7f6b1d3ffb53093bcb2af1636fb06d32b1878f48d84d49a37682a71ae53bd",
+            "checked_at": "2026-08-11T03:20:56.901Z",
             "repo_commit": null
           }
         }
@@ -275,8 +275,8 @@
             "aee-section"
           ],
           "stamp": {
-            "sha256": "5b2ec3493b29224eb956ef09c1452deb6f1df0fd2b3349860d9faafe48a3b5bd",
-            "checked_at": "2026-07-25T01:41:45.263Z",
+            "sha256": "38b42acd1cc9a8deacbd98b98511bb1c1a0a84bf6b149669abda59ff6dde5dfb",
+            "checked_at": "2026-08-11T03:20:56.901Z",
             "repo_commit": null
           }
         },
@@ -289,8 +289,8 @@
             "aocl-section"
           ],
           "stamp": {
-            "sha256": "53fcfb36ea0ccf99980c2f2c1ecc1c3650ada64d2450056aba0391df0ae5aedf",
-            "checked_at": "2026-07-25T01:41:45.263Z",
+            "sha256": "33021ee1e6860cfc152171cd3b3313194938d7fdbc38a939af646ca1b33077ae",
+            "checked_at": "2026-08-11T03:20:56.902Z",
             "repo_commit": null
           }
         },
@@ -303,8 +303,8 @@
             "volt-section"
           ],
           "stamp": {
-            "sha256": "a9e17746532a3f0da9507ec15e7cf9a410a18455731a95604cce7dce8d874739",
-            "checked_at": "2026-07-25T01:41:45.263Z",
+            "sha256": "fcb842d15a87a07d3871daae4d7d7297b7fcca976cfead09b7ab446dcda3b721",
+            "checked_at": "2026-08-11T03:20:56.902Z",
             "repo_commit": null
           }
         },
@@ -317,8 +317,8 @@
             "ward-section"
           ],
           "stamp": {
-            "sha256": "314e7bb8c90cb6f85996fbbe3c74a512643be406f378700e1b6afd3c20e212cd",
-            "checked_at": "2026-07-25T01:41:45.264Z",
+            "sha256": "c02ea077d2c53b9405d198935a622f737f834215b62b9e54f6746979bb120fee",
+            "checked_at": "2026-08-11T03:20:56.903Z",
             "repo_commit": null
           }
         }
@@ -337,8 +337,8 @@
             "quickstart-steps"
           ],
           "stamp": {
-            "sha256": "6eb37270d0dee1cfd7ef6b1a08b2122ec29ac74e8ad62e09e711c0d97a3f382d",
-            "checked_at": "2026-07-25T01:41:45.265Z",
+            "sha256": "cc31767a99385515dc2772e323a18d06fd05077ad0db85b4de83103f4a7d3ae0",
+            "checked_at": "2026-08-11T03:20:56.904Z",
             "repo_commit": null
           }
         },
@@ -352,8 +352,8 @@
             "service-table"
           ],
           "stamp": {
-            "sha256": "89e98187d1c15bde6dab3aeebc552678c6a9b7e6e4ddd62dfc217a1af2234da9",
-            "checked_at": "2026-07-25T01:41:45.265Z",
+            "sha256": "8c840935ee1d7275a18f0662d9308e4c03c28fb7e234cfc0bee8ae3041d38e95",
+            "checked_at": "2026-08-11T03:20:56.904Z",
             "repo_commit": null
           }
         }
@@ -376,7 +376,7 @@
           "feeds": [],
           "stamp": {
             "sha256": "d7385206a81acc4c08142e8a6b8e68d0633bb2400e9f84a1c03921167c8c7a32",
-            "checked_at": "2026-07-25T01:41:45.267Z",
+            "checked_at": "2026-08-11T03:20:56.906Z",
             "repo_commit": null
           }
         }
@@ -394,7 +394,7 @@
           "feeds": [],
           "stamp": {
             "sha256": "e113b8fba12a123cf61e4443620ee65eadcd9d6d86a7a4d3b80289420a6e8618",
-            "checked_at": "2026-07-25T01:41:45.267Z",
+            "checked_at": "2026-08-11T03:20:56.906Z",
             "repo_commit": null
           }
         }
@@ -412,7 +412,7 @@
           "feeds": [],
           "stamp": {
             "sha256": "22f340c2e16bee9a6ff29d71b3d0709ccaa8787f61472c5e437bb4f04a255980",
-            "checked_at": "2026-07-25T01:41:45.268Z",
+            "checked_at": "2026-08-11T03:20:56.907Z",
             "repo_commit": null
           }
         }
@@ -429,8 +429,8 @@
           "note": "Cutover status, CLI overview, suggested rules block.",
           "feeds": [],
           "stamp": {
-            "sha256": null,
-            "checked_at": null,
+            "sha256": "b5fb06aa293b10bfa21eab7fff00ea9bea6b28cc50113037465ccca31f5e9f5a",
+            "checked_at": "2026-08-11T03:20:56.908Z",
             "repo_commit": null
           }
         },
@@ -442,8 +442,8 @@
           "note": "Verb tables for quoxplan/quox plan parity, --confirm-owner, exit codes.",
           "feeds": [],
           "stamp": {
-            "sha256": null,
-            "checked_at": null,
+            "sha256": "147773d8055a059ef7f1a52d0e87ea27c9c651c68e2aaad74a50600124ac55a7",
+            "checked_at": "2026-08-11T03:20:56.908Z",
             "repo_commit": null
           }
         },
@@ -455,8 +455,8 @@
           "note": "Ground truth for the quoxplan_* tool family and the witnessing boundary (QUOXPLAN-CLOSE 2026-07-25 routed write tools through the governed proxy).",
           "feeds": [],
           "stamp": {
-            "sha256": null,
-            "checked_at": null,
+            "sha256": "6a0be064efe90708279f63df6ea4d5730d8659d8aab08e406170ae0c9736067b",
+            "checked_at": "2026-08-11T03:20:56.910Z",
             "repo_commit": null
           }
         }
