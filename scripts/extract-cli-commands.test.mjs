@@ -110,3 +110,39 @@ describe('toTable', () => {
     assert.match(table, /\(no subcommands\)/);
   });
 });
+
+// fleet #432: the extractor only ever walked cli/lib/commands, so any
+// command registered directly on `program` in cli/bin/quox.js was structurally
+// invisible to the command map. `quox tui` and `quox completion` had therefore
+// NEVER been documented: not stale, unreachable. These lock down that the
+// entrypoint's own registrations parse like any other file, so --entry can
+// carry them.
+describe('entrypoint-registered commands (fleet #432)', () => {
+  test('parses commands chained straight off program in the entrypoint', () => {
+    const src = `
+      program
+        .command('tui')
+        .description('Launch interactive TUI')
+        .action(async () => {});
+
+      program
+        .command('completion <shell>')
+        .description('Generate shell completions (bash, zsh, fish)')
+        .action(() => {});
+    `;
+    const groups = parseCommandFile(src);
+    const names = groups.map((g) => g.group);
+    assert.ok(names.includes('tui'), `expected tui, got ${names.join(', ')}`);
+    assert.ok(names.includes('completion <shell>'), `expected completion, got ${names.join(', ')}`);
+  });
+
+  test('entrypoint commands render as normal leaf rows', () => {
+    const src = `program.command('tui').description('Launch interactive TUI');`;
+    const table = toTable(parseCommandFile(src));
+    assert.match(table, /\| `quox tui` \| Launch interactive TUI: \(no subcommands\) \|/);
+  });
+
+  test('an entrypoint with no commands contributes nothing rather than throwing', () => {
+    assert.deepStrictEqual(parseCommandFile('import { Command } from "commander";'), []);
+  });
+});

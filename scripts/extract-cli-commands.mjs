@@ -83,11 +83,21 @@ import path from 'node:path';
 function parseArgs(argv) {
   let commandsDir = 'cli/lib/commands';
   let format = 'table';
+  // fleet #432 (2026-08-21): the walk above only ever read commandsDir, but
+  // not every top-level command lives in a register*Commands file. `tui` and
+  // `completion` are registered straight off `program` in cli/bin/quox.js, so
+  // they were structurally invisible to the extractor and had never appeared
+  // in the command map: not stale, unreachable. `quox tui` is a real product
+  // surface with its own view layer. Any command the entrypoint registers
+  // itself needs listing here, hence an explicit repeatable flag rather than
+  // a guessed default: an unreadable path is a hard error, not a silent skip.
+  const entryFiles = [];
   for (const arg of argv) {
     if (arg.startsWith('--format=')) format = arg.slice('--format='.length);
+    else if (arg.startsWith('--entry=')) entryFiles.push(arg.slice('--entry='.length));
     else if (!arg.startsWith('--')) commandsDir = arg;
   }
-  return { commandsDir, format };
+  return { commandsDir, format, entryFiles };
 }
 
 /** Extract every `<ident>.command('name')` (and its trailing .description/
@@ -167,7 +177,7 @@ function toTable(groups) {
 }
 
 function main() {
-  const { commandsDir, format } = parseArgs(process.argv.slice(2));
+  const { commandsDir, format, entryFiles } = parseArgs(process.argv.slice(2));
   const dirEntries = readdirSync(commandsDir).filter((f) => {
     if (!f.endsWith('.js')) return false;
     if (f.endsWith('.test.js')) return false;
@@ -180,6 +190,15 @@ function main() {
   for (const file of dirEntries) {
     const source = readFileSync(path.join(commandsDir, file), 'utf8');
     groups.push(...parseCommandFile(source));
+  }
+
+  // Entrypoint-registered commands (fleet #432). Read after the directory so
+  // they sort to the end of the table, matching the existing file-order
+  // convention. readFileSync throwing here is deliberate: a bad --entry path
+  // should fail regen loudly rather than quietly drop commands, which is the
+  // exact failure mode that let `tui` go undocumented indefinitely.
+  for (const entry of entryFiles) {
+    groups.push(...parseCommandFile(readFileSync(entry, 'utf8')));
   }
 
   if (groups.length === 0) {

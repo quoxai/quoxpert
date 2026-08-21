@@ -153,6 +153,7 @@ Quox box itself).
 
 ## Gotchas
 
+- **A new compose env var proves itself with `docker exec <container> printenv <VAR>`, never with a grep of the yml.** The quox-dashboard compose file holds 13+ services and several share similar env blocks (auth and collector both carry MATRIX_* vars); on 2026-08-17 a var was added to the auth block while the code reading it ran in the collector, the rebuild went green, and the feature silently no-oped until printenv on the target container caught it. After any env addition: rebuild, then printenv on the container the READING code runs in.
 - **The Setup Wizard, not a seed script, creates the first real admin.**
   Any recipe or doc that references a seed script for a production instance
   is describing a dev-only shortcut that intentionally refuses to run once

@@ -15,7 +15,7 @@ metadata:
         path: cli/lib/api/endpoints.js
       - repo: quox-dashboard
         cmd: "node cli/bin/quox.js --help"
-    generated_at: 2026-08-17
+    generated_at: 2026-08-21
     quox_version: ">=0.1 pre-1.0"
 ---
 
@@ -83,7 +83,7 @@ Multiple instances (local/staging/production) are separate profiles:
 | `quox consent` | Manage data processing consent: list, grant, history |
 | `quox conversation` | Manage conversations: list, get, search, stats |
 | `quox department` | Manage departments within divisions: list, create, update, delete |
-| `quox dev` | Manage dev-mode (DEVSUITE) fleet hosts: enable, skills status, skills sync |
+| `quox dev` | Manage dev-mode (DEVSUITE) fleet hosts: enable, skills status, skills sync, sessions list, sessions new, sessions send, sessions pane, sessions kill, doctor |
 | `quox discord [args...]` | Quox Discord Pro daemon: status |
 | `quox doctor` | Run platform health diagnostics: (no subcommands) |
 | `quox domain` | Manage org domain verification (team+ — DNS ownership proof): list, add, verify, remove |
@@ -93,6 +93,7 @@ Multiple instances (local/staging/production) are separate profiles:
 | `quox file` | Manage files: list, upload, download, delete, stats |
 | `quox fleet` | Fleet monitoring and management: status, summary, agents, gpu, tools, exec, host-update <hostId>, codex-provision <hostId>, rehome-agent <hostId>, watch |
 | `quox governance` | Governance: policies, WARD chain, VOLT evidence + certification: policy list, policy get, policy pending-approvals, policy create, policy update, policy delete, policy validate, policy history, template list, template show, template conflicts, template enable, approval resolve, ward status, ward chains, ward entries, ward verify, evidence, traces, certify, cert get, cert for-run, cert list, cert stats |
+| `quox gripe` | File a one-liner complaint as a GitHub issue (via the GRIPE agent): (no subcommands) |
 | `quox inbox` | Manage inbox and approval requests: list, get, respond, stats |
 | `quox integration` | Manage integrations: list, get, create, update, delete, test |
 | `quox llm-policy` | View, set, and dry-run-validate the org LLM routing policy: get, set, test |
@@ -101,6 +102,7 @@ Multiple instances (local/staging/production) are separate profiles:
 | `quox mon` | Monitoring: Docker fleet, Wazuh security, AGH-chain leaderboard, metrics: docker fleet, docker containers, docker container, docker logs, docker stats, docker stacks, docker df, docker action, wazuh status, wazuh agents, wazuh alerts, wazuh vulns, wazuh deploy-history, wazuh deploy-agent, wazuh deploy-bulk, wazuh active-response, agh-chain leaderboard, agh-chain agent, agh-chain events, metrics, config get, config cache, config grafana |
 | `quox monitoring` | Platform health and governance incidents: health, incidents list, incidents get |
 | `quox notification` | Manage notification settings: channels list, channels set |
+| `quox nucleus` | Ask the codebase a question (RepoBrain, governed and audited): (no subcommands) |
 | `quox objective` | Manage objectives (autonomous multi-step goals): create, list, get, start, approve, checkpoints, approve-checkpoint, deny-checkpoint, halt |
 | `quox open` | Open a quox:// URI in the dashboard or show CLI equivalent: (no subcommands) |
 | `quox org` | Manage organizations: list, get, create, update, delete, switch, members list, members add, members update, members remove, divisions list, divisions create, divisions update, divisions delete, audit |
@@ -109,7 +111,7 @@ Multiple instances (local/staging/production) are separate profiles:
 | `quox plugin` | Manage org-installed plugins: list, get, install, update, uninstall, mine, data list, data get, data set, data delete, secrets list, secrets set, secrets reveal, secrets delete, assign list, assign add, assign remove, trusted-keys list, trusted-keys add, trusted-keys remove |
 | `quox powers` | Deploy and manage POWERS (MCP endpoint / hosted-repo tools): detect, deploy, deploy-repo, status, finalize, update, archive, restore, config, delete |
 | `quox prompt` | Manage the user-owned prompts library: list, get, create, update, delete, versions, restore, export, import |
-| `quox qlarity` | Qlarity: open a page, ask it a question, keep the receipt: health, allowlist, inspectors, sessions, close <sessionId>, read <url>, eval <url> <script> |
+| `quox qlarity` | Qlarity: open a page, ask it a question, keep the receipt: health, allowlist, origins add <origin>, origins remove <origin>, inspectors, sessions, close <sessionId>, read <url>, eval <url> <script> |
 | `quox quoxbox` | QuoxBox governed Mac-mini agent — status, workflows, tasks, HITL approvals: status, workflows, run, task, tasks, approve, deny, mode |
 | `quox quoxchat` | Manage QuoxChat website widgets: widgets, availability, conversations, transcript, reply |
 | `quox role` | Manage org custom roles (enterprise — RBAC): list, get, create, delete, capability add, capability remove, agent list, agent set, agent clear, tool list, tool set, tool clear |
@@ -121,7 +123,7 @@ Multiple instances (local/staging/production) are separate profiles:
 | `quox health` | Check health of all QuoxCORE services (alias for `service health`): (no subcommands) |
 | `quox setup` | First-time setup and configuration: status, admin, config |
 | `quox skills` | Manage the quoxflow skill library (QSKL Crystals): query, run, review, promote, and your saved library: list, show, run, review list, review show, review approve, review reject, library list, library add, library remove, from-execution, promote-draft, rollback-to-version |
-| `quox slot` | Manage DEVSUITE-SLOTS: checkout/release the fixed session addresses, say/read into a slot room: list, create, retire, checkout, release, heartbeat, say, read, peek |
+| `quox slot` | Manage DEVSUITE-SLOTS: checkout/release the fixed session addresses, say/read into a slot room: list, create, retire, checkout, release, heartbeat, assign, claim, say, read, peek, bridge list, bridge set, bridge clear |
 | `quox sso` | Manage org SSO providers (enterprise — OIDC/SAML admin): providers list, providers get, providers create, providers update, providers delete, providers saml-metadata |
 | `quox status` | Show platform health and status overview: (no subcommands) |
 | `quox tag` | Manage tags: list, create, update, delete |
@@ -131,10 +133,12 @@ Multiple instances (local/staging/production) are separate profiles:
 | `quox trace` | Trace Replay & Visualization: assembled traces, simulation, comparison, replay sessions: list, get, simulate, compare, replay list, replay get, replay create, replay update, replay delete, replay delete-all, comparison list, comparison get, comparison create, comparison update, comparison delete, comparison delete-all, correlation list, correlation get, correlation create, correlation delete |
 | `quox trigger` | View quoxflow trigger subscriptions (webhooks, schedules, events) and activate/deactivate workflows: webhooks, schedules, events, workflow-activate, workflow-deactivate |
 | `quox vault` | Manage QuoxVault credentials: list, get, create, update, delete, set-default, test, test-all, stats, scan, activity, types, rotate, expiring, migrate |
-| `quox volt` | VOLT evidence bundle verification and inspection: verify, inspect, export, summary |
+| `quox volt` | VOLT evidence bundle verification and inspection: verify, inspect, export, fetch, summary |
 | `quox watch` | Real-time monitoring dashboards: fleet, services |
 | `quox webhook` | Manage org webhook subscribers (enterprise — team_event fan-out): list, create, rotate, delete |
 | `quox workflow` | Manage workflows: list, get, create, update, delete, run, publish, steps list, steps set, apply, validate, import-n8n, import-objective |
+| `quox tui` | Launch interactive TUI: (no subcommands) |
+| `quox completion <shell>` | Generate shell completions (bash, zsh, fish): (no subcommands) |
 <!-- quoxpert:generated:end command-map -->
 
 ## Recipes (hand-authored, the actual expertise)
@@ -315,6 +319,28 @@ Real output (truncated, live):
  SESSION_ENV_MRFX5N2D_3Y7MWREC    anonymous     complete    11        0            no        no
 ```
 Use `quox trace get <runId>` for the full narrative + per-layer waterfall on any run above.
+
+### 13. Run an interactive session on a dev host (`quox dev sessions`)
+    quox dev enable <host>
+    quox dev sessions list <host>
+    quox dev sessions new <host> --name build --backend claude
+    quox dev sessions send <host> <sessionId> "npm test"
+    quox dev sessions pane <host> <sessionId>
+    quox dev sessions kill <host> <sessionId>
+Live since 2026-08-20. These are tmux sessions on the dev host, so they survive
+both detach AND a quoxagent restart, which is what makes them usable for long
+builds. `--backend` takes `shell`, `claude` or `codex`. Use `--by-name` on
+send/pane/kill to reach an orphaned session whose id you no longer have.
+`quox dev enable` does more than flip a flag: it delivers the capability
+profile, the current agent binary and the CLI bundle, then restarts the agent
+to adopt them. `quox dev doctor` is the first thing to run when a dev host
+looks wired but behaves like it isn't.
+
+(This recipe is hand-authored on purpose. The command-map row above is
+generated from the CLI's own `.description()` strings, which carry the
+subcommand names but not the operating detail. An earlier attempt to keep
+this knowledge in the table itself was silently overwritten by the next
+regen, per fleet #433.)
 
 ## Output contracts & scripting
 

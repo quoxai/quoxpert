@@ -256,6 +256,16 @@ function regenSkill(skillId, skillDef, { check }) {
     // main()'s exit-code handling. This is what would have caught the
     // 'quox --help-json' / dead CODEBASE_MAP.md section breakage instead of
     // it silently degrading to a permanent "never regenerated" no-op.
+    // fleet #433 (2026-08-21): every marker the skill declares, whether or not
+    // this run touched it. Without it the reporter could not tell "no markers
+    // at all" from "markers present, generator ran, already current". Both
+    // printed 'no generated-block markers found'. That mislabel is not
+    // cosmetic: the #433 triage read it literally and concluded 9 of 14 skills
+    // were hand-authored and outside the pipeline, when 3 of those 9
+    // (quoxpert-cli, quoxpert-core, quoxpert-mcp) have working generators and
+    // were simply up to date. A status line that cannot distinguish healthy
+    // from absent produces wrong decisions about what to build next.
+    allBlocks: [],
     skippedNoFile: false,
   };
 
@@ -299,6 +309,7 @@ function regenSkill(skillId, skillDef, { check }) {
 
   let content = readFileSync(skillMdPath, 'utf8');
   const markerIds = findMarkers(content);
+  report.allBlocks = markerIds;
   const feedsMap = {}; // blockId -> [sourceId,...]
   for (const source of skillDef.sources || []) {
     for (const blockId of source.feeds || []) {
@@ -326,10 +337,43 @@ function regenSkill(skillId, skillDef, { check }) {
   }
 
   if (!check && report.updatedBlocks.length > 0) {
+    // fleet #432 (2026-08-21): regen used to rewrite the generated blocks and
+    // leave `generated_at` untouched, and nothing in this file had ever written
+    // it. drift-check.mjs READS the field and reports on it, so the pack's
+    // one freshness signal was hand-maintained and lied in both directions:
+    // it read 2026-07-25 across 12 skills whose content had since moved, and
+    // a hand-bump with no regen would have made a stale skill look current.
+    // A stamp that does not move when the content does is worse than none.
+    content = bumpGeneratedAt(content);
     writeFileSync(skillMdPath, content);
   }
   report.wouldChange = report.updatedBlocks.length > 0;
   return report;
+}
+
+/**
+ * Set `generated_at:` in the skill's YAML frontmatter to today (UTC).
+ * Only rewrites an EXISTING key inside the frontmatter block, and only the
+ * first occurrence: a skill that never carried the stamp is left alone rather
+ * than having one invented, and a `generated_at` appearing in prose below the
+ * frontmatter is not touched. Preserves the original indentation.
+ */
+export function bumpGeneratedAt(content, today = new Date().toISOString().slice(0, 10)) {
+  const end = content.indexOf('\n---', 3);
+  if (!content.startsWith('---') || end === -1) return content;
+
+  const frontmatter = content.slice(0, end);
+  const rest = content.slice(end);
+  if (!/^([ \t]*)generated_at:/m.test(frontmatter)) return content;
+
+  let done = false;
+  const updated = frontmatter.replace(/^([ \t]*)generated_at:[ \t]*\S*[ \t]*$/m, (match, indent) => {
+    if (done) return match;
+    done = true;
+    return `${indent}generated_at: ${today}`;
+  });
+
+  return updated + rest;
 }
 
 // Exported for reuse by scripts/drift-check.mjs (same fetch/hash logic, no
@@ -368,7 +412,19 @@ function main() {
       const bits = [];
       if (r.updatedBlocks.length) bits.push(`updated: ${r.updatedBlocks.join(', ')}`);
       if (r.missingBlocks.length) bits.push(`TODO (no generator/source yet): ${r.missingBlocks.join(', ')}`);
-      console.log(`  ${r.skillId}: ${bits.join(' | ') || 'no generated-block markers found'}`);
+      // fleet #433: "current" and "not in the pipeline at all" are opposite
+      // health states and used to print identically. Say which one it is.
+      if (!bits.length) {
+        const untouched = r.allBlocks.filter(
+          (b) => !r.updatedBlocks.includes(b) && !r.missingBlocks.includes(b),
+        );
+        bits.push(
+          untouched.length
+            ? `up to date: ${untouched.join(', ')}`
+            : 'HAND-AUTHORED (no generated-block markers, regen has no opinion on this skill)',
+        );
+      }
+      console.log(`  ${r.skillId}: ${bits.join(' | ')}`);
       if (r.staleSources.length) {
         for (const s of r.staleSources) {
           console.log(`      [human review] source '${s.id}' changed since last stamp (${s.oldHash.slice(0, 8)} -> ${s.newHash.slice(0, 8)})`);
