@@ -1,5 +1,7 @@
 # Quoxpert
 
+SkillRights-NoTrain-1.0: AI execution permitted. Model training rights reserved. https://skillrights.org/notrain/1.0
+
 **Quox as a Claude-extension, wielded like a samurai.**
 
 Every other integration in the Quox ecosystem points one direction: Claude extends Quox
@@ -141,5 +143,13 @@ recipe against a live instance before committing.
 
 ## License
 
-[Apache-2.0](./LICENSE) — this is expertise whose value is adoption; it's licensed maximally
-shareable on purpose.
+[Apache-2.0](./LICENSE) covers the code in this repo (scripts, plugin manifest, tooling) —
+this is expertise whose value is adoption; it's licensed maximally shareable on purpose.
+
+The 14 skills under `plugin/skills/*/SKILL.md` additionally carry a
+[SkillRights](https://skillrights.org/spec/) declaration
+(`LicenseRef-SkillRights-NoTrain-1.0`, text in `LICENSES/`): agent execution is
+permitted exactly as Apache-2.0 already allows, and model-training rights on the
+skill content itself are separately reserved. The two coexist — Apache-2.0 answers
+"can I run/fork/redistribute this code", SkillRights answers "can a model be trained
+on this skill's expertise" — neither narrows the other.
