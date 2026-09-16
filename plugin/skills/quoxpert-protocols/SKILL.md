@@ -1,5 +1,6 @@
 ---
 name: quoxpert-protocols
+license: LicenseRef-SkillRights-NoTrain-1.0
 description: "The four Quox governance protocol specs, taught as one combined
   skill: AEE (Agent Envelope Exchange: message causality), AOCL (Agent
   Orchestration Control Layers: OSI-style control/audit stack), VOLT

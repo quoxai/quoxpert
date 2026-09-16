@@ -1,5 +1,6 @@
 ---
 name: quoxpert-quoxplan
+license: LicenseRef-SkillRights-NoTrain-1.0
 description: "Make any Claude fluent at QuoxPlan, Quox's roadmap and stream planning
   suite. QuoxPlan has been the canonical Quox roadmap store since the 2026-07-25
   cutover (roadmap-cli is retired). Covers the quoxplan/quox plan CLIs, the TUI,

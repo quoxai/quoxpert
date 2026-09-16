@@ -1,5 +1,6 @@
 ---
 name: quoxpert-qluster
+license: LicenseRef-SkillRights-NoTrain-1.0
 description: "Operate Qluster, the standalone fleet control plane for your OWN QuoxCORE installations (one operator, many boxes, one governed console; 'Proxmox for Quox'). Load when the user wants to monitor a fleet of QuoxCORE boxes, connect/enroll a box, run cross-instance checks/drift, pull encrypted backups centrally, delegate a governed task to a box's agent, use Colonel Qluster, or read/verify QLOGS evidence."
 argument-hint: "<what you want to do with the fleet, e.g. 'connect a box', 'delegate a task', 'read qlogs'>"
 metadata:

@@ -1,5 +1,6 @@
 ---
 name: quoxpert-cli
+license: LicenseRef-SkillRights-NoTrain-1.0
 description: "Operate QuoxCORE from the terminal with the quox CLI and TUI:
   auth, agents, workflows, skills/crystals, triggers, memory, HITL inbox,
   traces, budgets. Load when the user wants scripted/terminal control of a

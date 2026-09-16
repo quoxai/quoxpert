@@ -1,5 +1,6 @@
 ---
 name: quoxpert-plugin-sdk
+license: LicenseRef-SkillRights-NoTrain-1.0
 description: "Build, test, sign, and install `.quoxplugin` extensions for
   QuoxCORE using the quox-plugin-sdk (scaffolder, runtime helpers, Vite build
   plugin) and the quox CLI's `plugin`/`powers` command groups. Load when the

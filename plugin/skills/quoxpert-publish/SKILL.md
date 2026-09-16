@@ -1,5 +1,6 @@
 ---
 name: quoxpert-publish
+license: LicenseRef-SkillRights-NoTrain-1.0
 description: "Honest stub on distributing and monetising a Quox plugin.
   Covers what's real today (Ed25519 signing, licence generation, manifest
   marketplace fields, manual sideload install) and what isn't live yet

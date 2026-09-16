@@ -1,5 +1,6 @@
 ---
 name: quoxpert-convert
+license: LicenseRef-SkillRights-NoTrain-1.0
 description: "Convert an existing tool (MCP server, monitoring dashboard,
   chat-ops bot, vertical AI agent, devops scripts, report-scraper micro-SaaS)
   into a Quox plugin. Load when the user has working code and wants to know

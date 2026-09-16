@@ -1,5 +1,6 @@
 ---
 name: quoxpert-mcp
+license: LicenseRef-SkillRights-NoTrain-1.0
 description: "Install and wield QuoxMCP, the Model Context Protocol server that
   bridges any Claude (Desktop, Code, Agent SDK) to a QuoxCORE collector's
   RBAC-gated tool surface (130+ tools, 5 resources, 4 operational prompts,

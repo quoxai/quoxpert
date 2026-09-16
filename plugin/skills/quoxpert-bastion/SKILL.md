@@ -1,5 +1,6 @@
 ---
 name: quoxpert-bastion
+license: LicenseRef-SkillRights-NoTrain-1.0
 description: "Operate QuoxBastion (the SSH-governed fleet command layer) and
   the quoxagent per-host sidecar via the quox CLI's `fleet` command group:
   host inventory, governed SSH execution, tools registry, agent deploy, fleet

@@ -1,5 +1,6 @@
 ---
 name: quoxpert-repobrain
+license: LicenseRef-SkillRights-NoTrain-1.0
 description: "Make any Claude fluent at RepoBrain, Quox's code-intelligence engine.
   Structure-first code retrieval (definitions, imports, file:line citations) that
   returns the right ~240 tokens instead of a 10,000-token file dump. Load when the

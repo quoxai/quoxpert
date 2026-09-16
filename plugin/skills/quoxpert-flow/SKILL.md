@@ -1,5 +1,6 @@
 ---
 name: quoxpert-flow
+license: LicenseRef-SkillRights-NoTrain-1.0
 description: "Operate the quoxflow workflow engine: AEE envelopes, the
   AOCL-aligned control pipeline, 18 node executors, the expression engine (vm
   sandbox), the policy DSL, the HITL approval gate, and evidence chains, via

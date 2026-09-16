@@ -1,5 +1,6 @@
 ---
 name: quoxpert-core
+license: LicenseRef-SkillRights-NoTrain-1.0
 description: "Orient on the QuoxCORE / Quox platform: what it is, the five pillars, the five governed concepts (crystals/agents/workflows/tools/governance), service topology, and which Quoxpert sub-skill to load next. Load when the user asks 'what is Quox', needs platform orientation, is debugging which service owns a symptom, or is deciding between the CLI/MCP/dashboard surfaces before doing anything else."
 argument-hint: "<question, e.g. 'what is Quox' or 'which service handles chat'>"
 metadata:

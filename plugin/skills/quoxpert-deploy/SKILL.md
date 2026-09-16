@@ -1,5 +1,6 @@
 ---
 name: quoxpert-deploy
+license: LicenseRef-SkillRights-NoTrain-1.0
 description: "Install, configure, upgrade, back up, and restore a QuoxCORE
   instance: the Docker Compose stack (auth/collector/quoxflow/memory/tasks/
   postgres/qdrant + optional profiles), the Setup Wizard, TLS/nginx, and the
