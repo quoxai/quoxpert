@@ -64,7 +64,7 @@ install dialog or config file — see `quoxpert-mcp`'s recipes once installed.
 
 ## The sub-skills
 
-One root index skill routes to fourteen focused sub-skills, mirroring the proven
+One root index skill routes to thirteen focused sub-skills, mirroring the proven
 `quox-user` master-index pattern already used internally:
 
 | Skill | Covers |
