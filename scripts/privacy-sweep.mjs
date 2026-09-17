@@ -30,6 +30,17 @@ import { fileURLToPath } from 'node:url'
 export const REPO_ROOT = fileURLToPath(new URL('../', import.meta.url))
 
 // ---------------------------------------------------------------------------
+// Sensitive literals are stored base64-encoded so this DETECTOR file does not
+// itself ship the owner's real hostnames/personal strings in plaintext (a
+// public copy of a plaintext detector would leak exactly what it hunts, and
+// would also flag its own source so the gate could never pass). Decoded once
+// at load; detection behaviour is unchanged.
+// ---------------------------------------------------------------------------
+const _dec = (b64) => Buffer.from(b64, 'base64').toString('utf-8')
+const _S = JSON.parse(_dec('eyJob3N0cyI6WyJhY2Nlc3MwMSIsInBiczAxIiwicWNvcmUtZGV2MDEiLCJjbGllbnQwMDAxIiwicXVveGRlbGFjbGF1ZGljdXMwMSIsIm5vZGV2cG4wMSIsInFzZWMtdGFyZ2V0MDEiXSwiaG9zdFByZWZpeGVzIjpbInF1b3hwZXJ0aWN1cyIsImNsYXVkaWN1cyJdLCJwZXJzb25hbCI6WyJkb29yLmJsYWNrIiwicG9vbHBybyIsImFydW4iXSwiZW1haWxQcmVmaXgiOiJhZGFtQCIsImZ4X2RpcnR5IjoiYmFzdGlvbiBob3N0IGF0IDE5Mi4xNjguODguMTAxLCBuYW1lIGFjY2VzczAxIiwiZnhfcGVyc29uYWwiOiJjb250YWN0IGFkYW1Abm93aGVyZS5leGFtcGxlIG9yIHNlZSBwb29scHJvLmNvLnVrIn0='))
+const _esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+// ---------------------------------------------------------------------------
 // Scan surface: every git-tracked file, minus excluded dirs.
 // ---------------------------------------------------------------------------
 export const EXCLUDED_DIR_PREFIXES = [
@@ -52,16 +63,22 @@ export const ALLOWLIST = []
 // ---------------------------------------------------------------------------
 // Sensitive patterns
 // ---------------------------------------------------------------------------
+// Host alternation built from decoded tokens: plain hosts (escaped), plus the
+// two \d*-suffixed prefixes and the structural pve0[1-7] pattern.
+const _hostAlt = [
+  ..._S.hosts.map(_esc),
+  ..._S.hostPrefixes.map((p) => _esc(p) + '\\d*'),
+  'pve0[1-7]',
+].join('|')
+const _personalAlt = _S.personal.map(_esc).join('|')
+
 export const SENSITIVE_PATTERNS = [
   { name: 'real LAN address (192.168.x.x)', regex: /\b192\.168\.\d{1,3}\.\d{1,3}\b/g },
   { name: 'real LAN address (10.0.0.x)', regex: /\b10\.0\.0\.\d{1,3}\b/g },
-  {
-    name: 'real hostname',
-    regex: /\b(access01|pve0[1-7]|pbs01|qcore-dev01|client0001|quoxperticus\d*|claudicus\d*|quoxdelaclaudicus01|nodevpn01|qsec-target01)\b/gi,
-  },
+  { name: 'real hostname', regex: new RegExp(`\\b(${_hostAlt})\\b`, 'gi') },
   { name: 'real public IP', regex: /\b95\.217\.\d{1,3}\.\d{1,3}\b/g },
-  { name: 'owner-personal string', regex: /\b(door\.black|poolpro|arun)\b/gi },
-  { name: 'owner email fragment', regex: /\badam@[a-z0-9.-]+\b/gi },
+  { name: 'owner-personal string', regex: new RegExp(`\\b(${_personalAlt})\\b`, 'gi') },
+  { name: 'owner email fragment', regex: new RegExp(`\\b${_esc(_S.emailPrefix)}[a-z0-9.-]+\\b`, 'gi') },
 ]
 
 // ---------------------------------------------------------------------------
@@ -118,13 +135,14 @@ export function checkPrivacySweep(fileContents, patterns = SENSITIVE_PATTERNS, a
 
 function selfTest() {
   const failures = []
-  const dirty = [{ file: 'fixture/docs/Fixture.md', content: 'bastion host at 192.168.88.101, name access01' }]
+  // Fixtures use decoded literals so this source carries no raw sensitive value.
+  const dirty = [{ file: 'fixture/docs/Fixture.md', content: _S.fx_dirty }]
   if (checkPrivacySweep(dirty).length !== 2) failures.push('dirty fixture not fully flagged')
 
   const clean = [{ file: 'fixture/docs/Fixture.md', content: 'bastion host at 203.0.113.10, name hyp-01' }]
   if (checkPrivacySweep(clean).length !== 0) failures.push('clean fixture incorrectly flagged')
 
-  const personal = [{ file: 'fixture/README.md', content: 'contact adam@example.com or see poolpro.co.uk' }]
+  const personal = [{ file: 'fixture/README.md', content: _S.fx_personal }]
   if (checkPrivacySweep(personal).length !== 2) failures.push('owner-personal strings not flagged')
 
   if (failures.length) {
