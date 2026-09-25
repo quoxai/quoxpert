@@ -14,6 +14,7 @@ metadata:
     quox_version: ">=0.1 pre-1.0"
     qluster_phase: "5c (QLOGS complete)"
     status: stable
+license: LicenseRef-SkillRights-Reserved-1.0
 ---
 
 # Quoxpert: Qluster (fleet control plane)

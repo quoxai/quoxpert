@@ -16,6 +16,7 @@ metadata:
         path: scripts/generate-license.js
     generated_at: 2026-07-25
     quox_version: ">=0.1 pre-1.0"
+license: LicenseRef-SkillRights-Reserved-1.0
 ---
 
 # Quoxpert: Publishing a Plugin (honest stub)
@@ -79,3 +80,17 @@ how it actually ships today.
 
 - Build, sign, and install the plugin itself → `quoxpert-plugin-sdk`
 - Converting an existing tool into a plugin first → `quoxpert-convert`
+
+## npm publishing (added 2026-09-10, SKILLRIGHTS session: three gotchas that each cost a failed run)
+
+- **Trusted Publishing (OIDC, tokenless) is the house pattern** (matches quoxproof
+  on PyPI): workflow needs `permissions: id-token: write`, NO registry-url/token
+  scaffolding in setup-node, and `npm install -g npm@latest` FIRST because the
+  runner's bundled npm 10 predates OIDC (needs >= 11.5); with old npm the publish
+  goes out with setup-node's placeholder token and 404s.
+- **npm's Trusted Publisher form composes org/repo itself**: the Repository field
+  takes the BARE repo name (`skillrights`), not `owner/repo`; the wrong form saves
+  fine and then every publish dies ENEEDAUTH with no hint. The record is immutable
+  by design: fix = delete + recreate.
+- **Force-pushing a tag at the same commit does not retrigger the workflow** (no
+  event fires): push a NEW tag matching the trigger pattern to rerun.

@@ -29,6 +29,7 @@ metadata:
         cmd: "node cli/bin/quox.js governance --help / aee --help / volt --help / trace --help"
     generated_at: 2026-07-25
     quox_version: ">=0.1 pre-1.0"
+license: LicenseRef-SkillRights-Reserved-1.0
 ---
 
 # Quoxpert: Governance Protocols (AEE + AOCL + VOLT + WARD)
@@ -112,7 +113,7 @@ governance data two ways on an existing QuoxCORE instance:
 | `quox governance` | `policy`, `template`, `approval`, `ward`, `evidence`, `traces`, `certify <runId>`, `cert` |
 | `quox governance ward` | `status`, `chains`, `entries`, `verify` |
 | `quox governance cert` | `get <certId>`, `for-run <runId>`, `list`, `stats` |
-| `quox volt` | `verify <file>`, `inspect <file>`, `export <file>`, `summary <file>` |
+| `quox volt` | `verify <file>`, `inspect <file>`, `export <file>`, `fetch <runId>`, `summary <file>`, `accept <runId>`, `acceptance <runId>` |
 | `quox trace` | `list`, `get <identifier>`, `simulate <identifier>`, `compare`, `replay`, `comparison`, `correlation` |
 <!-- quoxpert:generated:end protocol-table -->
 
@@ -295,7 +296,27 @@ quox volt inspect <bundle.json> --manifest       # manifest only, no events
 Use `--manifest` first for a quick "what run is this, how many events, what's
 in `attachments/`" before dumping the full event list.
 
-### 10. Certify a run (write operation, flag this to the user)
+### 10. Fetch a run's evidence bundle before verifying it
+```bash
+quox volt fetch <runId> [--out <file>] [--bundle-id <id>] [--manifest-only]
+```
+Downloads the bundle for a VOLT run id (`VR_...`, see `quox governance cert
+list`) so `quox volt verify`/`inspect` have a local file to work against.
+`--manifest-only` skips building a verifiable bundle and writes the persisted
+manifest as-is; use the default (verifiable) unless you specifically need the
+raw manifest.
+
+### 11. Attest whether a terminal run achieved its intent (write operation)
+```bash
+quox volt accept <runId> --verdict pass|fail --reason "<what you checked and what you saw>"
+quox volt acceptance <runId>       # show the verdict history; latest is the standing verdict
+```
+**`accept` creates an attestation record. It's a write, not a read**, same
+class as `governance certify` below: say so explicitly before running it on
+the user's behalf, and give a real `--reason` describing what was actually
+checked, not a placeholder.
+
+### 12. Certify a run (write operation, flag this to the user)
 ```bash
 quox governance certify <runId>
 ```
@@ -305,7 +326,7 @@ after an `evidence`/`trace` query. Inspect existing certifications first with
 `quox governance cert list` / `quox governance cert for-run <runId>` /
 `quox governance cert stats` before deciding a new one is needed.
 
-### 11. Walk the full governance story for an audit request
+### 13. Walk the full governance story for an audit request
 When a user asks "prove what happened during `<incident/run>`":
 1. `quox aee query`/`get_envelope_chain`: what messages were exchanged, in
    what order.
@@ -318,7 +339,7 @@ When a user asks "prove what happened during `<incident/run>`":
 This four-step order mirrors the protocol stack itself (AEE → AOCL → VOLT →
 WARD) and is the strongest answer to "how do I know this wasn't tampered with."
 
-### 12. Read the raw AOCL layer-event schema
+### 14. Read the raw AOCL layer-event schema
 Every AOCL layer event is itself an AEE `event` envelope with
 `from: "system.aocl"`, `to: "audit"`, `intent: "aocl.layer.{start|complete|bypass|reject}"`,
 and a `payload.layer` field naming `L0`–`L10`. If a user wants to parse these
@@ -331,8 +352,9 @@ AOCL-only format, is what to expect on the wire.
   doesn't execute tools; VOLT doesn't decide policy; WARD doesn't store
   content. Each standardizes structure/audit, not execution. Don't describe
   any of them as "the thing that runs the agent."
-- **`quox governance certify` mutates state.** It's the one write command in
-  this whole recipe set: always name it as a write before running it.
+- **`quox governance certify` and `quox volt accept` mutate state.** They're
+  the write commands in this recipe set: always name them as writes before
+  running them.
 - **All `quox aee`/`quox governance`/`quox volt`/`quox trace` commands need
   `quox login` first.** Live-verified: unauthenticated calls against the
   collector return `401`.

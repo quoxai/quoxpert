@@ -22,6 +22,7 @@ metadata:
         path: "services/collector/server.js (GET /install)"
     generated_at: 2026-07-25
     quox_version: ">=0.1 pre-1.0"
+license: LicenseRef-SkillRights-Reserved-1.0
 ---
 
 # Quoxpert: Install, Upgrade, Backup & Deploy
@@ -85,9 +86,11 @@ in your own terminal) is the only place that credential should be entered.
 | Command | Purpose |
 |---|---|
 | `quox setup status/admin/config` | First-time setup status, create initial admin, configure platform settings |
+| `quox setup license activate/link/status/deactivate` | Activate, inspect and release this instance's licence (key paste, no-paste short-code link, entitlement/lease status, seat release) |
 | `quox status` / `quox health [name]` / `quox doctor` | Platform health overview / per-service health / diagnostics |
 | `quox backup list/get/create/delete/verify/restore/schedule` | Manage backups and backup schedules |
 | `quox admin config/key/service/logs/stats/retention` | Platform configuration, API keys, service registry, audit logs, stats, data retention |
+| `quox onboard <host>` | Guided, idempotent, resumable wizard to onboard a customer site as a governed Quox tenant |
 | `docker compose up -d` / `--profile full up -d` | Start the trimmed default stack / the full stack with dev-heavier services |
 <!-- quoxpert:generated:end command-map -->
 
@@ -146,6 +149,28 @@ An untested backup is a hope, not a backup: always pair `create` with
     docker compose up -d
     quox status                       # confirm all services report healthy post-upgrade
 
+### 12. Activate or check this instance's licence
+    quox setup license activate --key <license-key-v2>   # paste a key on this instance (instance admin)
+    quox setup license link                               # or: approve a short code on quox.ai, no key paste
+    quox setup license status                              # entitlements, lease expiry, freshness
+    quox setup license deactivate                          # release the seat so it can activate elsewhere
+
+### 13. Onboard a customer site as a governed Quox tenant (`quox onboard`)
+A single guided wizard that replaces the manual "create org, add engagement,
+verify targets, schedule a recurring scan" sequence. It is idempotent and
+resumable: re-running it against the same host picks up where a previous run
+left off rather than duplicating state.
+
+    quox onboard client-site.example.com \
+      --name "Acme Corp" --repo acme/acme-site \
+      --environment-tier production \
+      --schedule-cron "0 2 * * 3" --tool vuln_scan
+
+`--target` overrides the scan target if it differs from `<host>`; `--yes`
+runs non-interactively, doing every automatable step and printing gate
+instructions (e.g. domain verification) instead of pausing for them. Omit
+`--yes` on a first run against a new customer so you can review each step.
+
 ### 12. Enroll a fleet host from a freshly-set-up instance
 That's a different install target: see the bastion skill's `/install`
 recipe (`curl .../install | sudo bash` run ON the target host, not on the
@@ -178,3 +203,14 @@ Quox box itself).
   build queue.** If you're inside Quox's own dev repo (not a customer
   install), that team uses a centralised build queue instead of raw compose,
   that's an internal-dev-only detail, out of scope for this sub-skill.
+- **An env var can be LIVE while absent from every env file you grep.**
+  Compose `environment:` lines like `- LICENSE_SIGNING_KEY=${LICENSE_SIGNING_KEY:-}`
+  pull from `.env` files compose reads implicitly, from shell exports at
+  `up` time, and from override files, and different services on one box read
+  DIFFERENT env files. When auditing whether an instance has a key/flag set,
+  probe the RUNNING container (`docker exec <c> sh -c 'echo ${#VAR}'` prints
+  only the length, never the value) instead of grepping files. A 2026-09-04
+  licence DD concluded a prod signing key was absent by checking the wrong
+  env file; the key had been live via the compose seam since 2026-08-08 and
+  the wrong conclusion nearly caused a needless key rotation against live
+  licences.

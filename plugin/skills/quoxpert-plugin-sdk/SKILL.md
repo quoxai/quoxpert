@@ -22,6 +22,7 @@ metadata:
         cmd: "node cli/bin/quox.js plugin --help / plugin data --help / plugin secrets --help / powers --help"
     generated_at: 2026-07-25
     quox_version: ">=0.1 pre-1.0"
+license: LicenseRef-SkillRights-Reserved-1.0
 ---
 
 # Quoxpert: Building `.quoxplugin` Extensions
@@ -94,6 +95,7 @@ server-side; you only ever handle the secret's *name*, never its value.
 |---|---|
 | `npx create-quox-plugin <name> [--template <t>]` | Scaffold a new plugin from one of 8 templates |
 | `npm run dev` / `npm run build` | Dev server / produce the `.quoxplugin` ZIP |
+| `quox plugin doctor <name> [--service <names>]` | Check an installed plugin against the dev-bundle DoD (13-point chain + five prohibitions); machine evidence only, exit 0 green/1 findings/2 cannot-evaluate |
 | `quox plugin list` / `get` / `mine` | List installed plugins / details / plugins visible to you |
 | `quox plugin install` / `update` / `uninstall` | Install, upgrade/toggle, remove a plugin (admin only) |
 | `quox plugin data` | list/get/set/delete plugin-scoped durable KV data |
@@ -185,7 +187,17 @@ Permissions map directly to `pluginApi` surface area. Request exactly what's use
 - **Plugin storage "not persisting."** It's namespaced by `pluginId`; if the ID changed between runs, the old data is orphaned, not lost. Always null-check `pluginApi?.storage`; it can be `null` during plugin init.
 
 ### 12. Audit a plugin for completeness before shipping
-Before calling a plugin done, check each of these and fix anything that fails. This is the same bar a reviewer applies:
+Run the real gate first, don't just eyeball it:
+    quox plugin doctor <name>                          # exit 0 green, 1 findings, 2 cannot-evaluate
+    quox plugin doctor <name> --service alias1,alias2   # when the backend service name(s) differ from the plugin id
+`doctor` runs the dev-bundle definition-of-done as a machine check: a 13-point
+chain plus the five prohibitions (no placeholder data, no fake success, no
+silent fallback, no scope theatre, no unwitnessed writes), against machine
+evidence only, not a self-report. Fix every finding it raises before treating
+the checklist below as satisfied; the checklist covers ground `doctor` doesn't
+(dark-theme compliance, bundle size, plugin ID hygiene).
+
+Before calling a plugin done, also check each of these and fix anything that fails. This is the same bar a reviewer applies:
 1. **Manifest completeness.** Every required field present, `permissions` matches what the code actually calls.
 2. **`configSchema` validity.** Every field has `type`/`label`/`description`; secrets use `type: "password"`.
 3. **`safety` block present** if the plugin has any destructive action, with `requiresApproval` covering the dangerous ones.

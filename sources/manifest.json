@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "_readme": "Regen input map (plan STREAM_QUOXPERT_PLAN.md \u00a74). For each sub-skill: declared inputs (repo + path/cmd), which generated block(s) each source feeds, and a 'stamp' (sha256 of the source's current content + when it was last checked/regenerated). scripts/regen.mjs writes stamps after a successful regen; scripts/drift-check.mjs re-hashes at CI time and fails if a stamp is stale. Repos are resolved on disk at $QUOXPERT_REPOS_ROOT/<repo> (defaults to the parent of this checkout, i.e. sibling repos under /home/control) \u2014 see scripts/regen.mjs resolveRepoRoot(). 'stamp.sha256: null' means never regenerated yet (expected for a v0.1 scaffold with empty SKILL.md files).",
+  "_readme": "Regen input map (plan STREAM_QUOXPERT_PLAN.md §4). For each sub-skill: declared inputs (repo + path/cmd), which generated block(s) each source feeds, and a 'stamp' (sha256 of the source's current content + when it was last checked/regenerated). scripts/regen.mjs writes stamps after a successful regen; scripts/drift-check.mjs re-hashes at CI time and fails if a stamp is stale. Repos are resolved on disk at $QUOXPERT_REPOS_ROOT/<repo> (defaults to the parent of this checkout, i.e. sibling repos under /home/control) — see scripts/regen.mjs resolveRepoRoot(). 'stamp.sha256: null' means never regenerated yet (expected for a v0.1 scaffold with empty SKILL.md files).",
   "repos_root_env": "QUOXPERT_REPOS_ROOT",
   "skills": {
     "quoxpert": {
@@ -11,13 +11,13 @@
           "repo": "quox-dashboard",
           "type": "file",
           "path": "CLAUDE.md",
-          "note": "Repository Map table \u2014 public-repo version feeds the root skill's ecosystem map (internal paths stripped).",
+          "note": "Repository Map table — public-repo version feeds the root skill's ecosystem map (internal paths stripped).",
           "feeds": [
             "ecosystem-map"
           ],
           "stamp": {
             "sha256": "f4f79b5e3e084e4c3b7deda27b415fe39f9ff43102ac7da6304c63189b763e4b",
-            "checked_at": "2026-08-21T02:39:35.152Z",
+            "checked_at": "2026-09-25T15:51:10.038Z",
             "repo_commit": null
           }
         },
@@ -26,7 +26,7 @@
           "repo": "quox-dashboard",
           "type": "url",
           "path": "https://quox.ai/docs/concepts",
-          "note": "Canonical concept index per docs/CONCEPTS.md:3 \u2014 website wins on disagreement.",
+          "note": "Canonical concept index per docs/CONCEPTS.md:3 — website wins on disagreement.",
           "feeds": [
             "concepts-table"
           ],
@@ -53,7 +53,7 @@
           ],
           "stamp": {
             "sha256": "24ca62c4a13eb6f20dd27fd60e9601e3cf043f8a16ef3aa9117df3a3197bf61b",
-            "checked_at": "2026-08-21T02:39:35.155Z",
+            "checked_at": "2026-09-25T15:51:10.042Z",
             "repo_commit": null
           }
         },
@@ -68,7 +68,7 @@
           ],
           "stamp": {
             "sha256": "273c206cc8fdb09232a325f4862ac075cb045a27f90a92956ac1e3e60b1a5039",
-            "checked_at": "2026-08-21T02:39:35.161Z",
+            "checked_at": "2026-09-25T15:51:10.042Z",
             "repo_commit": null
           }
         }
@@ -87,8 +87,8 @@
             "command-map"
           ],
           "stamp": {
-            "sha256": "f14dac6c9c6b5694c10d2435d10aa8e16bd8cefb9c630a424c76ab40d4fb7d48",
-            "checked_at": "2026-08-21T02:39:35.496Z",
+            "sha256": "ac994be0a24ec685d1970ffe38ed5d98e2f618c7dbd89990f57d3c4fb1f74404",
+            "checked_at": "2026-09-25T15:51:10.362Z",
             "repo_commit": null
           }
         },
@@ -97,13 +97,13 @@
           "repo": "quox-dashboard",
           "type": "file",
           "path": "cli/lib/api/endpoints.js",
-          "note": "Centralized endpoint map \u2014 same anti-drift source used by cli/test/api/endpoints-lint.test.js.",
+          "note": "Centralized endpoint map — same anti-drift source used by cli/test/api/endpoints-lint.test.js.",
           "feeds": [
             "command-map"
           ],
           "stamp": {
             "sha256": "daf30cb110e62c709277daea0620023d7a2b0ed660adf581a9391ff3b6f88a3a",
-            "checked_at": "2026-08-21T02:39:35.497Z",
+            "checked_at": "2026-09-25T15:51:10.362Z",
             "repo_commit": null
           }
         },
@@ -117,8 +117,8 @@
             "flag-table"
           ],
           "stamp": {
-            "sha256": "5c00ce34129e66ea51dff331ce8d786b102cb80435a846d4d3651627cda4922a",
-            "checked_at": "2026-08-21T02:39:35.807Z",
+            "sha256": "9f5acdfa8d5819ada0a77ba6b52c9eb7be4474d1ced801f65feb9332a9e95f05",
+            "checked_at": "2026-09-25T15:51:10.689Z",
             "repo_commit": null
           }
         }
@@ -138,8 +138,8 @@
             "env-var-table"
           ],
           "stamp": {
-            "sha256": "bdae8407c7a6150b1d61c2798ca2f1a46342043a4b85b806ce85f9b070fde9f8",
-            "checked_at": "2026-08-21T02:39:36.048Z",
+            "sha256": "e5abf7a3d486496d43ec727376786230f1f0b134ee842d3a92f3ac3d17860958",
+            "checked_at": "2026-09-25T15:51:10.697Z",
             "repo_commit": null
           }
         },
@@ -154,8 +154,8 @@
             "tool-surface-counts"
           ],
           "stamp": {
-            "sha256": "5e3f2088275b262ae4d225739ff8b6864e75c07cec24827e45d15ed9df323169",
-            "checked_at": "2026-08-21T02:39:36.048Z",
+            "sha256": "01dd28a8ae5ad3aa4b0d6fd87ba5cab2444ba595e5d16f37f3798f1e49f2ca4c",
+            "checked_at": "2026-09-25T15:51:10.697Z",
             "repo_commit": null
           }
         },
@@ -164,13 +164,13 @@
           "repo": "quox-dashboard",
           "type": "cmd",
           "cmd": "curl -s ${QUOX_DEV_URL:-http://127.0.0.1:9848}/api/v1/tools/list",
-          "note": "Live tool table (130 tools) \u2014 executed against a dev instance at regen time per plan \u00a74.2 row 3.",
+          "note": "Live tool table (130 tools) — executed against a dev instance at regen time per plan §4.2 row 3.",
           "feeds": [
             "tool-table"
           ],
           "stamp": {
             "sha256": "62f80bc41274d4005473a231e32fd8f56c110844acacf1b73ebb0e1c8dd1e53d",
-            "checked_at": "2026-08-21T02:39:36.078Z",
+            "checked_at": "2026-09-25T15:51:10.748Z",
             "repo_commit": null
           }
         }
@@ -188,8 +188,8 @@
             "workflow-engine-overview"
           ],
           "stamp": {
-            "sha256": "2ac71174ef88baa290e5673b7d3f89507555e0f38c2a31e53f21830b61f00522",
-            "checked_at": "2026-08-21T02:39:36.086Z",
+            "sha256": "d73e60ff90c8581db27e5d2578a547a6c77d4bf2b906696634181b709b852b36",
+            "checked_at": "2026-09-25T15:51:10.751Z",
             "repo_commit": null
           }
         },
@@ -202,8 +202,8 @@
             "workflow-engine-overview"
           ],
           "stamp": {
-            "sha256": "885d71d8e968a3a016ef5c970b8b65e5ae890f937a9458edcb70ceefed748664",
-            "checked_at": "2026-08-21T02:39:36.087Z",
+            "sha256": "336bd276382be037a33496ceb9941fcfd0d735ea32bf8254c9b442933b266673",
+            "checked_at": "2026-09-25T15:51:10.752Z",
             "repo_commit": null
           }
         }
@@ -221,8 +221,8 @@
             "bastion-overview"
           ],
           "stamp": {
-            "sha256": "30e45ba792acfdc042d92810596e0ed36952a121a07da3cd801a7338b44d74dd",
-            "checked_at": "2026-08-21T02:39:36.088Z",
+            "sha256": "279354945b84b5c41e2f2632c704e45a36873b255c214693ce772e77e621536f",
+            "checked_at": "2026-09-25T15:51:10.752Z",
             "repo_commit": null
           }
         },
@@ -235,8 +235,8 @@
             "fleet-agent-overview"
           ],
           "stamp": {
-            "sha256": "8097da3493392c29a3f6814bba5c85309d513308387716ae02e1b5f5756fa393",
-            "checked_at": "2026-08-21T02:39:36.089Z",
+            "sha256": "be094c7f72af5531dd678bc953a92878fa710f99bbb8742d0622f3857f5a833c",
+            "checked_at": "2026-09-25T15:51:10.753Z",
             "repo_commit": null
           }
         }
@@ -257,7 +257,7 @@
           ],
           "stamp": {
             "sha256": "e4a7f6b1d3ffb53093bcb2af1636fb06d32b1878f48d84d49a37682a71ae53bd",
-            "checked_at": "2026-08-21T02:39:36.089Z",
+            "checked_at": "2026-09-25T15:51:10.754Z",
             "repo_commit": null
           }
         }
@@ -275,8 +275,8 @@
             "aee-section"
           ],
           "stamp": {
-            "sha256": "38b42acd1cc9a8deacbd98b98511bb1c1a0a84bf6b149669abda59ff6dde5dfb",
-            "checked_at": "2026-08-21T02:39:36.091Z",
+            "sha256": "328c0be43d9fcdbece81cf45ea0aa79e2f6a52bc5457b75b2fe8b020792ad37d",
+            "checked_at": "2026-09-25T15:51:10.754Z",
             "repo_commit": null
           }
         },
@@ -289,8 +289,8 @@
             "aocl-section"
           ],
           "stamp": {
-            "sha256": "33021ee1e6860cfc152171cd3b3313194938d7fdbc38a939af646ca1b33077ae",
-            "checked_at": "2026-08-21T02:39:36.091Z",
+            "sha256": "58cfef644886f62040bf9388d61a0db14b2ee988751b1ddbabdc56856d58335b",
+            "checked_at": "2026-09-25T15:51:10.755Z",
             "repo_commit": null
           }
         },
@@ -303,8 +303,8 @@
             "volt-section"
           ],
           "stamp": {
-            "sha256": "fcb842d15a87a07d3871daae4d7d7297b7fcca976cfead09b7ab446dcda3b721",
-            "checked_at": "2026-08-21T02:39:36.091Z",
+            "sha256": "7b2affd794f19256c7eb42c7079dc866abf48cb114e8a9eb6dab6e7dbe099383",
+            "checked_at": "2026-09-25T15:51:10.756Z",
             "repo_commit": null
           }
         },
@@ -317,8 +317,8 @@
             "ward-section"
           ],
           "stamp": {
-            "sha256": "c02ea077d2c53b9405d198935a622f737f834215b62b9e54f6746979bb120fee",
-            "checked_at": "2026-08-21T02:39:36.092Z",
+            "sha256": "f3d592f23729c67af4caf7eaf3fd584717b708ed0b0efadeba8aacd94a7b5767",
+            "checked_at": "2026-09-25T15:51:10.756Z",
             "repo_commit": null
           }
         }
@@ -332,13 +332,13 @@
           "repo": "quox-website",
           "type": "file",
           "path": "src/pages/DownloadsPage.jsx",
-          "note": "Install/quickstart flow the website teaches humans \u2014 the sub-skill teaches the same flow to Claude.",
+          "note": "Install/quickstart flow the website teaches humans — the sub-skill teaches the same flow to Claude.",
           "feeds": [
             "quickstart-steps"
           ],
           "stamp": {
-            "sha256": "673c919401da5ce7309ec701381baf105caddc93a437907ce26157a1b761749d",
-            "checked_at": "2026-08-21T02:39:36.094Z",
+            "sha256": "99713350be3fdff5ce7e11a0af645d10eb813e94184346fe914495ca9bd0b650",
+            "checked_at": "2026-09-25T15:51:10.759Z",
             "repo_commit": null
           }
         },
@@ -353,7 +353,7 @@
           ],
           "stamp": {
             "sha256": "24ca62c4a13eb6f20dd27fd60e9601e3cf043f8a16ef3aa9117df3a3197bf61b",
-            "checked_at": "2026-08-21T02:39:36.094Z",
+            "checked_at": "2026-09-25T15:51:10.759Z",
             "repo_commit": null
           }
         }
@@ -376,7 +376,7 @@
           "feeds": [],
           "stamp": {
             "sha256": "d7385206a81acc4c08142e8a6b8e68d0633bb2400e9f84a1c03921167c8c7a32",
-            "checked_at": "2026-08-21T02:39:36.096Z",
+            "checked_at": "2026-09-25T15:51:10.761Z",
             "repo_commit": null
           }
         }
@@ -394,7 +394,7 @@
           "feeds": [],
           "stamp": {
             "sha256": "e113b8fba12a123cf61e4443620ee65eadcd9d6d86a7a4d3b80289420a6e8618",
-            "checked_at": "2026-08-21T02:39:36.097Z",
+            "checked_at": "2026-09-25T15:51:10.762Z",
             "repo_commit": null
           }
         }
@@ -411,8 +411,8 @@
           "note": "Brought under version control QSDK-SKILLS 2026-07-25 - this skill previously existed only as a live install at ~/.claude/skills/quoxpert-repobrain, never committed to this repo. Internal-voice leak fixed and quox_version canonicalised (was >=2.x) at the same time. Fixed 2026-07-25 (regen.mjs skip-tracking audit fix): repo/path were wrong (pointed at quox-dashboard/services/repobrain/..., which doesn't exist on quox-dashboard's main branch; RepoBrain is its own repo, quox-repobrain, per the ecosystem repo map).",
           "feeds": [],
           "stamp": {
-            "sha256": "22f340c2e16bee9a6ff29d71b3d0709ccaa8787f61472c5e437bb4f04a255980",
-            "checked_at": "2026-08-21T02:39:36.099Z",
+            "sha256": "4e99f0393d5412f526a16bd918d2527a577bac15dce6d30b62c1fc07533a087d",
+            "checked_at": "2026-09-25T15:51:10.763Z",
             "repo_commit": null
           }
         }
@@ -430,7 +430,7 @@
           "feeds": [],
           "stamp": {
             "sha256": "b5fb06aa293b10bfa21eab7fff00ea9bea6b28cc50113037465ccca31f5e9f5a",
-            "checked_at": "2026-08-21T02:39:36.099Z",
+            "checked_at": "2026-09-25T15:51:10.764Z",
             "repo_commit": null
           }
         },
@@ -443,7 +443,7 @@
           "feeds": [],
           "stamp": {
             "sha256": "147773d8055a059ef7f1a52d0e87ea27c9c651c68e2aaad74a50600124ac55a7",
-            "checked_at": "2026-08-21T02:39:36.100Z",
+            "checked_at": "2026-09-25T15:51:10.764Z",
             "repo_commit": null
           }
         },
@@ -456,7 +456,7 @@
           "feeds": [],
           "stamp": {
             "sha256": "13f04e9117b9b3451fb115519f21ca75c2a8c06abab757af2cc68eac583a39c4",
-            "checked_at": "2026-08-21T02:39:36.101Z",
+            "checked_at": "2026-09-25T15:51:10.765Z",
             "repo_commit": null
           }
         }

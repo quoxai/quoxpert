@@ -4,6 +4,7 @@ description: "Makes any Claude an instant expert at operating Quox, the governed
 argument-hint: "<area: core | cli | mcp | flow | bastion | plugin-sdk | protocols | deploy | qluster | convert | publish | repobrain | quoxplan>"
 quox_version: ">=0.1 pre-1.0"
 user_invocable: true
+license: LicenseRef-SkillRights-Reserved-1.0
 ---
 
 # Quoxpert: the Quox expert, as a Claude skill
@@ -21,7 +22,7 @@ Quox (product name for the QuoxCORE platform) is a **governed multi-agent operat
 | You want to… | Load |
 |---|---|
 | Understand the platform, concepts, service topology, "where does X live" | `quoxpert-core` |
-| Drive Quox from the terminal (`quox` CLI + TUI): agents, workflows, chat, HITL, fleet, vault, governance | `quoxpert-cli` |
+| Drive Quox from the terminal (`quox` CLI + TUI): agents, workflows, chat, HITL, fleet, governance | `quoxpert-cli` |
 | Wield Quox's tools from inside Claude via QuoxMCP (install + the 130+ RBAC-gated tools) | `quoxpert-mcp` |
 | Build, run, or inspect workflows (quoxflow: nodes, AOCL pipeline, triggers, objectives, skills) | `quoxpert-flow` |
 | Operate the agent fleet + governed SSH execution (QuoxBastion + quoxagent) | `quoxpert-bastion` |
@@ -33,6 +34,15 @@ Quox (product name for the QuoxCORE platform) is a **governed multi-agent operat
 | Understand what's shippable today for distributing/monetising a plugin (signing, licensing, what's not live yet) | `quoxpert-publish` |
 | Search/cite a codebase, map blast radius, connect and index a repo (RepoBrain / Nucleus) | `quoxpert-repobrain` |
 | Read or update a roadmap/stream (QuoxPlan), brief on a stream, script roadmap changes | `quoxpert-quoxplan` |
+| SEO data for a Quox site: crawl health, GSC, orphans, the witnessed change log, `quox seo` | `quoxpert-quoxseo` |
+| Attach a live session to an agent so it becomes that agent (adopt prompt/tools/memory, witnessed identity, persistent memory): `quox agent attach/exec/detach`, QuoxIdentity | `quoxpert-quoxidentity` |
+| Run governed vulnerability scans (QuoxSecurity: engagements, verified in-scope targets, nuclei/nmap/httpx tools, findings, reports), `quox engagement` | `quoxpert-security` |
+| Connect/manage an external service credential (QuoxVault: `quox vault`, folders, agent assignments, leases, rotation, the `vault_*` agent tools) | `quoxpert-vault` |
+| Post to X (Twitter) through the governed HITL loop: `quox x` post/thread/delete/status, credential setup, budgets, campaign craft | `quoxpert-x` |
+| Publish to LinkedIn through the governed HITL loop: `quox linkedin` post/comment/posts/org, pasted-token credentials with tracked 60-day expiry, image-by-URL | `quoxpert-linkedin` |
+| Publish to Facebook Pages through the governed HITL loop (organic only, ads = META-ADS): `quox facebook` post/pages/posts/insights/lead-forms/leads, shared `meta` 60-day token | `quoxpert-facebook` |
+| Publish to Instagram through the governed HITL loop (container flow, shared `meta` token via Page linkage): `quox instagram` verbs, 100-posts/24h quota | `quoxpert-instagram` |
+| Publish to TikTok through the governed HITL loop (SELF_ONLY until app audit, 24h access token): `quox tiktok` verbs, draft + direct post | `quoxpert-tiktok` |
 
 When in doubt, start with `quoxpert-core` for orientation, then narrow.
 

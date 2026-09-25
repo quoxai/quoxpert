@@ -27,6 +27,7 @@ metadata:
         cmd: "node cli/bin/quox.js workflow|run|trigger|objective|skills --help"
     generated_at: 2026-07-25
     quox_version: ">=0.1 pre-1.0"
+license: LicenseRef-SkillRights-Reserved-1.0
 ---
 
 # Quoxpert: QuoxFlow Workflow Engine
@@ -140,6 +141,7 @@ returned.
 ### 7. Work with triggers
     quox trigger webhooks              # inbound webhook paths from active nodes
     quox trigger schedules             # cron schedules owned by quoxflow
+    quox trigger events                # active EventBus subscriptions
     quox trigger workflow-activate <id>
     quox trigger workflow-deactivate <id>
 
@@ -176,6 +178,44 @@ HITL inbox item is created. Approve/deny from the inbox, then resume the run:
     quox run resume <runId>
 
 ## Gotchas
+
+- **Expressions reference workflow variables as `vars`, NOT `variables`**
+  (verified 2026-08-22, quox#466). The isolated-vm sandbox injects `input`,
+  `nodes`, `vars`, `workflow`, `execution`, `env`, plus a `$` helper
+  (`$.now()`, `$.uuid()`, `$.base64Encode/Decode`, `$.jsonPath`). The
+  top-level workflow JSON key is `variables`, but inside any expression
+  (data:transform, flow:condition, `${...}` config interpolation) it is
+  `vars`. Writing `variables.x` throws `variables is not defined` and fails
+  the node with TRANSFORM_FAILED. Several SHIPPED examples
+  (codebase-integrity-guard.json) get this wrong and cannot run as written.
+  Standard ECMAScript built-ins (Date, Math, JSON, String) ARE available —
+  only Node APIs (require/process/Buffer) are absent.
+
+- **A `trigger:webhook` delivers the POST body at `input.data`, not
+  `input.body`** (quox#467). The next node sees
+  `{data:{<your JSON>}, path, method, headers, trigger, receivedAt}`. Read
+  the payload as `input.data.<field>`. Getting this wrong fails silently:
+  the transform produces empty/default fields and the run mis-routes with no
+  error. The webhook ingress is `POST http://<quoxflow>:3200/webhooks/<path>`
+  (unauthenticated trigger); the response returns an `executionId`.
+
+- **Activation, not publish, makes a workflow live** (quox#468). In the
+  current CLI `quox workflow activate <id>` registers the trigger and flips
+  `active: yes`; `quox workflow publish <id>` 404s. `quox workflow validate`
+  wants `-f <file>`, not a stored id. And `quox workflow apply -f` on an
+  UPDATE prompts for diff confirmation and silently no-ops in a non-TTY
+  (`User force closed the prompt`) unless you pass `--force`.
+
+- **The CLI READ verbs are currently unreliable** (quox#465): `workflow
+  get`/`list`, `run get`, and `inbox list` intermittently 404 or return empty
+  for objects that demonstrably exist and are serving traffic. To inspect a
+  run's true state and node path, go to quoxflow directly:
+  `GET http://localhost:3200/api/executions/:id` and `/envelopes` with headers
+  `X-Service-Key: $INTERNAL_SERVICE_KEY` AND `X-Org-Id: <orgId>` (both
+  required). Pending approvals: `GET /api/approvals?status=pending`; resolve
+  with `POST /api/executions/:id/resume` body `{"approved":true|false,
+  "approver":"...","reason":"..."}` (`approved` is a REQUIRED boolean; a deny
+  fails the run with `APPROVAL_DENIED`, which is the block).
 
 - **`workflow validate` validates the stored copy, not your local file.**
   `apply` first, or you're validating stale content.

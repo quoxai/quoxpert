@@ -23,11 +23,24 @@ metadata:
         cmd: "curl -s -H 'x-service-key: $INTERNAL_SERVICE_KEY' http://localhost:9848/api/v1/prompts/list"
     generated_at: 2026-07-25
     quox_version: ">=0.1 pre-1.0"
+license: LicenseRef-SkillRights-Reserved-1.0
 ---
 
 # Quoxpert: QuoxMCP (Tool Surface)
 
 ## What this is
+
+> **STANDING RULING (owner, 2026-08-23): the quox CLI is the DEFAULT reach-back,
+> over MCP, always.** MCP is OPT-IN, for shell-less Claudes and for surfaces that
+> genuinely need a tool protocol. It is deliberately NOT installed or registered
+> by `quox dev enable`, so a dev server carries no MCP unless someone chooses it.
+> Reasoning, on the record so it is not re-argued: 85 tool schemas is 10-20k
+> tokens of EVERY session's context on EVERY host, a tax paid whether or not a
+> single MCP tool is ever called, while the CLI costs nothing until invoked and
+> is already delivered and proven at enable (/opt/quoxcli plus the env-wired
+> /usr/local/bin/quox wrapper). Reach for `quoxpert-cli` first; come here when
+> the CLI genuinely cannot serve, and say which of those two you are doing.
+
 
 QuoxMCP is a thin STDIO protocol adapter. It bridges Claude (Desktop, Code, or
 any Agent SDK app) to the QuoxCORE **collector** API. QuoxMCP holds **no tool
@@ -115,6 +128,11 @@ operational prompt.
 live in the QuoxCORE `.env` on the collector host or the dashboard profile page.
 Point the user there, don't collect the values in chat.
 
+If a process ALSO shells the `quox` CLI (not just this MCP server), a bare
+`QUOX_SERVICE_KEY` loses to any stored login in the shared config — set
+`QUOX_FORCE_SERVICE_KEY=1` too so the CLI uses the key and ignores the ambient
+profile. See quoxpert-cli, "Unattended daemons: use their OWN key".
+
 Verify with a standalone run:
 
 ```bash
@@ -153,6 +171,10 @@ Representative tool families (not exhaustive):
 `get_envelope_chain`, `list_evidence`, `ssh_exec`, `fleet_status`, `docker_status`,
 `proxmox_vms`, `security_audit`, `metrics_query`, `memory_save`/`memory_search`,
 `skills_list`, `alerts_manage`, `network_check`, `email_read`/`email_send`.
+
+Credential/integration family (read-only, credential creation stays
+human-only by design): `vault_list`, `vault_test`, `vault_types`,
+`vault_connect_guide` (see `quoxpert-vault` for the full recipe set).
 
 ## Recipes (hand-authored, the actual expertise)
 
@@ -278,7 +300,16 @@ quox powers finalize <toolDefId>        # register the tools once the build succ
 
 Other lifecycle commands: `quox powers update <toolDefId>` (re-detect/redeploy
 after the upstream endpoint changes), `quox powers archive <toolDefId>`
-(retire an agent without deleting its audit history).
+(retire an agent without deleting its audit history), `quox powers restore
+<toolDefId>` (bring a previously archived power back), `quox powers config
+<toolDefId> [--env key=value] [--name ...] [--description ...] [--icon ...]
+[--system-prompt-additions ...]` (rotate env vars or edit the agent persona
+without rebuilding the container).
+
+`quox powers delete <toolDefId> [--force]` is **destructive and permanent**:
+it revokes the agent and deletes its credentials, with no undo (unlike
+`archive`, which keeps rows and can be `restore`d). Confirm with the user
+before running it; prefer `archive` unless permanent removal is the intent.
 
 **When to reach for POWERS instead of the plugin SDK:** the user already has
 a working MCP server or repo and wants Quox to wrap it as a governed agent

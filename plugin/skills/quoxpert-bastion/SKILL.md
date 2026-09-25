@@ -25,6 +25,7 @@ metadata:
     generated_at: 2026-07-25
     quox_version: ">=0.1 pre-1.0"
     maturity_note: "quoxagent heartbeat auth is Beta"
+license: LicenseRef-SkillRights-Reserved-1.0
 ---
 
 # Quoxpert: QuoxBastion & Fleet (quoxagent)
@@ -95,10 +96,20 @@ tooling instead.
 | `quox fleet status` | Show fleet status |
 | `quox fleet summary` | Show fleet summary |
 | `quox fleet agents` | List fleet agents (quoxagent instances) |
+| `quox fleet hosts` | List hosts known to the Bastion registry |
+| `quox fleet gpu` | List the durable GPU fleet |
 | `quox fleet tools` | List available fleet tools (bastion's built-in + pack tools) |
 | `quox fleet exec --tool <name> [--host <hostId>] [--input <json>]` | Execute a governed fleet tool |
+| `quox fleet host-update <hostId> [options]` | Update a host in the Bastion registry (link/clear bootstrap credential) |
+| `quox fleet codex-provision <hostId>` | Provision Codex on a fleet host (npm install, AppArmor userns profile, model config) up to the manual device-auth login |
+| `quox fleet rehome-agent <hostId> --collector <url> --org <orgId>` | Re-enrol a host's QuoxAgent against a different collector by clean reinstall |
 | `quox fleet watch` | Watch fleet status in real time |
 <!-- quoxpert:generated:end command-map -->
+<!-- fleet #446 (2026-08-26): rows above updated BY HAND against the live
+     `quox fleet --help`; the quoxpert regen pipeline does not cover this
+     skill yet (quox#433), so regen will not clobber this, and when it
+     finally does cover it, the generator output should match or supersede
+     these rows. -->
 
 ## Recipes (hand-authored: the actual expertise)
 
@@ -143,6 +154,77 @@ executing immediately:
 
 ## Gotchas
 
+- **Bastion BUILT-IN tools are NOT actually reachable via `quox fleet exec`
+  (as of 2026-08-22).** Recipes above show `--tool health-check`,
+  `--tool install-quoxagent` etc., but the collector tool registry returns
+  `Unknown tool: install-quoxagent` for every bastion built-in; only the
+  collector's own tools (ssh_exec, fleet_status, ...) resolve. Filed as
+  quoxai/quox#459. Until fixed, the working governed path for "install/
+  reinstall quoxagent on host X" is the collector's install script run ON
+  the host via ssh_exec, detached to dodge the 60s exec cap:
+  `sudo systemd-run --collect --unit=quoxagent-reinstall bash -c "curl -sSL http://<collector>:9848/install | bash -s -- --host-id <hostId> > /tmp/quoxagent-install.log 2>&1; echo EXIT:$? >> /tmp/quoxagent-install.log"`
+  then poll the log with short ssh_execs. Verified live on
+  mountfolly-website 2026-08-22.
+
+- **`quox fleet rehome-agent` --org shadowing is FIXED** (quoxai/quox#457,
+  commit b9262af4 on origin/main, 2026-08-22): the flag now parses in any
+  position and validation happens in the action. The ssh_exec + /install
+  fallback above remains useful when the collector cannot reach the host's
+  agent at all.
+
+- **`quox fleet hosts` now lists the bastion HOST registry, but the fleet
+  counts still disagree across surfaces.** `quox fleet agents` = heartbeating quoxagents only (a host can
+  be up and enrolled in bastion yet absent here if its agent or the VM is
+  down). `quox fleet summary`'s Total counts something else again. The
+  actual registry lives in bastion; read it with ssh_exec on the
+  bastion host via the AUTHENTICATED API (unauthenticated curl returns
+  `{"error":"unauthorized"}` since the security hardening; verified
+  2026-08-31). Extract a token in place, never printing it:
+  `TOKF=$(grep -oP 'token_file: *\K\S+' /home/ubuntu/bastion.yaml); curl -s -H "Authorization: Bearer $(python3 -c "import json;print(json.load(open('$TOKF'))['tokens'][0]['token'])")" http://localhost:9850/api/v1/hosts`. quoxai/quox#460 (a proper `quox fleet hosts` verb) SHIPPED:
+  verified live 2026-08-26, the verb lists the bastion registry.
+  Two more traps while you are in there: bastion's status sweep can be
+  frozen for hours with `Stale 0` still reported and never-seen hosts
+  rendered as year `0001` (quoxai/quoxbastion#8), and the native
+  `bastion` CLI lives at `~/go/bin/bastion` on the bastion box (NOT
+  /usr/local/bin) and prints a misleading `No hosts registered` when it
+  simply has no API config in a no-profile shell (quoxai/quoxbastion#9).
+  A bastion row saying `unreachable` is a claim about the last sweep, not
+  about now: ping/ssh before believing it.
+
+- **ssh_exec `duration_ms` in results is garbage** (141 hours for a
+  sub-second command); ignore it (quoxai/quoxbastion#10).
+
+- **`ssh_exec` wants the host INSIDE `--input`, not in `--host`.** Verified
+  live 2026-08-22: `--host agent-host-01` reached the bastion as an
+  EMPTY host ("host not found: "), while
+  `--input '{"host":"agent-host-01","command":"..."}'` executed. The
+  `--host` flag works for bastion built-ins (health-check etc.); ssh_exec
+  reads its own input schema. Also: ssh_exec lands in `$HOME` with no
+  profile, so use absolute paths, and chain with `;` when a probe may fail
+  (`&&` silently truncates your diagnostics).
+
+- **Adding a NEW host to the registry has NO `quox fleet` verb** (2026-08-31,
+  qcore-dev02 birth): `host-update` only links credentials; it cannot create.
+  The working governed path is POST `/api/v1/hosts` on the bastion box with a
+  Bearer token (see the token-extraction pattern above), body
+  `{"id":"<hostId>","ip":"<ip>","group":"fleet","ssh":{"port":22,"user":"control"}}`
+  (group `fleet`, user `control` is the qcore convention). PUT
+  `/api/v1/hosts/<id>` updates (e.g. an IP change). Do NOT use
+  `bastion host add` (direct storage write) while the daemon runs: the daemon
+  loads hosts.json into memory ONCE at serve start, so a file write is
+  invisible until restart and a later daemon save can clobber it. Filed as a
+  product gap: quoxai/quox needs a `quox fleet host-add` verb.
+- **`quox dev enable` has TWO hidden prerequisites beyond a heartbeating
+  agent** (each produced a distinct 502, 2026-08-31): the host must be in the
+  BASTION registry (`502 Bastion returned 404: host not found`) AND the SSH
+  user needs passwordless sudo (`502 sudo: a terminal is required`;
+  fix: `echo 'control ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/control-nopasswd`,
+  chmod 440). Birth order that works: enroll quoxagent -> POST bastion host
+  row -> NOPASSWD sudoers -> `quox dev enable`.
+- **ssh_exec on hyp-01 lands as user `ubuntu`, not root.** `/root/...`
+  paths are permission denied; the serving binary is
+  `/home/ubuntu/QuoxBastion/bastion --config /home/ubuntu/bastion.yaml`.
+  Also `bash -lc` there hangs silently; never wrap commands in a login shell.
 - **There is no top-level `quox bastion` command**: everything routes
   through `quox fleet`. Bastion's own native CLI/TUI (`bastion host list`,
   `bastion exec`, `bastion tui`) is a separate binary meant for direct

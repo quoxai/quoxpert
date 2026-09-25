@@ -16,6 +16,7 @@ metadata:
         path: packages/create-quox-plugin/bin/create.js
     generated_at: 2026-07-25
     quox_version: ">=0.1 pre-1.0"
+license: LicenseRef-SkillRights-Reserved-1.0
 ---
 
 # Quoxpert: Convert an existing tool into a Quox plugin

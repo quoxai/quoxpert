@@ -18,6 +18,7 @@ metadata:
         cmd: "repobrain query --help"
     generated_at: 2026-07-25
     quox_version: ">=0.1 pre-1.0"
+license: LicenseRef-SkillRights-Reserved-1.0
 ---
 
 # Quoxpert: RepoBrain (Code Intelligence)
@@ -57,8 +58,9 @@ uncommitted change), or the file is tiny and you already know its path.
 **Two-step pattern:** `repobrain query` gives you `file:line`, then `Read` just that
 section. Do not read the whole file.
 
-**Announce it.** Print `🧠 REPOBRAIN: Querying "..."` before a query and
-`🧠 REPOBRAIN: Found N results in Xms` after. The user must see the tool being used,
+**Announce it.** The `repobrain` CLI prints the QuoxGlyph grammar header itself
+(`🧠 REPOBRAIN │ query '...' │ N hits · Xms`); if querying by another route, emit
+the same line yourself. The user must see the tool being used,
 adoption is visible or it does not happen.
 
 ## The CLI
@@ -110,7 +112,7 @@ prose:
 
 1. **RepoBrain before grep** for any "where/how/what-depends" question. It is 42x
    cheaper and returns definitions, not text matches.
-2. **Announce every query** (`🧠 REPOBRAIN:` before and after) so usage is visible.
+2. **Announce every query** (the `🧠 REPOBRAIN │` grammar line) so usage is visible.
 3. **Two-step:** query for `file:line`, then Read only that section.
 4. **Blast radius before hub edits:** `repobrain query "what imports <file>?"` before
    touching anything imported by many files.

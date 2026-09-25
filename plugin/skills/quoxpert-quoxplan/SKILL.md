@@ -23,6 +23,7 @@ metadata:
         path: docs/suggested-rules.md
     generated_at: 2026-07-25
     quox_version: ">=0.1 pre-1.0"
+license: LicenseRef-SkillRights-Reserved-1.0
 ---
 
 # Quoxpert: QuoxPlan (Roadmaps)
@@ -73,13 +74,26 @@ Shared verb set: `roadmaps`, `list [roadmap] [--lens focus|tier|all]`, `focus
 <title>`, `plan <id> [--edit] [--history]`, `move <roadmap> <id> <position>`.
 Every command supports `--json` (standalone: a flag; parity: `--output json`).
 
-Five roadmap-cli-retirement verbs exist **only** in the standalone `quoxplan`
-CLI today, `quox plan` has no equivalents yet: `add <json>` (create a stream,
-`id`/`name` required), `update <id> <field> <value>` (PATCHes most fields;
+The five roadmap-cli-retirement verbs now have **full `quox plan` parity**
+(witnessed), correction 2026-09-19 after a session created a stream via the
+standalone CLI and landed it unwitnessed, wrongly believing these were
+standalone-only: `quox plan add <json>` (create a stream, `id`/`name`
+required), `quox plan update <id> <field> <value>` (PATCHes most fields;
 `notes` appends instead of overwriting, `priority` is refused, use `move`),
-`rename <oldId> <newId>` (cascades to phases/plans/notes/action-items/events
-and every other stream's `depends_on`), `stats [roadmap]`, `completed
-[roadmap]`.
+`quox plan rename <oldId> <newId>` (cascades to
+phases/plans/notes/action-items/events and every other stream's `depends_on`),
+`quox plan stats [roadmap]`, `quox plan completed [roadmap]`. Verify with
+`quox plan --help`.
+
+**WRITES ALWAYS GO THROUGH `quox plan` (witnessed). The standalone `quoxplan`
+CLI is a READ / offline fallback only, never the write path when you can reach
+the collector.** Cause of the recurring "this change is NOT witnessed" warning:
+the standalone door needs zero setup so sessions default to it, but the whole
+point of QuoxPlan-on-an-evidence-platform is that mutations are witnessed.
+Before any write, run `quox whoami`; a bare dev session is usually already
+logged in as owner, so `quox plan` just works and there is no reason to touch
+the standalone CLI. Only fall back to standalone for a genuine offline/no-collector
+case, and say so out loud when you do.
 
 `quoxplan tui` is an interactive terminal UI (main / detail / timeline
 screens), standalone-only, needs a TTY.
