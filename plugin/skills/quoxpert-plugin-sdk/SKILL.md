@@ -95,6 +95,7 @@ server-side; you only ever handle the secret's *name*, never its value.
 |---|---|
 | `npx create-quox-plugin <name> [--template <t>]` | Scaffold a new plugin from one of 8 templates |
 | `npm run dev` / `npm run build` | Dev server / produce the `.quoxplugin` ZIP |
+| `quox plugin doctor <name> [--service <names>]` | Check an installed plugin against the dev-bundle DoD (13-point chain + five prohibitions); machine evidence only, exit 0 green/1 findings/2 cannot-evaluate |
 | `quox plugin list` / `get` / `mine` | List installed plugins / details / plugins visible to you |
 | `quox plugin install` / `update` / `uninstall` | Install, upgrade/toggle, remove a plugin (admin only) |
 | `quox plugin data` | list/get/set/delete plugin-scoped durable KV data |
@@ -180,18 +181,28 @@ Permissions map directly to `pluginApi` surface area. Request exactly what's use
 | `tools` | Register agent tools for the plugin's specialist agent |
 
 ### 11. Debug the common plugin issues
-- **Elements invisible on the dark theme.** Never use `stroke="currentColor"`/`fill="currentColor"` in an SVG; inherited colour disappears on a dark background. Use an explicit colour (`style={{ stroke: 'rgba(255,255,255,0.8)' }}`), and keep opacity ≥0.6 (prefer 0.7-0.85 default, 0.9-1.0 on hover). If an SVG is still invisible after one fix attempt, swap it for a Unicode glyph (`✕`, `⚡`, `▶`) rather than debugging further.
+- **Elements invisible on the dark theme.** Never use `stroke="currentColor"`/`fill="currentColor"` in an SVG; inherited colour disappears on a dark background. Use an explicit colour (`style={{ stroke: 'rgba(255,255,255,0.8)' }}`), and keep opacity ≥0.7 (prefer 0.7-0.85 default, 0.9-1.0 on hover). If an SVG is still invisible after one fix attempt, swap it for a Unicode glyph (`✕`, `⚡`, `▶`) rather than debugging further.
 - **A `pluginApi` call silently does nothing.** Almost always a missing permission: `storage` for `pluginApi.storage`, `network` for `pluginApi.fetch`, `memory` for `pluginApi.memory.save`, `aee` for `pluginApi.aee.emit`. Add the permission to the manifest before looking anywhere else.
 - **Build failures.** "adm-zip not found" → `npm install -D adm-zip`; "Cannot find module 'quox-plugin-vite'" → check `devDependencies`; ZIP not produced → confirm `manifest.json` exists at the project root; plugin doesn't load after install → confirm the runtime `pluginId` matches `manifest.id` exactly.
 - **Plugin storage "not persisting."** It's namespaced by `pluginId`; if the ID changed between runs, the old data is orphaned, not lost. Always null-check `pluginApi?.storage`; it can be `null` during plugin init.
 
 ### 12. Audit a plugin for completeness before shipping
-Before calling a plugin done, check each of these and fix anything that fails. This is the same bar a reviewer applies:
+Run the real gate first, don't just eyeball it:
+    quox plugin doctor <name>                          # exit 0 green, 1 findings, 2 cannot-evaluate
+    quox plugin doctor <name> --service alias1,alias2   # when the backend service name(s) differ from the plugin id
+`doctor` runs the dev-bundle definition-of-done as a machine check: a 13-point
+chain plus the five prohibitions (no placeholder data, no fake success, no
+silent fallback, no scope theatre, no unwitnessed writes), against machine
+evidence only, not a self-report. Fix every finding it raises before treating
+the checklist below as satisfied; the checklist covers ground `doctor` doesn't
+(dark-theme compliance, bundle size, plugin ID hygiene).
+
+Before calling a plugin done, also check each of these and fix anything that fails. This is the same bar a reviewer applies:
 1. **Manifest completeness.** Every required field present, `permissions` matches what the code actually calls.
 2. **`configSchema` validity.** Every field has `type`/`label`/`description`; secrets use `type: "password"`.
 3. **`safety` block present** if the plugin has any destructive action, with `requiresApproval` covering the dangerous ones.
 4. **Permissions audit.** No over-requesting (e.g. `memory` declared but never called) and no under-requesting (a `pluginApi` call with no matching permission).
-5. **Dark-theme compliance.** No `currentColor` SVGs, no `rgba(255,255,255,...)` opacity below 0.6.
+5. **Dark-theme compliance.** No `currentColor` SVGs, no `rgba(255,255,255,...)` opacity below 0.7.
 6. **Build output.** `manifest.json` + `plugin.esm.js` present in the ZIP, under the 100KB/5MB limits (recipe 3's Gotcha).
 7. **Plugin ID hygiene.** Kebab-case, 3-64 chars, identical across `manifest.id`, the `index.jsx` registration call, and any sidebar route paths.
 
@@ -217,3 +228,20 @@ Before calling a plugin done, check each of these and fix anything that fails. T
 - **Install is admin-only.** `quox plugin install/update/uninstall/assign/
   trusted-keys` all require an admin role on the active org; a 403 here
   means the role, not a broken build.
+
+## Known gaps (2026-10-11)
+
+Honest state of the third-party author path, found by reading code and by a first
+run. Items marked code-read are not yet driven end to end; they are being proven in
+SDK-TEAM W0.
+
+- **SDK packages are not on npm.** `npm view` returns E404 for the SDK packages, so a
+  stranger cannot `npm install` them.
+- **The scaffold writes absolute `file:` dependencies**, tied to paths on the Quox dev
+  box, so a scaffolded plugin does not install elsewhere.
+- **Templates destructure `window.__quoxGlass`**, which is a throwing stub in the
+  community frame (code-read, unproven, being proven in SDK-TEAM W0).
+- **No build, sign or publish verb.** There is no `quox` verb that takes a plugin from
+  source to a signed, publishable `.quoxplugin`.
+- **`quox plugin doctor` only checks plugins inside `~/quox-dashboard`**; it is
+  hard-wired to the dev box and cannot be run by an external author.
