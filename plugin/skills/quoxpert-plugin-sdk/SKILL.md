@@ -1,7 +1,6 @@
 ---
 name: quoxpert-plugin-sdk
 license: LicenseRef-SkillRights-NoTrain-1.0
-description: "Build, test, sign, and install `.quoxplugin` extensions for
   QuoxCORE using the quox-plugin-sdk (scaffolder, runtime helpers, Vite build
   plugin) and the quox CLI's `plugin`/`powers` command groups. Load when the
   user wants to write a new Quox plugin, add a backend to one, or install/
@@ -23,6 +22,7 @@ metadata:
         cmd: "node cli/bin/quox.js plugin --help / plugin data --help / plugin secrets --help / powers --help"
     generated_at: 2026-07-25
     quox_version: ">=0.1 pre-1.0"
+license: LicenseRef-SkillRights-Reserved-1.0
 ---
 
 # Quoxpert: Building `.quoxplugin` Extensions
@@ -187,9 +187,19 @@ Permissions map directly to `pluginApi` surface area. Request exactly what's use
 - **Plugin storage "not persisting."** It's namespaced by `pluginId`; if the ID changed between runs, the old data is orphaned, not lost. Always null-check `pluginApi?.storage`; it can be `null` during plugin init.
 
 ### 12. Audit a plugin for completeness before shipping
-Run the real gate first, don't just eyeball it:
-    quox plugin doctor <name>                          # exit 0 green, 1 findings, 2 cannot-evaluate
-    quox plugin doctor <name> --service alias1,alias2   # when the backend service name(s) differ from the plugin id
+Run the real gate first, don't just eyeball it (doctor 2.0, 2026-10-11):
+    quox plugin doctor <name> --root <repo>                          # exit 0 green, 1 findings, 2 cannot-evaluate
+    quox plugin doctor <name> --root <repo> --service alias1,alias2  # backend service name(s) differ from the plugin id
+    quox plugin doctor <name> --root <repo> --json --out .quox/verdicts/doctor-<name>.json
+    node ~/quox-gauge/gauge.mjs --can-ship <name> --pack plugin --subject <name> --root <repo> --json
+The last two are the one verdict: doctor writes a machine verdict file (contract
+quox.external-verdict/v1, carries the repo tree digest), and the DoneEngine `plugin`
+pack reads it (never runs it). UNKNOWN means missing or stale evidence, never a pass;
+a verdict produced from a dirty tree or a different tree is refused as UNKNOWN, so
+commit first. `na` only appears with a stated applicability reason (e.g. core-free
+plugins skip licence checks). `doctor.agent_chain` checks the 7-link agent chain
+ContactsQ once missed. Use `node ~/quox-gauge/gauge.mjs` for now: `quox done` runs a
+stale installed engine until quox#769 (collector bundle downloads 404) is fixed.
 `doctor` runs the dev-bundle definition-of-done as a machine check: a 13-point
 chain plus the five prohibitions (no placeholder data, no fake success, no
 silent fallback, no scope theatre, no unwitnessed writes), against machine
@@ -240,8 +250,10 @@ SDK-TEAM W0.
 - **The scaffold writes absolute `file:` dependencies**, tied to paths on the Quox dev
   box, so a scaffolded plugin does not install elsewhere.
 - **Templates destructure `window.__quoxGlass`**, which is a throwing stub in the
-  community frame (code-read, unproven, being proven in SDK-TEAM W0).
+  community frame: PROVEN live 2026-10-11 (the template renders only "@quox/glass is not
+  available in isolated plugins"). Community plugins must use `window.quox` RPC (storage,
+  fetch confined to /api/v1/plugins/<id>/, memory, aee, notify, getUser) until W5.
 - **No build, sign or publish verb.** There is no `quox` verb that takes a plugin from
   source to a signed, publishable `.quoxplugin`.
-- **`quox plugin doctor` only checks plugins inside `~/quox-dashboard`**; it is
-  hard-wired to the dev box and cannot be run by an external author.
+- **`quox plugin doctor` checks the in-house monorepo shape** (`--root` since 2.0, but the
+  checks assume the quox-dashboard layout); there is no third-party profile yet (SDK-TEAM W5).
