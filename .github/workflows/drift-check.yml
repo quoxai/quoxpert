@@ -1,0 +1,51 @@
+name: drift-check
+
+# CI enforcement layer for Quoxpert content currency (plan
+# STREAM_QUOXPERT_PLAN.md §5.2a). Runs on every PR against main and nightly,
+# so staleness is caught even when no quoxpert PR exists (upstream repos
+# changing on their own). A red nightly is the pager — wire follow-up
+# (filing a quoxpert-drift issue) once the fleet-triage integration lands;
+# for now this workflow just needs to be visibly red/green.
+
+on:
+  pull_request:
+    branches: [main]
+  schedule:
+    # Nightly at 03:17 UTC — off the hour to avoid GitHub Actions' top-of-hour
+    # scheduling pile-up.
+    - cron: '17 3 * * *'
+  workflow_dispatch: {}
+
+jobs:
+  drift-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout quoxpert
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Syntax-check scripts
+        run: |
+          node --check scripts/regen.mjs
+          node --check scripts/drift-check.mjs
+          node --check scripts/package.mjs
+
+      - name: Run drift-check
+        run: node scripts/drift-check.mjs
+        env:
+          # Sibling repos (quox-dashboard, quoxmcp, etc.) are not checked out
+          # in this workflow by default — drift-check treats unfetchable
+          # sources as "skipped, not a failure" (see scripts/drift-check.mjs).
+          # A follow-up phase can add sparse checkouts of the source repos
+          # here once cross-repo CI access is wired up; until then this job
+          # still catches: (a) stale generated blocks relative to whatever
+          # IS fetchable, (b) manifest.json / SKILL.md JSON/frontmatter
+          # malformation, (c) the leak-check in package.mjs via a separate step.
+          QUOXPERT_REPOS_ROOT: ${{ github.workspace }}/..
+
+      - name: Leak-check (package.mjs dry pass)
+        run: node scripts/package.mjs

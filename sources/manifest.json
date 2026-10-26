@@ -1,0 +1,701 @@
+{
+  "schema_version": 1,
+  "_readme": "Regen input map (plan STREAM_QUOXPERT_PLAN.md §4). For each sub-skill: declared inputs (repo + path/cmd), which generated block(s) each source feeds, and a 'stamp' (sha256 of the source's current content + when it was last checked/regenerated). scripts/regen.mjs writes stamps after a successful regen; scripts/drift-check.mjs re-hashes at CI time and fails if a stamp is stale. Repos are resolved on disk at $QUOXPERT_REPOS_ROOT/<repo> (defaults to the parent of this checkout, i.e. sibling repos under the parent directory), see scripts/regen.mjs resolveRepoRoot(). 'stamp.sha256: null' means never regenerated yet (expected for a v0.1 scaffold with empty SKILL.md files).",
+  "repos_root_env": "QUOXPERT_REPOS_ROOT",
+  "skills": {
+    "quoxpert": {
+      "skill_md": "plugin/skills/quoxpert/SKILL.md",
+      "sources": [
+        {
+          "id": "repo-map",
+          "repo": "quox-dashboard",
+          "type": "file",
+          "path": "CLAUDE.md",
+          "note": "Repository Map table — public-repo version feeds the root skill's ecosystem map (internal paths stripped).",
+          "feeds": [
+            "ecosystem-map"
+          ],
+          "stamp": {
+            "sha256": "f4f79b5e3e084e4c3b7deda27b415fe39f9ff43102ac7da6304c63189b763e4b",
+            "checked_at": "2026-10-26T03:58:30.753Z",
+            "repo_commit": null
+          }
+        },
+        {
+          "id": "concepts-index",
+          "repo": "quox-dashboard",
+          "type": "url",
+          "path": "https://quox.ai/docs/concepts",
+          "note": "Canonical concept index per docs/CONCEPTS.md:3 — website wins on disagreement.",
+          "feeds": [
+            "concepts-table"
+          ],
+          "stamp": {
+            "sha256": null,
+            "checked_at": null,
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-core": {
+      "skill_md": "plugin/skills/quoxpert-core/SKILL.md",
+      "sources": [
+        {
+          "id": "codebase-map",
+          "repo": "quox-dashboard",
+          "type": "file",
+          "path": "CODEBASE_MAP.md",
+          "note": "Metrics table (plugin/agent/service/route counts), registration chains.",
+          "feeds": [
+            "counts",
+            "registration-chains"
+          ],
+          "stamp": {
+            "sha256": "24ca62c4a13eb6f20dd27fd60e9601e3cf043f8a16ef3aa9117df3a3197bf61b",
+            "checked_at": "2026-10-26T03:58:30.776Z",
+            "repo_commit": null
+          }
+        },
+        {
+          "id": "concepts-engineering",
+          "repo": "quox-dashboard",
+          "type": "file",
+          "path": "docs/CONCEPTS.md",
+          "note": "Engineering detail behind the canonical website concepts (crystals, agents, workflows, tools, governance).",
+          "feeds": [
+            "concepts-detail"
+          ],
+          "stamp": {
+            "sha256": "273c206cc8fdb09232a325f4862ac075cb045a27f90a92956ac1e3e60b1a5039",
+            "checked_at": "2026-10-26T03:58:30.777Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-cli": {
+      "skill_md": "plugin/skills/quoxpert-cli/SKILL.md",
+      "sources": [
+        {
+          "id": "cli-command-map",
+          "repo": "quox-dashboard",
+          "type": "cmd",
+          "cmd": "node \"$QUOXPERT_ROOT\"/scripts/extract-cli-commands.mjs cli/lib/commands --entry=cli/bin/quox.js --format=table",
+          "note": "QSDK-SKILLS audit fix 2026-07-25: this used to be a file-section pull of a \"CLI Commands (QuoxCLI)\" heading in CODEBASE_MAP.md that never existed (verified via grep), so it was silently unfetchable. Repointed at scripts/extract-cli-commands.mjs, which parses the real Commander.js `.command()`/`.description()` definitions straight out of cli/lib/commands/*.js (55 command-group files), more robust than depending on a hand-maintained doc table staying in sync, and it doesn't require running the CLI itself. fleet #432 (2026-08-21): added --entry=cli/bin/quox.js. The walk covered cli/lib/commands only, so `tui` and `completion`, registered straight off `program` in the entrypoint, had never been extractable at all. They were missing from the map because the extractor could not see them, not because it was stale.",
+          "feeds": [
+            "command-map"
+          ],
+          "stamp": {
+            "sha256": "ac994be0a24ec685d1970ffe38ed5d98e2f618c7dbd89990f57d3c4fb1f74404",
+            "checked_at": "2026-10-26T03:58:31.816Z",
+            "repo_commit": null
+          }
+        },
+        {
+          "id": "cli-endpoints",
+          "repo": "quox-dashboard",
+          "type": "file",
+          "path": "cli/lib/api/endpoints.js",
+          "note": "Centralized endpoint map — same anti-drift source used by cli/test/api/endpoints-lint.test.js.",
+          "feeds": [
+            "command-map"
+          ],
+          "stamp": {
+            "sha256": "daf30cb110e62c709277daea0620023d7a2b0ed660adf581a9391ff3b6f88a3a",
+            "checked_at": "2026-10-26T03:58:31.817Z",
+            "repo_commit": null
+          }
+        },
+        {
+          "id": "cli-flags-json",
+          "repo": "quox-dashboard",
+          "type": "cmd",
+          "cmd": "node \"$QUOXPERT_ROOT\"/scripts/extract-cli-commands.mjs cli/lib/commands --format=json",
+          "note": "QSDK-SKILLS audit fix 2026-07-25: replaces the old 'cli-help-json' source, which ran `node cli/bin/quox.js --help-json`, a flag the CLI never actually shipped (`error: unknown option '--help-json'`, live-verified). Same extractor as cli-command-map, JSON mode, for a future flag-table generator (full per-subcommand option/required-flag inventory, e.g. confirms `inbox list` only has --status/--priority/--limit, no --pending).",
+          "feeds": [
+            "flag-table"
+          ],
+          "stamp": {
+            "sha256": "c8ca1859dae012f674fe1888f7856df6b93251db0d300c4aad8bccacd5891156",
+            "checked_at": "2026-10-26T03:58:32.574Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-mcp": {
+      "skill_md": "plugin/skills/quoxpert-mcp/SKILL.md",
+      "sources": [
+        {
+          "id": "quoxmcp-readme",
+          "repo": "quoxmcp",
+          "type": "file",
+          "path": "README.md",
+          "note": "Install flow (.mcpb bundle, manual install), env vars, resource/prompt inventory.",
+          "feeds": [
+            "install-steps",
+            "env-var-table"
+          ],
+          "stamp": {
+            "sha256": "e5abf7a3d486496d43ec727376786230f1f0b134ee842d3a92f3ac3d17860958",
+            "checked_at": "2026-10-26T03:58:32.719Z",
+            "repo_commit": null
+          }
+        },
+        {
+          "id": "quoxmcp-manifest",
+          "repo": "quoxmcp",
+          "type": "file",
+          "path": "manifest.json",
+          "note": ".mcpb bundle manifest: user_config fields (collector_url, service_key); description field is also the canonical tool/resource/prompt count baseline (QSDK-SKILLS 2026-07-25).",
+          "feeds": [
+            "install-steps",
+            "tool-surface-counts"
+          ],
+          "stamp": {
+            "sha256": "01dd28a8ae5ad3aa4b0d6fd87ba5cab2444ba595e5d16f37f3798f1e49f2ca4c",
+            "checked_at": "2026-10-26T03:58:32.719Z",
+            "repo_commit": null
+          }
+        },
+        {
+          "id": "tools-list",
+          "repo": "quox-dashboard",
+          "type": "cmd",
+          "cmd": "curl -s ${QUOX_DEV_URL:-http://127.0.0.1:9848}/api/v1/tools/list",
+          "note": "Live tool table (130 tools) — executed against a dev instance at regen time per plan §4.2 row 3.",
+          "feeds": [
+            "tool-table"
+          ],
+          "stamp": {
+            "sha256": "62f80bc41274d4005473a231e32fd8f56c110844acacf1b73ebb0e1c8dd1e53d",
+            "checked_at": "2026-10-26T03:58:33.634Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-flow": {
+      "skill_md": "plugin/skills/quoxpert-flow/SKILL.md",
+      "sources": [
+        {
+          "id": "quoxflow-codebase-map",
+          "repo": "quoxflow",
+          "type": "file",
+          "path": "CODEBASE_MAP.md",
+          "feeds": [
+            "workflow-engine-overview"
+          ],
+          "stamp": {
+            "sha256": "4ccd48ea807320b0fb7a5da3692446a039b0613b8eb2c6f87d9ee4b308d8d3a8",
+            "checked_at": "2026-10-26T03:58:33.639Z",
+            "repo_commit": null
+          }
+        },
+        {
+          "id": "quoxflow-readme",
+          "repo": "quoxflow",
+          "type": "file",
+          "path": "README.md",
+          "feeds": [
+            "workflow-engine-overview"
+          ],
+          "stamp": {
+            "sha256": "f7f54dff9571e96e5992165000223fe477fc0a0c09975d1be095e69f3772df0f",
+            "checked_at": "2026-10-26T03:58:33.642Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-bastion": {
+      "skill_md": "plugin/skills/quoxpert-bastion/SKILL.md",
+      "sources": [
+        {
+          "id": "bastion-codebase-map",
+          "repo": "QuoxBastion",
+          "type": "file",
+          "path": "CODEBASE_MAP.md",
+          "feeds": [
+            "bastion-overview"
+          ],
+          "stamp": {
+            "sha256": "279354945b84b5c41e2f2632c704e45a36873b255c214693ce772e77e621536f",
+            "checked_at": "2026-10-26T03:58:33.644Z",
+            "repo_commit": null
+          }
+        },
+        {
+          "id": "quoxagent-codebase-map",
+          "repo": "quoxagent",
+          "type": "file",
+          "path": "CODEBASE_MAP.md",
+          "feeds": [
+            "fleet-agent-overview"
+          ],
+          "stamp": {
+            "sha256": "8e9d3fc6b7ce671ac12bfcca1a84e2ff8cb6b20b19510760452928b42c465cef",
+            "checked_at": "2026-10-26T03:58:33.645Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-plugin-sdk": {
+      "skill_md": "plugin/skills/quoxpert-plugin-sdk/SKILL.md",
+      "sources": [
+        {
+          "id": "plugin-sdk-readme",
+          "repo": "quox-plugin-sdk",
+          "type": "file",
+          "path": "README.md",
+          "note": "8 scaffold templates, pluginApi surface, .quoxplugin build/install loop.",
+          "feeds": [
+            "template-table",
+            "scaffold-recipe"
+          ],
+          "stamp": {
+            "sha256": "e4a7f6b1d3ffb53093bcb2af1636fb06d32b1878f48d84d49a37682a71ae53bd",
+            "checked_at": "2026-10-26T03:58:33.646Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-protocols": {
+      "skill_md": "plugin/skills/quoxpert-protocols/SKILL.md",
+      "sources": [
+        {
+          "id": "aee-spec",
+          "repo": "aee",
+          "type": "file",
+          "path": "README.md",
+          "feeds": [
+            "aee-section"
+          ],
+          "stamp": {
+            "sha256": "328c0be43d9fcdbece81cf45ea0aa79e2f6a52bc5457b75b2fe8b020792ad37d",
+            "checked_at": "2026-10-26T03:58:33.648Z",
+            "repo_commit": null
+          }
+        },
+        {
+          "id": "aocl-spec",
+          "repo": "aocl",
+          "type": "file",
+          "path": "README.md",
+          "feeds": [
+            "aocl-section"
+          ],
+          "stamp": {
+            "sha256": "58cfef644886f62040bf9388d61a0db14b2ee988751b1ddbabdc56856d58335b",
+            "checked_at": "2026-10-26T03:58:33.649Z",
+            "repo_commit": null
+          }
+        },
+        {
+          "id": "volt-spec",
+          "repo": "volt",
+          "type": "file",
+          "path": "README.md",
+          "feeds": [
+            "volt-section"
+          ],
+          "stamp": {
+            "sha256": "7b2affd794f19256c7eb42c7079dc866abf48cb114e8a9eb6dab6e7dbe099383",
+            "checked_at": "2026-10-26T03:58:33.649Z",
+            "repo_commit": null
+          }
+        },
+        {
+          "id": "ward-spec",
+          "repo": "ward",
+          "type": "file",
+          "path": "README.md",
+          "feeds": [
+            "ward-section"
+          ],
+          "stamp": {
+            "sha256": "f3d592f23729c67af4caf7eaf3fd584717b708ed0b0efadeba8aacd94a7b5767",
+            "checked_at": "2026-10-26T03:58:33.652Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-deploy": {
+      "skill_md": "plugin/skills/quoxpert-deploy/SKILL.md",
+      "sources": [
+        {
+          "id": "downloads-page",
+          "repo": "quox-website",
+          "type": "file",
+          "path": "src/pages/DownloadsPage.jsx",
+          "note": "Install/quickstart flow the website teaches humans — the sub-skill teaches the same flow to Claude.",
+          "feeds": [
+            "quickstart-steps"
+          ],
+          "stamp": {
+            "sha256": "7367458329065403a168259c34513f40aee9876e1548f9c7832a33dd0ad15abf",
+            "checked_at": "2026-10-26T03:58:33.655Z",
+            "repo_commit": null
+          }
+        },
+        {
+          "id": "collector-map",
+          "repo": "quox-dashboard",
+          "type": "file",
+          "path": "CODEBASE_MAP.md",
+          "note": "Service registry / docker-compose service list for the full-stack install recipe.",
+          "feeds": [
+            "service-table"
+          ],
+          "stamp": {
+            "sha256": "24ca62c4a13eb6f20dd27fd60e9601e3cf043f8a16ef3aa9117df3a3197bf61b",
+            "checked_at": "2026-10-26T03:58:33.656Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-qluster": {
+      "skill_md": "plugin/skills/quoxpert-qluster/SKILL.md",
+      "sources": [],
+      "note": "Qluster (QLUSTER #69) shipped its own repo (quox-qluster) and is hand-authored, verified content (phase 5c, QLOGS complete). No regen inputs declared yet: a future source could point at quox-qluster/docs/STATUS_AND_LIMITS.md, but the sub-skill body is not a placeholder."
+    },
+    "quoxpert-convert": {
+      "skill_md": "plugin/skills/quoxpert-convert/SKILL.md",
+      "sources": [
+        {
+          "id": "create-quox-plugin-bin",
+          "repo": "quox-plugin-sdk",
+          "type": "file",
+          "path": "packages/create-quox-plugin/bin/create.js",
+          "note": "Added QSDK-SKILLS 2026-07-25. Template list + --from-mcp/--from-mcp-json migration mode, hand-authored, no generated block yet.",
+          "feeds": [],
+          "stamp": {
+            "sha256": "d7385206a81acc4c08142e8a6b8e68d0633bb2400e9f84a1c03921167c8c7a32",
+            "checked_at": "2026-10-26T03:58:33.662Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-publish": {
+      "skill_md": "plugin/skills/quoxpert-publish/SKILL.md",
+      "sources": [
+        {
+          "id": "sign-plugin-script",
+          "repo": "quox-plugin-sdk",
+          "type": "file",
+          "path": "scripts/sign-plugin.js",
+          "note": "Added QSDK-SKILLS 2026-07-25. Confirms signing exists as shipped, hand-authored, no generated block yet.",
+          "feeds": [],
+          "stamp": {
+            "sha256": "e113b8fba12a123cf61e4443620ee65eadcd9d6d86a7a4d3b80289420a6e8618",
+            "checked_at": "2026-10-26T03:58:33.663Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-repobrain": {
+      "skill_md": "plugin/skills/quoxpert-repobrain/SKILL.md",
+      "sources": [
+        {
+          "id": "repobrain-targets-route",
+          "repo": "quox-repobrain",
+          "type": "file",
+          "path": "repobrain/portal/routes/targets.py",
+          "note": "Brought under version control QSDK-SKILLS 2026-07-25 - this skill previously existed only as a live install at ~/.claude/skills/quoxpert-repobrain, never committed to this repo. Internal-voice leak fixed and quox_version canonicalised (was >=2.x) at the same time. Fixed 2026-07-25 (regen.mjs skip-tracking audit fix): repo/path were wrong (pointed at quox-dashboard/services/repobrain/..., which doesn't exist on quox-dashboard's main branch; RepoBrain is its own repo, quox-repobrain, per the ecosystem repo map).",
+          "feeds": [],
+          "stamp": {
+            "sha256": "4e99f0393d5412f526a16bd918d2527a577bac15dce6d30b62c1fc07533a087d",
+            "checked_at": "2026-10-26T03:58:33.666Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-quoxplan": {
+      "skill_md": "plugin/skills/quoxpert-quoxplan/SKILL.md",
+      "sources": [
+        {
+          "id": "quoxplan-readme",
+          "repo": "quoxplan",
+          "type": "file",
+          "path": "README.md",
+          "note": "Cutover status, CLI overview, suggested rules block.",
+          "feeds": [],
+          "stamp": {
+            "sha256": "b5fb06aa293b10bfa21eab7fff00ea9bea6b28cc50113037465ccca31f5e9f5a",
+            "checked_at": "2026-10-26T03:58:33.667Z",
+            "repo_commit": null
+          }
+        },
+        {
+          "id": "quoxplan-cli-docs",
+          "repo": "quoxplan",
+          "type": "file",
+          "path": "docs/CLI.md",
+          "note": "Verb tables for quoxplan/quox plan parity, --confirm-owner, exit codes.",
+          "feeds": [],
+          "stamp": {
+            "sha256": "147773d8055a059ef7f1a52d0e87ea27c9c651c68e2aaad74a50600124ac55a7",
+            "checked_at": "2026-10-26T03:58:33.668Z",
+            "repo_commit": null
+          }
+        },
+        {
+          "id": "quoxplan-agent-tools",
+          "repo": "quox-dashboard",
+          "type": "file",
+          "path": "services/collector/lib/quoxplanTools.js",
+          "note": "Ground truth for the quoxplan_* tool family and the witnessing boundary (QUOXPLAN-CLOSE 2026-07-25 routed write tools through the governed proxy).",
+          "feeds": [],
+          "stamp": {
+            "sha256": "13f04e9117b9b3451fb115519f21ca75c2a8c06abab757af2cc68eac583a39c4",
+            "checked_at": "2026-10-26T03:58:33.669Z",
+            "repo_commit": null
+          }
+        },
+        {
+          "id": "quoxplan-command-map",
+          "repo": "quox-dashboard",
+          "type": "cmd",
+          "cmd": "node \"$QUOXPERT_ROOT\"/scripts/extract-cli-commands.mjs cli/lib/commands --group=plan --format=table",
+          "note": "W (2026-09-25): scoped command-map for the plan group(s). Drift-detects when these CLI verbs change.",
+          "feeds": [
+            "command-map"
+          ],
+          "stamp": {
+            "sha256": "00f20feb8588a7d586dcdd0ef957c82c4874014c2a6e5d67c2dd260e7c771277",
+            "checked_at": "2026-10-26T03:58:34.418Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-vault": {
+      "skill_md": "plugin/skills/quoxpert-vault/SKILL.md",
+      "sources": [
+        {
+          "id": "vault-command-map",
+          "repo": "quox-dashboard",
+          "type": "cmd",
+          "cmd": "node \"$QUOXPERT_ROOT\"/scripts/extract-cli-commands.mjs cli/lib/commands --group=vault --format=table",
+          "note": "W (2026-09-25): scoped command-map for the vault group(s). Drift-detects when these CLI verbs change.",
+          "feeds": [
+            "command-map"
+          ],
+          "stamp": {
+            "sha256": "6b1c277fe5ba67d5e747cca36080b87bcbeb65bfcc642a6ef1b3cf36ff05349f",
+            "checked_at": "2026-10-26T03:58:35.683Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-security": {
+      "skill_md": "plugin/skills/quoxpert-security/SKILL.md",
+      "sources": [
+        {
+          "id": "security-command-map",
+          "repo": "quox-dashboard",
+          "type": "cmd",
+          "cmd": "node \"$QUOXPERT_ROOT\"/scripts/extract-cli-commands.mjs cli/lib/commands --group=engagement --format=table",
+          "note": "W (2026-09-25): scoped command-map for the engagement group(s). Drift-detects when these CLI verbs change.",
+          "feeds": [
+            "command-map"
+          ],
+          "stamp": {
+            "sha256": "07206ebd6d6aae3f3df8fdd29e992779654c40f156dbcbc486989aac9308cbc8",
+            "checked_at": "2026-10-26T03:58:36.546Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-x": {
+      "skill_md": "plugin/skills/quoxpert-x/SKILL.md",
+      "sources": [
+        {
+          "id": "x-command-map",
+          "repo": "quox-dashboard",
+          "type": "cmd",
+          "cmd": "node \"$QUOXPERT_ROOT\"/scripts/extract-cli-commands.mjs cli/lib/commands --group=x --format=table",
+          "note": "W (2026-09-25): scoped command-map for the x group(s). Drift-detects when these CLI verbs change.",
+          "feeds": [
+            "command-map"
+          ],
+          "stamp": {
+            "sha256": "732ffdce38b25684a56d489ce6c48e9df138c9b61f0a2b92cad3f7085b3ae1fb",
+            "checked_at": "2026-10-26T03:58:37.090Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-linkedin": {
+      "skill_md": "plugin/skills/quoxpert-linkedin/SKILL.md",
+      "sources": [
+        {
+          "id": "linkedin-command-map",
+          "repo": "quox-dashboard",
+          "type": "cmd",
+          "cmd": "node \"$QUOXPERT_ROOT\"/scripts/extract-cli-commands.mjs cli/lib/commands --group=linkedin --format=table",
+          "note": "W (2026-09-25): scoped command-map for the linkedin group(s). Drift-detects when these CLI verbs change.",
+          "feeds": [
+            "command-map"
+          ],
+          "stamp": {
+            "sha256": "e2bc585187bbfd362aee5527a279dbbdbee1868541104bf0122a935e05d6338b",
+            "checked_at": "2026-10-26T03:58:37.767Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-facebook": {
+      "skill_md": "plugin/skills/quoxpert-facebook/SKILL.md",
+      "sources": [
+        {
+          "id": "facebook-command-map",
+          "repo": "quox-dashboard",
+          "type": "cmd",
+          "cmd": "node \"$QUOXPERT_ROOT\"/scripts/extract-cli-commands.mjs cli/lib/commands --group=facebook --format=table",
+          "note": "W (2026-09-25): scoped command-map for the facebook group(s). Drift-detects when these CLI verbs change.",
+          "feeds": [
+            "command-map"
+          ],
+          "stamp": {
+            "sha256": "952410fbd631fcb20594612854de71cdb99ffccb87f2566d5131aabbfe1ed3e0",
+            "checked_at": "2026-10-26T03:58:38.381Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-instagram": {
+      "skill_md": "plugin/skills/quoxpert-instagram/SKILL.md",
+      "sources": [
+        {
+          "id": "instagram-command-map",
+          "repo": "quox-dashboard",
+          "type": "cmd",
+          "cmd": "node \"$QUOXPERT_ROOT\"/scripts/extract-cli-commands.mjs cli/lib/commands --group=instagram --format=table",
+          "note": "W (2026-09-25): scoped command-map for the instagram group(s). Drift-detects when these CLI verbs change.",
+          "feeds": [
+            "command-map"
+          ],
+          "stamp": {
+            "sha256": "0e4459bff3b03346bc98d9e57cee49b7d3cb009699365a5ffc449facdfbcaca6",
+            "checked_at": "2026-10-26T03:58:38.971Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-tiktok": {
+      "skill_md": "plugin/skills/quoxpert-tiktok/SKILL.md",
+      "sources": [
+        {
+          "id": "tiktok-command-map",
+          "repo": "quox-dashboard",
+          "type": "cmd",
+          "cmd": "node \"$QUOXPERT_ROOT\"/scripts/extract-cli-commands.mjs cli/lib/commands --group=tiktok --format=table",
+          "note": "W (2026-09-25): scoped command-map for the tiktok group(s). Drift-detects when these CLI verbs change.",
+          "feeds": [
+            "command-map"
+          ],
+          "stamp": {
+            "sha256": "0e27bb4a0f0b30a1ab9c5b677eef4fb347aed160ea67b7cd5ca146f34503bcc7",
+            "checked_at": "2026-10-26T03:58:39.720Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-quoxseo": {
+      "skill_md": "plugin/skills/quoxpert-quoxseo/SKILL.md",
+      "sources": [
+        {
+          "id": "quoxseo-command-map",
+          "repo": "quox-dashboard",
+          "type": "cmd",
+          "cmd": "node \"$QUOXPERT_ROOT\"/scripts/extract-cli-commands.mjs cli/lib/commands --group=seo --format=table",
+          "note": "W (2026-09-25): scoped command-map for the seo group(s). Drift-detects when these CLI verbs change.",
+          "feeds": [
+            "command-map"
+          ],
+          "stamp": {
+            "sha256": "72d71163309423bc8efefc127f750d3c8ded754d0f65c9daf9f6913b1991e90d",
+            "checked_at": "2026-10-26T03:58:40.343Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-quoxidentity": {
+      "skill_md": "plugin/skills/quoxpert-quoxidentity/SKILL.md",
+      "sources": [
+        {
+          "id": "quoxidentity-command-map",
+          "repo": "quox-dashboard",
+          "type": "cmd",
+          "cmd": "node \"$QUOXPERT_ROOT\"/scripts/extract-cli-commands.mjs cli/lib/commands --group=agent --format=table",
+          "note": "W (2026-09-25): scoped command-map for the agent group(s). Drift-detects when these CLI verbs change.",
+          "feeds": [
+            "command-map"
+          ],
+          "stamp": {
+            "sha256": "9f30c454cb34647e756c5b87f121ef115bdba96434eb01fa8611ac6bec7032cb",
+            "checked_at": "2026-10-26T03:58:41.340Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-quoxslots": {
+      "skill_md": "plugin/skills/quoxpert-quoxslots/SKILL.md",
+      "sources": [
+        {
+          "id": "quoxslots-command-map",
+          "repo": "quox-dashboard",
+          "type": "cmd",
+          "cmd": "node \"$QUOXPERT_ROOT\"/scripts/extract-cli-commands.mjs cli/lib/commands --group=slot --format=table",
+          "note": "W (2026-09-25): scoped command-map for the slot group(s). Drift-detects when these CLI verbs change.",
+          "feeds": [
+            "command-map"
+          ],
+          "stamp": {
+            "sha256": "4bca76993bec7f3e0e5f1046f66c87ba4663fb48bc8db262346195fbea13c84d",
+            "checked_at": "2026-10-26T03:58:42.084Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    },
+    "quoxpert-qlarity": {
+      "skill_md": "plugin/skills/quoxpert-qlarity/SKILL.md",
+      "sources": [
+        {
+          "id": "qlarity-command-map",
+          "repo": "quox-dashboard",
+          "type": "cmd",
+          "cmd": "node \"$QUOXPERT_ROOT\"/scripts/extract-cli-commands.mjs cli/lib/commands --group=qlarity --format=table",
+          "note": "W (2026-09-25): scoped command-map for the qlarity group(s). Drift-detects when these CLI verbs change.",
+          "feeds": [
+            "command-map"
+          ],
+          "stamp": {
+            "sha256": "6a5f4450591b9e579c2567374d0a690d30a1db42e4be73174e3d8566a35aa14c",
+            "checked_at": "2026-10-26T03:58:42.744Z",
+            "repo_commit": null
+          }
+        }
+      ]
+    }
+  }
+}

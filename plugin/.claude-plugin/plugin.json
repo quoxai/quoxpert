@@ -1,0 +1,11 @@
+{
+  "name": "quoxpert",
+  "version": "0.1.0",
+  "description": "Quox as a Claude-extension, wielded like a samurai — teaches Claude to operate, deploy, and extend the Quox ecosystem via QuoxMCP's tools, the quox CLI/TUI, and the dashboard, all under Quox's governance model (DEFCON, HITL approvals).",
+  "author": {
+    "name": "Quox",
+    "email": "hello@quox.ai"
+  },
+  "homepage": "https://quox.ai/downloads",
+  "quox_version": ">=0.1 pre-1.0"
+}
